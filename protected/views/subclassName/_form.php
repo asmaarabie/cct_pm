@@ -22,8 +22,27 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'subclassid'); ?>
-		<?php echo $form->textField($model,'subclassid',array('size'=>3,'maxlength'=>3)); ?>
+		<?php 
+		
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'attribute' => 'subclassid',
+		'model'=>$model,
+		'value'=>$model->subclassid,
+        'sourceUrl'=> '?r=subclassName/getSubclassesAjax',
+ 		//'cssFile'=>false,
+        'htmlOptions'=>array(
+			'placeholder'=>'id',
+			'minLength'=>'1',
+			'maxlength'=>3,
+			'size'=>3),
+		
+		'options'=>array(
+			'showAnim'=>'fold'),
+         ));
+		?>
+		<?php //echo $form->textField($model,'subclassid',array('size'=>3,'maxlength'=>3)); ?>
 		<?php echo $form->error($model,'subclassid'); ?>
+		
 	</div>
 
 	<div class="row">

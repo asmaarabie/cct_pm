@@ -14,7 +14,7 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('country_id')); ?>:</b>
-	<?php echo CHtml::encode($data->country_id); ?>
+	<?php echo CHtml::encode($data->country->countrydesc);?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('dcs_name')); ?>:</b>

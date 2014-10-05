@@ -28,7 +28,7 @@ class DCSNameController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'getDCSAjax', 'getCountryAjax'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -102,7 +102,58 @@ class DCSNameController extends Controller
 			'model'=>$model,
 		));
 	}
-
+	
+	public function actionGetDCSAjax(){
+	
+		$request=trim($_GET['term']);
+		if($request!=''){
+			$data = Yii::app()->db->createCommand()
+			->selectDistinct('fulldept')
+			->from('departments')
+			->where(array('like', 'fulldept', "$request%"))
+			->queryAll();
+	
+			$return_array = array();
+			foreach($data as $sub) {
+				$return_array[] = array(
+						'label'=>$sub['fulldept'],
+						'value'=>$sub['fulldept'],
+						'id'=>$sub['fulldept'],
+				);
+			}
+	
+			$this->layout='empty';
+			echo json_encode($return_array);
+	
+		}
+	
+	}
+	
+	public function actionGetCountryAjax(){
+	
+		$request=trim($_GET['term']);
+		if($request!=''){
+			$data = Yii::app()->db->createCommand()
+			->selectDistinct('countryid, countrydesc')
+			->from('countries')
+			->where(array('like', 'countrydesc', "$request%"))
+			->queryAll();
+	
+			$return_array = array();
+			foreach($data as $sub) {
+				$return_array[] = array(
+						'label'=>$sub['countrydesc'],
+						'value'=>$sub['countryid'],
+						'id'=>$sub['countryid'],
+				);
+			}
+	
+			$this->layout='empty';
+			echo json_encode($return_array);
+	
+		}
+	
+	}
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.

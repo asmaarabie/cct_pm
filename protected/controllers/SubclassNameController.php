@@ -28,7 +28,7 @@ class SubclassNameController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','getSubclassesAjax'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -73,7 +73,7 @@ class SubclassNameController extends Controller
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->subclassid));
 		}
-
+		
 		$this->render('create',array(
 			'model'=>$model,
 		));
@@ -97,12 +97,38 @@ class SubclassNameController extends Controller
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->subclassid));
 		}
-
+		
 		$this->render('update',array(
 			'model'=>$model,
 		));
 	}
-
+	
+	public function actionGetSubclassesAjax(){
+		
+		$request=trim($_GET['term']);
+		if($request!=''){
+			$data = Yii::app()->db->createCommand()
+			->selectDistinct('subclassid')
+			->from('departments')
+			->where(array('like', 'subclassid', "$request%"))
+			->queryAll();
+			
+			$return_array = array();
+			foreach($data as $sub) {
+				$return_array[] = array(
+						'label'=>$sub['subclassid'],
+						'value'=>$sub['subclassid'],
+						'id'=>$sub['subclassid'],
+				);
+			}
+			
+			$this->layout='empty';
+			echo json_encode($return_array);
+			
+		}
+		
+	}
+	
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.

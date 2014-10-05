@@ -59,6 +59,7 @@ class Departments extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'deptName' => array(self::BELONGS_TO, 'DepartmentName', 'dept_id'),
 			'dCSNames' => array(self::HAS_MANY, 'DCSName', 'fulldept'),
 			'dCSSizeScales' => array(self::HAS_MANY, 'DCSSizeScale', 'dept_id'),
 			'dCSSizeScales1' => array(self::HAS_MANY, 'DCSSizeScale', 'class_id'),

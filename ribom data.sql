@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 04, 2014 at 09:53 AM
+-- Generation Time: Oct 05, 2014 at 04:46 AM
 -- Server version: 5.5.38-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `countries` (
 --
 
 INSERT INTO `countries` (`countryid`, `countrydesc`, `filepath`, `rpro9sbsid`, `exchangerate`) VALUES
-('1', 'Concrete', 'd:\\retail\\rpro', '1', 1.000000),
+('1', 'BOM', 'd:\\retail\\rpro', 'tino', 1.000000),
 ('2', 'Concrete', 'none', 'none', 0.000000);
 
 -- --------------------------------------------------------
@@ -269,10 +269,8 @@ CREATE TABLE IF NOT EXISTS `DCS_name` (
   `country_id` char(5) NOT NULL,
   `dcs_name` char(40) NOT NULL,
   PRIMARY KEY (`dcs_id`),
-  KEY `fk_DCS_name_dept` (`fulldept`),
-  KEY `fk_DCS_name_country_idx` (`country_id`),
-  KEY `fulldept` (`fulldept`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2191 ;
+  KEY `fk_DCS_name_country_idx` (`country_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2195 ;
 
 --
 -- Dumping data for table `DCS_name`
@@ -280,7 +278,6 @@ CREATE TABLE IF NOT EXISTS `DCS_name` (
 
 INSERT INTO `DCS_name` (`dcs_id`, `fulldept`, `country_id`, `dcs_name`) VALUES
 (1, 'C111  BZ2', '2', 'MF S.BREAST BLAZER'),
-(2, 'C111  BZ3', '2', '2BT S.BRST BLAZER'),
 (3, 'C111  BZ4', '2', '4BT S.BRST BLAZER'),
 (4, 'C111  BZ5', '2', 'MIX & MATCH, CLASSIC, BLAZER'),
 (5, 'C111  BZ8', '2', 'FASHION  BLAZER  M F'),
@@ -378,7 +375,6 @@ INSERT INTO `DCS_name` (`dcs_id`, `fulldept`, `country_id`, `dcs_name`) VALUES
 (97, 'C122  PT5', '2', 'MC REGULAR SEMI CLASSIC PANT'),
 (98, 'C122  PT6', '2', 'MC FASHION SEMI CLASSIC PANT'),
 (99, 'C122  PT9', '2', 'MC TRAINING PANT'),
-(100, 'C122  SAM', '2', 'SAMPLE'),
 (101, 'C122  SM1', '2', 'MC SWIMWEAR'),
 (102, 'C122  SR1', '2', 'MC BASIC SHORT'),
 (103, 'C122  SR2', '2', 'MC PULLONSHORT'),
@@ -1005,7 +1001,9 @@ INSERT INTO `DCS_name` (`dcs_id`, `fulldept`, `country_id`, `dcs_name`) VALUES
 (724, 'T123  JK9', '2', 'MC LEATHER JACKET'),
 (725, 'T126  BT1', '2', 'MC BELT'),
 (726, 'T126  SF1', '2', 'MC SCARF'),
-(2190, 'C111  BZ1', '2', 'MF D.BREAST BLAZER');
+(2190, 'C111  BZ1', '2', 'MF D.BREAST BLAZER'),
+(2193, 'C122  SAM', '2', 'SAMPLE'),
+(2194, 'C111  BZ3', '2', '2BT S.BRST BLAZER');
 
 -- --------------------------------------------------------
 
@@ -1792,7 +1790,7 @@ CREATE TABLE IF NOT EXISTS `dept_name` (
 --
 
 INSERT INTO `dept_name` (`dept_id`, `dept_name`) VALUES
-('C11', 'Concrete Men Classic'),
+('C11', 'Concrete Men Classics'),
 ('C12', 'Concrete Men Casual'),
 ('C21', 'Brands'),
 ('C22', 'Junior Boys'),
@@ -1810,6 +1808,27 @@ INSERT INTO `dept_name` (`dept_id`, `dept_name`) VALUES
 ('Q12', 'Concept Men Casual'),
 ('T11', 'Cut Men Classic'),
 ('T12', 'Cut Men Casual');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `iso_header`
+--
+
+CREATE TABLE IF NOT EXISTS `iso_header` (
+  `header_id` int(11) NOT NULL AUTO_INCREMENT,
+  `header_code` char(15) NOT NULL,
+  `version` int(11) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`header_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `iso_header`
+--
+
+INSERT INTO `iso_header` (`header_id`, `header_code`, `version`, `date`) VALUES
+(1, 'CRF-11-02', 1, '2007-11-01');
 
 -- --------------------------------------------------------
 
@@ -2064,9 +2083,9 @@ CREATE TABLE IF NOT EXISTS `subclass_name` (
 --
 
 INSERT INTO `subclass_name` (`subclassid`, `subclass_name`) VALUES
-(' WT', 'WT'),
-('BD', 'BANDANA'),
-('BG', 'BAG'),
+('BD1', 'BANDANA'),
+('BG1', 'BAG'),
+('BG2', 'BAG'),
 ('BK', 'BLANKET'),
 ('BL', 'BLOUSE'),
 ('BO', 'GIFT BOX'),
@@ -2125,10 +2144,11 @@ INSERT INTO `subclass_name` (`subclassid`, `subclass_name`) VALUES
 ('TE', ' T_SHIRT'),
 ('TL', 'STORES DISPLAY TOOLS'),
 ('TR', 'TROUSER'),
-('TY', 'TIE'),
+('TY1', 'Tie'),
 ('VS', 'VEST'),
 ('WB', 'WRISTBANDS'),
-('WL', 'WALLET');
+('WL', 'WALLET'),
+('WT1', 'WT');
 
 -- --------------------------------------------------------
 

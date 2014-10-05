@@ -18,6 +18,7 @@ return array(
 		'application.components.*',
 		'ext.giix-components.*', // giix components
 		'ext.ECompositeUniqueValidator',
+		'ext.jui.*',
 	),
 
 	'modules'=>array(

@@ -23,7 +23,12 @@ $this->menu=array(
 	'attributes'=>array(
 		'dcs_id',
 		'fulldept',
-		'country_id',
+		array(               // related Country displayed as a name
+				'label'=> $model->attributeLabels()['country_id'],
+				'type'=>'raw',
+				//'value'=>CHtml::link(CHtml::encode($model->city->name),array('city/view','id'=>$model->city->id))),
+				'value'=>CHtml::encode($model->country->countrydesc)),
+		//'country_id',
 		'dcs_name',
 	),
 )); ?>

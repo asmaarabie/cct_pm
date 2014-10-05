@@ -22,7 +22,24 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'dept_id'); ?>
-		<?php echo $form->textField($model,'dept_id',array('size'=>3,'maxlength'=>3)); ?>
+		<?php 
+		
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'attribute' => 'dept_id',
+		'model'=>$model,
+		'value'=>$model->dept_id,
+        'sourceUrl'=> '?r=departmentName/getdeptAjax',
+ 		//'cssFile'=>false,
+        'htmlOptions'=>array(
+			'placeholder'=>'id',
+			'minLength'=>'1',
+			'maxlength'=>3,
+			'size'=>3),
+		
+		'options'=>array(
+			'showAnim'=>'fold'),
+         ));
+		?>
 		<?php echo $form->error($model,'dept_id'); ?>
 	</div>
 

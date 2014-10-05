@@ -32,6 +32,12 @@ class DepartmentName extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('dept_id, dept_name', 'safe', 'on'=>'search'),
+				
+			array('dept_id', 'exist',
+					'attributeName'=>'deptid',
+					'className'=>'Departments',
+					//'skipOnError',
+					'message'=>'Department id should exist in the departments table!'),
 		);
 	}
 

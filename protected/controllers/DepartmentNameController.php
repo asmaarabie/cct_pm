@@ -28,7 +28,7 @@ class DepartmentNameController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','getDeptAjax'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -102,7 +102,33 @@ class DepartmentNameController extends Controller
 			'model'=>$model,
 		));
 	}
-
+	
+	public function actionGetDeptAjax(){
+	
+		$request=trim($_GET['term']);
+		if($request!=''){
+			$data = Yii::app()->db->createCommand()
+			->selectDistinct('deptid')
+			->from('departments')
+			->where(array('like', 'deptid', "$request%"))
+			->queryAll();
+				
+			$return_array = array();
+			foreach($data as $sub) {
+				$return_array[] = array(
+						'label'=>$sub['deptid'],
+						'value'=>$sub['deptid'],
+						'id'=>$sub['deptid'],
+				);
+			}
+				
+			$this->layout='empty';
+			echo json_encode($return_array);
+				
+		}
+	
+	}
+	
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.

@@ -32,6 +32,11 @@ class SubclassName extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('subclassid, subclass_name', 'safe', 'on'=>'search'),
+			array('subclassid', 'exist',
+					'attributeName'=>'subclassid',
+					'className'=>'Departments',
+					//'skipOnError',
+					'message'=>'Subclass id should exist in the departments table!'),
 		);
 	}
 

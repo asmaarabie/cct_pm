@@ -23,13 +23,47 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'fulldept'); ?>
-		<?php echo $form->textField($model,'fulldept',array('size'=>9,'maxlength'=>9)); ?>
+		<?php 
+		
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'attribute' => 'fulldept',
+		'model'=>$model,
+		//'value'=> ($model->isNewRecord)? "": "lll",
+        'sourceUrl'=> '?r=dCSName/getDCSAjax',
+ 		//'cssFile'=>false,
+        'htmlOptions'=>array(
+			'placeholder'=>'Dept. name',
+			'minLength'=>'1',
+			'maxlength'=>8,
+			'size'=>8),
+		
+		'options'=>array(
+			'showAnim'=>'fold'),
+         ));
+		?>
 		<?php echo $form->error($model,'fulldept'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'country_id'); ?>
-		<?php echo $form->textField($model,'country_id',array('size'=>5,'maxlength'=>5)); ?>
+		<?php 
+		
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'attribute' => 'country_id',
+		'model'=>$model,
+		//'value'=> ($model->isNewRecord)? "": $model->country->countrydesc,
+        'sourceUrl'=> '?r=dCSName/getCountryAjax',
+ 		//'cssFile'=>false,
+        'htmlOptions'=>array(
+			'placeholder'=>'Country',
+			'minLength'=>'1',
+			'maxlength'=>5,
+			'size'=>5),
+		
+		'options'=>array(
+			'showAnim'=>'fold'),
+         ));
+		?>
 		<?php echo $form->error($model,'country_id'); ?>
 	</div>
 
