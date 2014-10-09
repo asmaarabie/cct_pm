@@ -18,7 +18,9 @@
 )); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
+	<br/>
+	
+	<p class="note">ex. AM: Amber, BG:Beige - Digit #1~2 in color code</p>
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">

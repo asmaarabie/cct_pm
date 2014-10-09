@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 09, 2014 at 11:04 AM
+-- Generation Time: Oct 09, 2014 at 12:04 PM
 -- Server version: 5.5.38-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -125,9 +125,16 @@ CREATE TABLE IF NOT EXISTS `color_code` (
 CREATE TABLE IF NOT EXISTS `color_length` (
   `color_length` char(1) NOT NULL,
   `length_desc_e` char(20) NOT NULL,
-  `length_desc_a` char(20) NOT NULL,
+  `length_desc_a` char(20) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`color_length`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `color_length`
+--
+
+INSERT INTO `color_length` (`color_length`, `length_desc_e`, `length_desc_a`) VALUES
+('S', 'Suit Drop Small', 'تخطيط البدلة ضيق');
 
 -- --------------------------------------------------------
 
@@ -137,10 +144,18 @@ CREATE TABLE IF NOT EXISTS `color_length` (
 
 CREATE TABLE IF NOT EXISTS `color_pattern` (
   `color_pattern` char(1) NOT NULL,
-  `pattern_desc_e` char(20) NOT NULL,
-  `pattern_desc_a` char(20) NOT NULL,
+  `pattern_desc_e` char(40) NOT NULL,
+  `pattern_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`color_pattern`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `color_pattern`
+--
+
+INSERT INTO `color_pattern` (`color_pattern`, `pattern_desc_e`, `pattern_desc_a`) VALUES
+('E', 'Embroidered', 'مطرز'),
+('T', 'Tapestry', 'نسيج مزدان بالرسوم والصور');
 
 -- --------------------------------------------------------
 
@@ -150,10 +165,17 @@ CREATE TABLE IF NOT EXISTS `color_pattern` (
 
 CREATE TABLE IF NOT EXISTS `color_shadow` (
   `color_shadow` char(1) NOT NULL,
-  `shadow_desc_a` char(20) NOT NULL,
-  `shadow_desc_e` char(20) NOT NULL,
+  `shadow_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
+  `shadow_desc_e` char(40) NOT NULL,
   PRIMARY KEY (`color_shadow`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `color_shadow`
+--
+
+INSERT INTO `color_shadow` (`color_shadow`, `shadow_desc_a`, `shadow_desc_e`) VALUES
+('L', 'فاتح', 'Light');
 
 -- --------------------------------------------------------
 
@@ -163,10 +185,17 @@ CREATE TABLE IF NOT EXISTS `color_shadow` (
 
 CREATE TABLE IF NOT EXISTS `color_shape` (
   `color_shape` char(1) NOT NULL,
-  `shape_desc_e` char(20) NOT NULL,
-  `shape_desc_a` char(20) NOT NULL,
+  `shape_desc_e` char(40) NOT NULL,
+  `shape_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`color_shape`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `color_shape`
+--
+
+INSERT INTO `color_shape` (`color_shape`, `shape_desc_e`, `shape_desc_a`) VALUES
+('S', 'Small', 'صغير');
 
 -- --------------------------------------------------------
 
