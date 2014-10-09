@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 05, 2014 at 04:46 AM
+-- Generation Time: Oct 09, 2014 at 11:04 AM
 -- Server version: 5.5.38-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -80,11 +80,19 @@ CREATE TABLE IF NOT EXISTS `bom_size_qty` (
 
 CREATE TABLE IF NOT EXISTS `color` (
   `color_id` char(2) NOT NULL,
-  `color_desc_a` char(20) NOT NULL,
+  `color_desc_a` char(20) CHARACTER SET utf8 NOT NULL,
   `color_img` char(40) NOT NULL,
   `color_desc_e` char(40) NOT NULL,
   PRIMARY KEY (`color_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `color`
+--
+
+INSERT INTO `color` (`color_id`, `color_desc_a`, `color_img`, `color_desc_e`) VALUES
+('BL', 'أسود', 'black.png', 'Black'),
+('OR', 'برتقالي تكساس', 'orange.png', 'Texas Orange');
 
 -- --------------------------------------------------------
 
@@ -1821,7 +1829,7 @@ CREATE TABLE IF NOT EXISTS `iso_header` (
   `version` int(11) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`header_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `iso_header`

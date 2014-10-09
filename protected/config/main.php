@@ -18,7 +18,7 @@ return array(
 		'application.components.*',
 		'ext.giix-components.*', // giix components
 		'ext.ECompositeUniqueValidator',
-		'ext.jui.*',
+		'ext.jui.*', // date picker EJuiDateTimePicker
 	),
 
 	'modules'=>array(
@@ -87,6 +87,7 @@ return array(
 				*/
 			),
 		),
+		
 	),
 
 	// application-level parameters that can be accessed
@@ -94,5 +95,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+		'colorUploadPath'=>dirname(__FILE__).'/../../images/colors/',
+		'colorUploadUrl'=>'/images/colors/',
 	),
 );
