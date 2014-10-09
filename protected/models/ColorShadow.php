@@ -58,7 +58,7 @@ class ColorShadow extends CActiveRecord
 	{
 		return array(
 			'color_shadow' => 'Color Shadow Code',
-			'shadow_desc_a' => 'توصيف اللون الثاني',
+			'shadow_desc_a' => ' توصيف اللون الثاني العربي',
 			'shadow_desc_e' => 'English Shadow Description',
 		);
 	}

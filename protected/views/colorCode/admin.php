@@ -8,8 +8,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List ColorCode', 'url'=>array('index')),
-	array('label'=>'Create ColorCode', 'url'=>array('create')),
+	array('label'=>'List Color Code', 'url'=>array('index')),
+	array('label'=>'Create Color Code', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

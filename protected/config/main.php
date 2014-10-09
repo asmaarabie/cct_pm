@@ -18,7 +18,8 @@ return array(
 		'application.components.*',
 		'ext.giix-components.*', // giix components
 		'ext.ECompositeUniqueValidator',
-		'ext.jui.*', // date picker EJuiDateTimePicker
+		// date picker EJuiDateTimePicker, and autocomplete CJuiAutoComplete
+		'ext.jui.*', 
 	),
 
 	'modules'=>array(

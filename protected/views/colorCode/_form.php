@@ -2,6 +2,55 @@
 /* @var $this ColorCodeController */
 /* @var $model ColorCode */
 /* @var $form CActiveForm */
+
+Yii::app()->clientScript->registerScript ("Color#color-autocomplete", "
+		$('#ColorCode_color').autocomplete().data( 'autocomplete' )._renderItem = function( ul, item ) {
+		    return $('<li></li>')
+		        .data('item.autocomplete', item)
+		        .append('<a><img height=10px src=\"' + item.img + '\" alt=\"' + item.label+ '\" />' + '\t'+  item.label +'</a>')
+		        .appendTo(ul);
+		};
+		");
+Yii::app()->clientScript->registerScript ("updateColorCode", "
+		var color = $('#ColorCode_color').val();
+		var shadow = $('#ColorCode_shadow').val();
+		var pattern = $('#ColorCode_pattern').val();
+		var length = $('#ColorCode_length').val();
+		var shape = $('#ColorCode_shape').val();
+		var serial = $('#ColorCode_color_serial').val();
+		$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+		
+		$('#ColorCode_color').focusout(function() {
+			if($.trim($('#ColorCode_color').val()) !== '')
+				color = $('#ColorCode_color').val(); else color = '--';
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+		});
+		
+		$('#ColorCode_length').focusout(function() {
+			if($.trim($('#ColorCode_length').val()) !== '')
+				length = $('#ColorCode_length').val(); else length = '-';
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+		});
+		
+		$('#ColorCode_shape').focusout(function() {
+			if($.trim($('#ColorCode_shape').val()) !== '')
+				shape = $('#ColorCode_shape').val(); else shape = '-';
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+		});
+		
+		$('#ColorCode_shadow').focusout(function() {
+			if($.trim($('#ColorCode_shadow').val()) !== '')
+				shadow = $('#ColorCode_shadow').val(); else shadow = '-';
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+		});
+		
+		$('#ColorCode_pattern').focusout(function() {
+			if($.trim($('#ColorCode_pattern').val()) !== '')
+				pattern = $('#ColorCode_pattern').val(); else pattern = '-';
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+		});
+		");
+		
 ?>
 
 <div class="form">
@@ -12,40 +61,121 @@
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
+	'enableAjaxValidation'=>true,
+	'enableClientValidation'=>true,
 )); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'color_code'); ?>
+		<?php echo $form->textField($model,'color_code',array('size'=>8,'maxlength'=>8, 'readonly'=> true)); ?>
+		<?php echo $form->error($model,'color_code'); ?>
+	</div>
+	
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'color'); ?>
-		<?php echo $form->textField($model,'color',array('size'=>2,'maxlength'=>2)); ?>
+		
+		<?php 
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+		'attribute' => 'color',
+		'model'=>$model,
+        'sourceUrl'=> '?r=colorCode/getColorAjax',
+        'htmlOptions'=>array(
+			'placeholder'=>'color id',
+			'minLength'=>'1',
+			'size'=>2
+			),
+		'options'=>array(
+			'showAnim'=>'fold',
+			),
+         ));
+
+		?>
 		<?php echo $form->error($model,'color'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'shadow'); ?>
-		<?php echo $form->textField($model,'shadow',array('size'=>1,'maxlength'=>1)); ?>
+		<?php 
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+		'attribute' => 'shadow',
+		'model'=>$model,
+        'sourceUrl'=> '?r=colorCode/getParamAjax&param=shadow',
+        'htmlOptions'=>array(
+			'minLength'=>'1',
+			'size'=>1
+			),
+		'options'=>array(
+			'showAnim'=>'fold',
+			),
+         ));
+
+		?>
 		<?php echo $form->error($model,'shadow'); ?>
 	</div>
-
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'pattern'); ?>
-		<?php echo $form->textField($model,'pattern',array('size'=>1,'maxlength'=>1)); ?>
+		
+		<?php 
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+		'attribute' => 'pattern',
+		'model'=>$model,
+        'sourceUrl'=> '?r=colorCode/getParamAjax&param=pattern',
+        'htmlOptions'=>array(
+			'minLength'=>'1',
+			'size'=>1
+			),
+		'options'=>array(
+			'showAnim'=>'fold',
+			),
+         ));
+
+		?>
 		<?php echo $form->error($model,'pattern'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'length'); ?>
-		<?php echo $form->textField($model,'length',array('size'=>1,'maxlength'=>1)); ?>
+		<?php 
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+		'attribute' => 'length',
+		'model'=>$model,
+        'sourceUrl'=> '?r=colorCode/getParamAjax&param=length',
+        'htmlOptions'=>array(
+			'minLength'=>'1',
+			'size'=>1
+			),
+		'options'=>array(
+			'showAnim'=>'fold',
+			),
+         ));
+
+		?>
 		<?php echo $form->error($model,'length'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'shape'); ?>
-		<?php echo $form->textField($model,'shape',array('size'=>1,'maxlength'=>1)); ?>
+		<?php 
+		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+		'attribute' => 'shape',
+		'model'=>$model,
+        'sourceUrl'=> '?r=colorCode/getParamAjax&param=shape',
+        'htmlOptions'=>array(
+			'minLength'=>'1',
+			'size'=>1
+			),
+		'options'=>array(
+			'showAnim'=>'fold',
+			),
+         ));
+
+		?>
 		<?php echo $form->error($model,'shape'); ?>
 	</div>
 
@@ -55,12 +185,7 @@
 		<?php echo $form->error($model,'color_serial'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'color_code'); ?>
-		<?php echo $form->textField($model,'color_code',array('size'=>8,'maxlength'=>8)); ?>
-		<?php echo $form->error($model,'color_code'); ?>
-	</div>
-
+	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

@@ -28,7 +28,7 @@ class ColorCodeController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'getColorAjax', 'getParamAjax'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -65,8 +65,11 @@ class ColorCodeController extends Controller
 		$model=new ColorCode;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
+		$this->performAjaxValidation($model);
+		
+		// Create the color code
+		//:TODO: 
+		
 		if(isset($_POST['ColorCode']))
 		{
 			$model->attributes=$_POST['ColorCode'];
@@ -89,7 +92,7 @@ class ColorCodeController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['ColorCode']))
 		{
@@ -102,7 +105,57 @@ class ColorCodeController extends Controller
 			'model'=>$model,
 		));
 	}
-
+	
+	public function actionGetColorAjax(){
+	
+		$request=trim($_GET['term']);
+		if($request!=''){
+			$data = Yii::app()->db->createCommand()
+			->selectDistinct('*')
+			->from('color')
+			->where(array('like', 'color_id', "$request%"))
+			->queryAll();
+	
+			$return_array = array();
+			foreach($data as $sub) {
+				$return_array[] = array(
+						'label'=>$sub['color_desc_e'].' - '.$sub['color_desc_a'],
+						'value'=>$sub['color_id'],
+						'id'=>$sub['color_id'],
+						'img' => Yii::app()->request->baseUrl.Yii::app()->params["colorUploadUrl"].$sub['color_img']
+				);
+			}
+	
+			$this->layout='empty';
+			echo json_encode($return_array);
+	
+		}
+	
+	}
+	
+	public function actionGetParamAjax(){
+		$param=$_GET['param'];
+		$request=trim($_GET['term']);
+		if($request!=''){
+			$data = Yii::app()->db->createCommand()
+			->selectDistinct('*')
+			->from("color_{$param}")
+			->where(array('like', "color_{$param}", "$request%"))
+			->queryAll();
+	
+			$return_array = array();
+			foreach($data as $sub) {
+				$return_array[] = array(
+						'label'=>$sub["{$param}_desc_e"].' - '.$sub["{$param}_desc_a"],
+						'value'=>$sub["color_{$param}"],
+						'id'=>$sub["color_{$param}"],
+				);
+			}
+	
+			$this->layout='empty';
+			echo json_encode($return_array);
+		}
+	}
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.

@@ -8,8 +8,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List ColorCode', 'url'=>array('index')),
-	array('label'=>'Manage ColorCode', 'url'=>array('admin')),
+	array('label'=>'List Color Code', 'url'=>array('index')),
+	array('label'=>'Manage Color Code', 'url'=>array('admin')),
 );
 ?>
 

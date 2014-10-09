@@ -9,13 +9,13 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List ColorCode', 'url'=>array('index')),
-	array('label'=>'Create ColorCode', 'url'=>array('create')),
-	array('label'=>'View ColorCode', 'url'=>array('view', 'id'=>$model->color_code)),
-	array('label'=>'Manage ColorCode', 'url'=>array('admin')),
+	array('label'=>'List Color Code', 'url'=>array('index')),
+	array('label'=>'Create Color Code', 'url'=>array('create')),
+	array('label'=>'View Color Code', 'url'=>array('view', 'id'=>$model->color_code)),
+	array('label'=>'Manage Color Code', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Update ColorCode <?php echo $model->color_code; ?></h1>
+<h1>Update Color Code <?php echo $model->color_code; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create ColorCode', 'url'=>array('create')),
-	array('label'=>'Manage ColorCode', 'url'=>array('admin')),
+	array('label'=>'Create Color Code', 'url'=>array('create')),
+	array('label'=>'Manage Color Code', 'url'=>array('admin')),
 );
 ?>
 

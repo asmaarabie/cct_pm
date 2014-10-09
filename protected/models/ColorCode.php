@@ -40,9 +40,35 @@ class ColorCode extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('color, shadow, pattern, length, shape, color_code', 'required'),
+			array('color_code', 'unique'),
 			array('color, color_serial', 'length', 'max'=>2),
 			array('shadow, pattern, length, shape', 'length', 'max'=>1),
 			array('color_code', 'length', 'max'=>8),
+			array('color', 'exist',
+					'attributeName'=>'color_id',
+					'className'=>'Color',
+					//'skipOnError',
+					'message'=>'Color id should exist in the Color table!'),
+			array('shadow', 'exist',
+					'attributeName'=>'color_shadow',
+					'className'=>'ColorShadow',
+					//'skipOnError',
+					'message'=>'Color Shadow id should exist in the Color Shadow table!'),
+			array('pattern', 'exist',
+					'attributeName'=>'color_pattern',
+					'className'=>'ColorPattern',
+					//'skipOnError',
+					'message'=>'Color Pattern id should exist in the Color Pattern table!'),
+			array('length', 'exist',
+					'attributeName'=>'color_length',
+					'className'=>'ColorLength',
+					//'skipOnError',
+					'message'=>'Color Length id should exist in the Color Length table!'),
+			array('shape', 'exist',
+					'attributeName'=>'color_shape',
+					'className'=>'ColorShape',
+					//'skipOnError',
+					'message'=>'Pattern Shape id should exist in the Color Shape table!'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('color, shadow, pattern, length, shape, color_serial, color_code', 'safe', 'on'=>'search'),
@@ -73,11 +99,11 @@ class ColorCode extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'color' => 'Color',
+			'color' => 'Color id',
 			'shadow' => 'Shadow',
 			'pattern' => 'Pattern',
 			'length' => 'Length',
-			'shape' => 'Shape',
+			'shape' => 'Pattern Shape',
 			'color_serial' => 'Color Serial',
 			'color_code' => 'Color Code',
 		);
