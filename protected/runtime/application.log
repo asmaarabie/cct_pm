@@ -3396,3 +3396,62 @@ in /var/www/ribom/index.php (13)
 2014/10/09 11:02:37 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
 in /var/www/ribom/protected/controllers/ColorController.php (72)
 in /var/www/ribom/index.php (13)
+2014/10/09 11:09:22 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:10:34 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:10:38 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:10:41 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:10:42 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:10:51 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:10:52 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (72)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:10:59 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:11:08 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (101)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:11:10 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (106)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:11:19 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (101)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:11:20 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (106)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:11:58 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (101)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:11:59 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (106)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:12:04 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (191)
+in /var/www/ribom/protected/controllers/ColorController.php (101)
+in /var/www/ribom/index.php (13)
+2014/10/09 11:12:06 [warning] [application] Failed to set unsafe attribute "color_img" of "Color".
+in /var/www/ribom/protected/controllers/ColorController.php (106)
+in /var/www/ribom/index.php (13)

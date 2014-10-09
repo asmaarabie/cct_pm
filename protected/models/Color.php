@@ -43,6 +43,7 @@ class Color extends CActiveRecord
 					'allowEmpty'=>false),
 			array('color_img', 'file', 'on'=>'update',
 					'types'=>'jpg, gif, png', 
+					'maxSize'=>1024 * 1024 * 0.5, 
 					'tooLarge'=>'File has to be smaller than 512 B',
 					'allowEmpty'=>true),
 			
