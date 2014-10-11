@@ -1,15 +1,15 @@
 <?php
-/* @var $this ColorCodeController */
-/* @var $model ColorCode */
+/* @var $this SizeController */
+/* @var $model Size */
 
 $this->breadcrumbs=array(
-	'Color Codes'=>array('index'),
+	'Sizes'=>array('index'),
 	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'List Color Code', 'url'=>array('index')),
-	array('label'=>'Create Color Code', 'url'=>array('create')),
+	array('label'=>'List Size', 'url'=>array('index')),
+	array('label'=>'Create Size', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -18,7 +18,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#color-code-grid').yiiGridView('update', {
+	$('#size-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Color Codes</h1>
+<h1>Manage Sizes</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -41,20 +41,15 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'color-code-grid',
+	'id'=>'size-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'color_code',
-		'color',
-		'shadow',
-		'pattern',
-		'length',
-		'shape',
-		'color_serial',
+		'scale_number',
+		'scale_size',
+		'scale_name',
 		array(
 			'class'=>'CButtonColumn',
-			'template'=>'{view}{delete}'
 		),
 	),
 )); ?>

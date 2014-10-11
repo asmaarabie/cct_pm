@@ -1,6 +1,6 @@
 <?php
 
-class ColorCodeController extends Controller
+class SizeController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,11 +28,11 @@ class ColorCodeController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'getColorAjax', 'getParamAjax'),
+				'actions'=>array('index','view', 'getSizeScaleNumAjax'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create'),
+				'actions'=>array('create','update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -62,40 +62,16 @@ class ColorCodeController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new ColorCode;
+		$model=new Size;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
-		
-		// Create the color code
-		//:TODO: 
-		
-		if(isset($_POST['ColorCode']))
+
+		if(isset($_POST['Size']))
 		{
-			$model->attributes=$_POST['ColorCode'];
-			$model->color_serial = '00';
-			
-			$increment = isset($_POST['box'])? true:false ;
-			if ($increment) {
-				$data = Yii::app()->db->createCommand(
-						"SELECT color_serial FROM color_code WHERE
-						shadow='{$model->shadow}' AND
-						color='{$model->color}' AND
-						shape='{$model->shape}' AND
-						length='{$model->length}' AND
-						pattern='{$model->pattern}' 
-						ORDER BY color_serial DESC")
-				->queryAll();
-				
-				if (isset($data[0]['color_serial'])) {
-					$newSerial = intval($data[0]['color_serial']) +1;
-					// padding number 1-> 01, 2 -> 02
-					$model->color_serial = str_pad($newSerial, 2, '0', STR_PAD_LEFT);	
-				}
-			}
-			$model->color_code = $model->color.$model->shadow.$model->pattern.$model->length.$model->shape.$model->color_serial;
+			$model->attributes=$_POST['Size'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->color_code));
+				$this->redirect(array('view','id'=>$model->scale_number));
 		}
 
 		$this->render('create',array(
@@ -115,13 +91,11 @@ class ColorCodeController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['ColorCode']))
+		if(isset($_POST['Size']))
 		{
-			
-			$model->attributes=$_POST['ColorCode'];
-			
+			$model->attributes=$_POST['Size'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->color_code));
+				$this->redirect(array('view','id'=>$model->scale_number));
 		}
 
 		$this->render('update',array(
@@ -129,23 +103,25 @@ class ColorCodeController extends Controller
 		));
 	}
 	
-	public function actionGetColorAjax(){
+	/*
+	 * Gets the scale number and name on ajax autocomplete request
+	 */
+	public function actionGetSizeScaleNumAjax(){
 	
 		$request=trim($_GET['term']);
 		if($request!=''){
 			$data = Yii::app()->db->createCommand()
 			->selectDistinct('*')
-			->from('color')
-			->where(array('like', 'color_id', "$request%"))
+			->from('size')
+			->where(array('like', 'scale_number', "$request%"))
 			->queryAll();
 	
 			$return_array = array();
 			foreach($data as $sub) {
 				$return_array[] = array(
-						'label'=>$sub['color_desc_e'].' - '.$sub['color_desc_a'],
-						'value'=>$sub['color_id'],
-						'id'=>$sub['color_id'],
-						'img' => Yii::app()->request->baseUrl.Yii::app()->params["colorUploadUrl"].$sub['color_img']
+						'label'=>$sub['scale_number'].': '.$sub['scale_name'],
+						'value'=>$sub['scale_number'],
+						'id'=>$sub['scale_number'],
 				);
 			}
 	
@@ -154,30 +130,6 @@ class ColorCodeController extends Controller
 	
 		}
 	
-	}
-	
-	public function actionGetParamAjax(){
-		$param=$_GET['param'];
-		$request=trim($_GET['term']);
-		if($request!=''){
-			$data = Yii::app()->db->createCommand()
-			->selectDistinct('*')
-			->from("color_{$param}")
-			->where(array('like', "color_{$param}", "$request%"))
-			->queryAll();
-	
-			$return_array = array();
-			foreach($data as $sub) {
-				$return_array[] = array(
-						'label'=>$sub["{$param}_desc_e"].' - '.$sub["{$param}_desc_a"],
-						'value'=>$sub["color_{$param}"],
-						'id'=>$sub["color_{$param}"],
-				);
-			}
-	
-			$this->layout='empty';
-			echo json_encode($return_array);
-		}
 	}
 	/**
 	 * Deletes a particular model.
@@ -198,7 +150,7 @@ class ColorCodeController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('ColorCode');
+		$dataProvider=new CActiveDataProvider('Size');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -209,10 +161,10 @@ class ColorCodeController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new ColorCode('search');
+		$model=new Size('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ColorCode']))
-			$model->attributes=$_GET['ColorCode'];
+		if(isset($_GET['Size']))
+			$model->attributes=$_GET['Size'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -223,12 +175,12 @@ class ColorCodeController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return ColorCode the loaded model
+	 * @return Size the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=ColorCode::model()->findByPk($id);
+		$model=Size::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -236,11 +188,11 @@ class ColorCodeController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param ColorCode $model the model to be validated
+	 * @param Size $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='color-code-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='size-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

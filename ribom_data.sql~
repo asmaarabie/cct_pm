@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 09, 2014 at 12:04 PM
+-- Generation Time: Oct 11, 2014 at 08:31 AM
 -- Server version: 5.5.38-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -115,6 +115,20 @@ CREATE TABLE IF NOT EXISTS `color_code` (
   KEY `fk_color_code_length_idx` (`length`),
   KEY `fk_color_code_shape_idx` (`shape`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `color_code`
+--
+
+INSERT INTO `color_code` (`color`, `shadow`, `pattern`, `length`, `shape`, `color_serial`, `color_code`) VALUES
+('BL', 'L', 'E', 'S', 'S', '00', 'BLLESS00'),
+('BL', 'L', 'E', 'S', 'S', '02', 'BLLESS02'),
+('BL', 'L', 'E', 'S', 'S', '03', 'BLLESS03'),
+('OR', 'L', 'E', 'S', 'S', '00', 'ORLESS00'),
+('OR', 'L', 'E', 'S', 'S', '01', 'ORLESS01'),
+('OR', 'L', 'E', 'S', 'S', '02', 'ORLESS02'),
+('OR', 'L', 'E', 'S', 'S', '03', 'ORLESS03'),
+('OR', 'L', 'T', 'S', 'S', '00', 'ORLTSS00');
 
 -- --------------------------------------------------------
 

@@ -39,7 +39,7 @@ class ColorCode extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('color, shadow, pattern, length, shape, color_code', 'required'),
+			array('color, shadow, pattern, length, shape, color_code, color_serial', 'required'),
 			array('color_code', 'unique'),
 			array('color, color_serial', 'length', 'max'=>2),
 			array('shadow, pattern, length, shape', 'length', 'max'=>1),

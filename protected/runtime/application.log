@@ -3763,3 +3763,1726 @@ Stack trace:
 REQUEST_URI=/ribom/index.php?r=colorCode/view&id=BL
 HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=colorCode/index
 ---
+2014/10/11 04:46:38 [error] [exception.CException] exception 'CException' with message 'Property "ColorCode.color_shadow" is not defined.' in /var/www/yii/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(145): CComponent->__get('color_shadow')
+#1 /var/www/ribom/protected/controllers/ColorCodeController.php(78): CActiveRecord->__get('color_shadow')
+#2 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#3 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#12 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('colorCode/creat...')
+#13 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/ribom/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=colorCode/create
+---
+2014/10/11 04:46:59 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'L' in 'where clause'. The SQL statement executed was: SELECT color_serial FROM color_code WHERE
+					shadow=L and
+			color=BL and
+			shape=S and
+			length=S and
+			pattern=E.
+in /var/www/ribom/protected/controllers/ColorCodeController.php (86)
+in /var/www/ribom/index.php (13)
+2014/10/11 04:46:59 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'L' in 'where clause'. The SQL statement executed was: SELECT color_serial FROM color_code WHERE
+					shadow=L and
+			color=BL and
+			shape=S and
+			length=S and
+			pattern=E' in /var/www/yii/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /var/www/yii/framework/db/CDbCommand.php(396): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /var/www/ribom/protected/controllers/ColorCodeController.php(86): CDbCommand->queryAll()
+#2 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#3 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#12 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('colorCode/creat...')
+#13 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/ribom/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=colorCode/create
+---
+2014/10/11 04:47:32 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'L' in 'where clause'. The SQL statement executed was: SELECT color_serial FROM color_code WHERE
+					shadow=`L` and
+			color=`BL` and
+			shape=`S` and
+			length=`S` and
+			pattern=`E`.
+in /var/www/ribom/protected/controllers/ColorCodeController.php (86)
+in /var/www/ribom/index.php (13)
+2014/10/11 04:47:32 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'L' in 'where clause'. The SQL statement executed was: SELECT color_serial FROM color_code WHERE
+					shadow=`L` and
+			color=`BL` and
+			shape=`S` and
+			length=`S` and
+			pattern=`E`' in /var/www/yii/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /var/www/yii/framework/db/CDbCommand.php(396): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /var/www/ribom/protected/controllers/ColorCodeController.php(86): CDbCommand->queryAll()
+#2 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#3 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#12 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('colorCode/creat...')
+#13 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/ribom/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=colorCode/create
+---
+2014/10/11 04:49:24 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'color_id' in 'where clause'. The SQL statement executed was: SELECT color_serial FROM color_code WHERE
+					shadow='L' AND
+			color_id=`BL` AND
+			shape=`S` AND
+			length=`S` AND
+			pattern=`E`.
+in /var/www/ribom/protected/controllers/ColorCodeController.php (86)
+in /var/www/ribom/index.php (13)
+2014/10/11 04:49:24 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'color_id' in 'where clause'. The SQL statement executed was: SELECT color_serial FROM color_code WHERE
+					shadow='L' AND
+			color_id=`BL` AND
+			shape=`S` AND
+			length=`S` AND
+			pattern=`E`' in /var/www/yii/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /var/www/yii/framework/db/CDbCommand.php(396): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /var/www/ribom/protected/controllers/ColorCodeController.php(86): CDbCommand->queryAll()
+#2 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#3 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#12 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('colorCode/creat...')
+#13 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/ribom/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=colorCode/create
+---
+2014/10/11 04:53:02 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DESC' at line 6. The SQL statement executed was: SELECT color_serial FROM color_code WHERE
+					shadow='L' AND
+			color='BL' AND
+			shape='S' AND
+			length='S' AND
+			pattern='E' DESC.
+in /var/www/ribom/protected/controllers/ColorCodeController.php (86)
+in /var/www/ribom/index.php (13)
+2014/10/11 04:53:02 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DESC' at line 6. The SQL statement executed was: SELECT color_serial FROM color_code WHERE
+					shadow='L' AND
+			color='BL' AND
+			shape='S' AND
+			length='S' AND
+			pattern='E' DESC' in /var/www/yii/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /var/www/yii/framework/db/CDbCommand.php(396): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /var/www/ribom/protected/controllers/ColorCodeController.php(86): CDbCommand->queryAll()
+#2 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#3 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#12 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('colorCode/creat...')
+#13 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/ribom/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=colorCode/create
+---
+2014/10/11 05:20:50 [error] [php] Invalid argument supplied for foreach() (/var/www/yii/framework/web/helpers/CHtml.php:2325)
+Stack trace:
+#0 /var/www/ribom/protected/views/colorCode/_form.php(202): CActiveForm->dropDownList()
+#1 /var/www/yii/framework/web/CBaseController.php(126): require()
+#2 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#3 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#4 /var/www/ribom/protected/views/colorCode/create.php(18): ColorCodeController->renderPartial()
+#5 /var/www/yii/framework/web/CBaseController.php(126): require()
+#6 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#7 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#8 /var/www/yii/framework/web/CController.php(782): ColorCodeController->renderPartial()
+#9 /var/www/ribom/protected/controllers/ColorCodeController.php(84): ColorCodeController->render()
+#10 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#11 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#12 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#13 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#14 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#15 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#16 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#17 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#18 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#19 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#20 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#21 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#22 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/views/colorCode/_form.php (202)
+in /var/www/ribom/protected/views/colorCode/create.php (18)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (84)
+2014/10/11 05:45:30 [error] [exception.CException] exception 'CException' with message 'Property "CJuiAutoComplete.ajax" is not defined.' in /var/www/yii/framework/base/CComponent.php:173
+Stack trace:
+#0 /var/www/yii/framework/web/CWidgetFactory.php(161): CComponent->__set('ajax', Array)
+#1 /var/www/yii/framework/web/CBaseController.php(146): CWidgetFactory->createWidget(Object(ColorCodeController), 'zii.widgets.jui...', Array)
+#2 /var/www/yii/framework/web/CBaseController.php(172): CBaseController->createWidget('zii.widgets.jui...', Array)
+#3 /var/www/ribom/protected/views/colorCode/_form.php(114): CBaseController->widget('zii.widgets.jui...', Array)
+#4 /var/www/yii/framework/web/CBaseController.php(126): require('/var/www/ribom/...')
+#5 /var/www/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/ribom/...', Array, true)
+#6 /var/www/yii/framework/web/CController.php(869): CBaseController->renderFile('/var/www/ribom/...', Array, true)
+#7 /var/www/ribom/protected/views/colorCode/create.php(18): CController->renderPartial('_form', Array)
+#8 /var/www/yii/framework/web/CBaseController.php(126): require('/var/www/ribom/...')
+#9 /var/www/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/ribom/...', Array, true)
+#10 /var/www/yii/framework/web/CController.php(869): CBaseController->renderFile('/var/www/ribom/...', Array, true)
+#11 /var/www/yii/framework/web/CController.php(782): CController->renderPartial('create', Array, true)
+#12 /var/www/ribom/protected/controllers/ColorCodeController.php(84): CController->render('create', Array)
+#13 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#14 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#15 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#16 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#17 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#18 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#19 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#20 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#21 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#22 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#23 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('colorCode/creat...')
+#24 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#25 /var/www/ribom/index.php(13): CApplication->run()
+#26 {main}
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+---
+2014/10/11 06:00:48 [error] [php] Trying to get property of non-object (/var/www/yii/framework/web/helpers/CHtml.php:2529)
+Stack trace:
+#0 /var/www/ribom/protected/views/colorCode/_form.php(104): activeTextField()
+#1 /var/www/yii/framework/web/CBaseController.php(126): require()
+#2 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#3 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#4 /var/www/ribom/protected/views/colorCode/create.php(18): ColorCodeController->renderPartial()
+#5 /var/www/yii/framework/web/CBaseController.php(126): require()
+#6 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#7 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#8 /var/www/yii/framework/web/CController.php(782): ColorCodeController->renderPartial()
+#9 /var/www/ribom/protected/controllers/ColorCodeController.php(84): ColorCodeController->render()
+#10 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#11 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#12 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#13 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#14 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#15 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#16 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#17 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#18 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#19 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#20 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#21 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#22 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/views/colorCode/_form.php (104)
+in /var/www/ribom/protected/views/colorCode/create.php (18)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (84)
+2014/10/11 06:00:50 [error] [php] Trying to get property of non-object (/var/www/yii/framework/web/helpers/CHtml.php:2529)
+Stack trace:
+#0 /var/www/ribom/protected/views/colorCode/_form.php(104): activeTextField()
+#1 /var/www/yii/framework/web/CBaseController.php(126): require()
+#2 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#3 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#4 /var/www/ribom/protected/views/colorCode/create.php(18): ColorCodeController->renderPartial()
+#5 /var/www/yii/framework/web/CBaseController.php(126): require()
+#6 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#7 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#8 /var/www/yii/framework/web/CController.php(782): ColorCodeController->renderPartial()
+#9 /var/www/ribom/protected/controllers/ColorCodeController.php(84): ColorCodeController->render()
+#10 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#11 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#12 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#13 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#14 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#15 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#16 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#17 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#18 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#19 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#20 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#21 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#22 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/views/colorCode/_form.php (104)
+in /var/www/ribom/protected/views/colorCode/create.php (18)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (84)
+2014/10/11 06:00:52 [error] [php] Trying to get property of non-object (/var/www/yii/framework/web/helpers/CHtml.php:2529)
+Stack trace:
+#0 /var/www/ribom/protected/views/colorCode/_form.php(104): activeTextField()
+#1 /var/www/yii/framework/web/CBaseController.php(126): require()
+#2 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#3 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#4 /var/www/ribom/protected/views/colorCode/create.php(18): ColorCodeController->renderPartial()
+#5 /var/www/yii/framework/web/CBaseController.php(126): require()
+#6 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#7 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#8 /var/www/yii/framework/web/CController.php(782): ColorCodeController->renderPartial()
+#9 /var/www/ribom/protected/controllers/ColorCodeController.php(84): ColorCodeController->render()
+#10 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#11 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#12 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#13 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#14 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#15 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#16 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#17 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#18 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#19 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#20 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#21 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#22 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/views/colorCode/_form.php (104)
+in /var/www/ribom/protected/views/colorCode/create.php (18)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (84)
+2014/10/11 06:01:16 [error] [php] Trying to get property of non-object (/var/www/yii/framework/web/helpers/CHtml.php:2529)
+Stack trace:
+#0 /var/www/ribom/protected/views/colorCode/_form.php(104): activeTextField()
+#1 /var/www/yii/framework/web/CBaseController.php(126): require()
+#2 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#3 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#4 /var/www/ribom/protected/views/colorCode/create.php(18): ColorCodeController->renderPartial()
+#5 /var/www/yii/framework/web/CBaseController.php(126): require()
+#6 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#7 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#8 /var/www/yii/framework/web/CController.php(782): ColorCodeController->renderPartial()
+#9 /var/www/ribom/protected/controllers/ColorCodeController.php(84): ColorCodeController->render()
+#10 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#11 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#12 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#13 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#14 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#15 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#16 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#17 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#18 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#19 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#20 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#21 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#22 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/views/colorCode/_form.php (104)
+in /var/www/ribom/protected/views/colorCode/create.php (18)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (84)
+2014/10/11 06:16:07 [error] [php] Undefined index: ColorCode (/var/www/ribom/protected/controllers/ColorCodeController.php:167)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/getSerialAjax&term=0
+in /var/www/ribom/protected/controllers/ColorCodeController.php (167)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:17:29 [error] [php] Undefined index: ColorCode (/var/www/ribom/protected/controllers/ColorCodeController.php:167)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/getSerialAjax&term=d
+in /var/www/ribom/protected/controllers/ColorCodeController.php (167)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:18:04 [error] [php] Undefined index: ColorCode (/var/www/ribom/protected/controllers/ColorCodeController.php:167)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/getSerialAjax&term=d
+in /var/www/ribom/protected/controllers/ColorCodeController.php (167)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:28:05 [error] [php] strpos() expects parameter 1 to be string, array given (/var/www/yii/framework/web/helpers/CHtml.php:2477)
+Stack trace:
+#0 /var/www/yii/framework/web/helpers/CHtml.php(1740): resolveNameID()
+#1 /var/www/yii/framework/web/widgets/CActiveForm.php(831): activeCheckBox()
+#2 /var/www/ribom/protected/views/colorCode/_form.php(216): CActiveForm->checkBox()
+#3 /var/www/yii/framework/web/CBaseController.php(126): require()
+#4 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#5 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#6 /var/www/ribom/protected/views/colorCode/create.php(18): ColorCodeController->renderPartial()
+#7 /var/www/yii/framework/web/CBaseController.php(126): require()
+#8 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#9 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#10 /var/www/yii/framework/web/CController.php(782): ColorCodeController->renderPartial()
+#11 /var/www/ribom/protected/controllers/ColorCodeController.php(84): ColorCodeController->render()
+#12 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#13 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#14 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#15 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#16 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#17 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#18 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#19 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#20 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#21 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#22 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#23 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#24 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/views/colorCode/_form.php (216)
+in /var/www/ribom/protected/views/colorCode/create.php (18)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (84)
+2014/10/11 06:45:37 [error] [php] Undefined index: increment_box (/var/www/ribom/protected/controllers/ColorCodeController.php:77)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (77)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:46:57 [error] [php] Undefined index: increment_box (/var/www/ribom/protected/controllers/ColorCodeController.php:77)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (77)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:47:33 [error] [php] Object of class ColorCode could not be converted to string (/var/www/yii/framework/web/helpers/CHtml.php:2155)
+Stack trace:
+#0 /var/www/yii/framework/web/helpers/CHtml.php(875): inputField()
+#1 /var/www/ribom/protected/views/colorCode/_form.php(194): checkBox()
+#2 /var/www/yii/framework/web/CBaseController.php(126): require()
+#3 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#4 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#5 /var/www/ribom/protected/views/colorCode/create.php(18): ColorCodeController->renderPartial()
+#6 /var/www/yii/framework/web/CBaseController.php(126): require()
+#7 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#8 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#9 /var/www/yii/framework/web/CController.php(782): ColorCodeController->renderPartial()
+#10 /var/www/ribom/protected/controllers/ColorCodeController.php(103): ColorCodeController->render()
+#11 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#12 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#13 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#14 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#15 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#16 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#17 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#18 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#19 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#20 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#21 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#22 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#23 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/views/colorCode/_form.php (194)
+in /var/www/ribom/protected/views/colorCode/create.php (18)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (103)
+2014/10/11 06:48:35 [error] [php] strpos() expects parameter 1 to be string, array given (/var/www/yii/framework/web/helpers/CHtml.php:2477)
+Stack trace:
+#0 /var/www/yii/framework/web/helpers/CHtml.php(1740): resolveNameID()
+#1 /var/www/yii/framework/web/widgets/CActiveForm.php(831): activeCheckBox()
+#2 /var/www/ribom/protected/views/colorCode/_form.php(194): CActiveForm->checkBox()
+#3 /var/www/yii/framework/web/CBaseController.php(126): require()
+#4 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#5 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#6 /var/www/ribom/protected/views/colorCode/create.php(18): ColorCodeController->renderPartial()
+#7 /var/www/yii/framework/web/CBaseController.php(126): require()
+#8 /var/www/yii/framework/web/CBaseController.php(95): ColorCodeController->renderInternal()
+#9 /var/www/yii/framework/web/CController.php(869): ColorCodeController->renderFile()
+#10 /var/www/yii/framework/web/CController.php(782): ColorCodeController->renderPartial()
+#11 /var/www/ribom/protected/controllers/ColorCodeController.php(103): ColorCodeController->render()
+#12 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionCreate()
+#13 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#14 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#15 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#16 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#17 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#18 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#19 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#20 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#21 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#22 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#23 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#24 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/views/colorCode/_form.php (194)
+in /var/www/ribom/protected/views/colorCode/create.php (18)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (103)
+2014/10/11 06:51:19 [error] [php] Undefined index: increment_box (/var/www/ribom/protected/controllers/ColorCodeController.php:77)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (77)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:54:02 [error] [php] Undefined index: increment_box (/var/www/ribom/protected/controllers/ColorCodeController.php:77)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (77)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:55:20 [error] [php] Undefined index: increment_box (/var/www/ribom/protected/controllers/ColorCodeController.php:77)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (77)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:55:35 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:55:36 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:55:37 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:55:38 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:55:41 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:55:43 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:55:44 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (75)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:56:21 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:56:22 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:56:23 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:56:24 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:56:25 [warning] [application] Failed to set unsafe attribute "increment_box" of "ColorCode".
+in /var/www/ribom/protected/controllers/ColorCodeController.php (245)
+in /var/www/ribom/protected/controllers/ColorCodeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:56:27 [error] [php] Undefined index: increment_box (/var/www/ribom/protected/controllers/ColorCodeController.php:77)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (77)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:56:57 [error] [php] Undefined index: box (/var/www/ribom/protected/controllers/ColorCodeController.php:77)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (77)
+in /var/www/ribom/index.php (13)
+2014/10/11 06:57:37 [error] [php] Undefined index: box (/var/www/ribom/protected/controllers/ColorCodeController.php:79)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (79)
+in /var/www/ribom/index.php (13)
+2014/10/11 07:00:26 [error] [php] Undefined index: box (/var/www/ribom/protected/controllers/ColorCodeController.php:79)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (79)
+in /var/www/ribom/index.php (13)
+2014/10/11 07:00:38 [error] [php] Undefined index: ColorCode (/var/www/ribom/protected/controllers/ColorCodeController.php:72)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (72)
+in /var/www/ribom/index.php (13)
+2014/10/11 07:00:39 [error] [php] Undefined index: ColorCode (/var/www/ribom/protected/controllers/ColorCodeController.php:72)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (72)
+in /var/www/ribom/index.php (13)
+2014/10/11 07:01:13 [error] [php] Undefined index: box (/var/www/ribom/protected/controllers/ColorCodeController.php:80)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (80)
+in /var/www/ribom/index.php (13)
+2014/10/11 07:03:31 [error] [php] Undefined index: box (/var/www/ribom/protected/controllers/ColorCodeController.php:80)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): ColorCodeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): ColorCodeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): ColorCodeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): ColorCodeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=colorCode/create
+in /var/www/ribom/protected/controllers/ColorCodeController.php (80)
+in /var/www/ribom/index.php (13)
+2014/10/11 07:35:24 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to perform this action.' in /var/www/yii/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /var/www/yii/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'You are not aut...')
+#1 /var/www/yii/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('update')
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('colorCode/updat...')
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/ribom/index.php?r=colorCode/update&id=BLLESS00
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=colorCode/view&id=BLLESS00
+---
+2014/10/11 07:36:16 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to perform this action.' in /var/www/yii/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /var/www/yii/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'You are not aut...')
+#1 /var/www/yii/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('update')
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('colorCode/updat...')
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/ribom/index.php?r=colorCode/update&id=BLLESS00
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=colorCode/admin
+---
+2014/10/11 07:37:47 [error] [exception.CException] exception 'CException' with message 'Either "name" or "value" must be specified for CDataColumn.' in /var/www/yii/framework/zii/widgets/grid/CDataColumn.php:84
+Stack trace:
+#0 /var/www/yii/framework/zii/widgets/grid/CGridView.php(401): CDataColumn->init()
+#1 /var/www/yii/framework/zii/widgets/grid/CGridView.php(359): CGridView->initColumns()
+#2 /var/www/yii/framework/web/CBaseController.php(147): CGridView->init()
+#3 /var/www/yii/framework/web/CBaseController.php(172): CBaseController->createWidget('zii.widgets.gri...', Array)
+#4 /var/www/ribom/protected/views/colorCode/admin.php(61): CBaseController->widget('zii.widgets.gri...', Array)
+#5 /var/www/yii/framework/web/CBaseController.php(126): require('/var/www/ribom/...')
+#6 /var/www/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/ribom/...', Array, true)
+#7 /var/www/yii/framework/web/CController.php(869): CBaseController->renderFile('/var/www/ribom/...', Array, true)
+#8 /var/www/yii/framework/web/CController.php(782): CController->renderPartial('admin', Array, true)
+#9 /var/www/ribom/protected/controllers/ColorCodeController.php(219): CController->render('admin', Array)
+#10 /var/www/yii/framework/web/actions/CInlineAction.php(49): ColorCodeController->actionAdmin()
+#11 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#12 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#13 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#14 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#15 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#16 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#17 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#18 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#19 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('admin')
+#20 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('colorCode/admin')
+#21 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#22 /var/www/ribom/index.php(13): CApplication->run()
+#23 {main}
+REQUEST_URI=/ribom/index.php?r=colorCode/admin
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=colorCode/view&id=BLLESS00
+---
+2014/10/11 08:22:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "dcsName".' in /var/www/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dcsName')
+#1 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/ribom/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/ribom/index.php?r=dcsName
+---
+2014/10/11 09:13:29 [error] [php] Undefined variable: model (/var/www/ribom/protected/controllers/SizeController.php:68)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): SizeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): SizeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): SizeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): SizeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=size/create
+in /var/www/ribom/protected/controllers/SizeController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 09:13:56 [error] [php] Undefined variable: model (/var/www/ribom/protected/controllers/SizeController.php:83)
+Stack trace:
+#0 /var/www/yii/framework/web/filters/CFilterChain.php(133): SizeController->runAction()
+#1 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): SizeController->filterAccessControl()
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): SizeController->runActionWithFilters()
+#7 /var/www/yii/framework/web/CWebApplication.php(282): SizeController->run()
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=size/create
+in /var/www/ribom/protected/controllers/SizeController.php (83)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:20:06 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "dCSSize".' in /var/www/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSize')
+#1 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/ribom/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSize
+---
+2014/10/11 10:27:17 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "getSizeScaleAjax".' in /var/www/yii/framework/web/CController.php:483
+Stack trace:
+#0 /var/www/yii/framework/web/CController.php(270): CController->missingAction('getSizeScaleAja...')
+#1 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('getSizeScaleAja...')
+#2 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('size/getSizeSca...')
+#3 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /var/www/ribom/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/ribom/index.php?r=size/getSizeScaleAjax&term=1
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:28:36 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to perform this action.' in /var/www/yii/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /var/www/yii/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'You are not aut...')
+#1 /var/www/yii/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('getSizeScaleNum...')
+#8 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('size/getSizeSca...')
+#9 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/ribom/index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/ribom/index.php?r=size/getSizeScaleNumAjax&term=1
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:33:27 [error] [php] include(size.php): failed to open stream: No such file or directory (/var/www/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(395): spl_autoload_call()
+#1 /var/www/yii/framework/validators/CExistValidator.php(117): model()
+#2 /var/www/yii/framework/validators/CExistValidator.php(85): CExistValidator->getModel()
+#3 /var/www/yii/framework/validators/CValidator.php(213): CExistValidator->validateAttribute()
+#4 /var/www/yii/framework/base/CModel.php(159): CExistValidator->validate()
+#5 /var/www/yii/framework/db/ar/CActiveRecord.php(805): DCSSizeScale->validate()
+#6 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): DCSSizeScale->save()
+#7 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#8 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#10 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#12 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#13 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#14 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#15 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#16 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#17 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#18 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:34:38 [error] [php] include(size.php): failed to open stream: No such file or directory (/var/www/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(395): spl_autoload_call()
+#1 /var/www/yii/framework/validators/CExistValidator.php(117): model()
+#2 /var/www/yii/framework/validators/CExistValidator.php(85): CExistValidator->getModel()
+#3 /var/www/yii/framework/validators/CValidator.php(213): CExistValidator->validateAttribute()
+#4 /var/www/yii/framework/base/CModel.php(159): CExistValidator->validate()
+#5 /var/www/yii/framework/db/ar/CActiveRecord.php(805): DCSSizeScale->validate()
+#6 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): DCSSizeScale->save()
+#7 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#8 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#10 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#12 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#13 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#14 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#15 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#16 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#17 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#18 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:34:39 [error] [php] include(size.php): failed to open stream: No such file or directory (/var/www/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(395): spl_autoload_call()
+#1 /var/www/yii/framework/validators/CExistValidator.php(117): model()
+#2 /var/www/yii/framework/validators/CExistValidator.php(85): CExistValidator->getModel()
+#3 /var/www/yii/framework/validators/CValidator.php(213): CExistValidator->validateAttribute()
+#4 /var/www/yii/framework/base/CModel.php(159): CExistValidator->validate()
+#5 /var/www/yii/framework/db/ar/CActiveRecord.php(805): DCSSizeScale->validate()
+#6 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): DCSSizeScale->save()
+#7 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#8 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#10 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#12 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#13 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#14 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#15 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#16 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#17 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#18 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:37:42 [error] [php] include(Country.php): failed to open stream: No such file or directory (/var/www/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(395): spl_autoload_call()
+#1 /var/www/yii/framework/validators/CExistValidator.php(117): model()
+#2 /var/www/yii/framework/validators/CExistValidator.php(85): CExistValidator->getModel()
+#3 /var/www/yii/framework/validators/CValidator.php(213): CExistValidator->validateAttribute()
+#4 /var/www/yii/framework/base/CModel.php(159): CExistValidator->validate()
+#5 /var/www/yii/framework/web/widgets/CActiveForm.php(920): DCSSizeScale->validate()
+#6 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(169): validate()
+#7 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(68): DCSSizeScaleController->performAjaxValidation()
+#8 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#9 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#10 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#11 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#12 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#13 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#14 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#15 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#16 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#17 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#18 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#19 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#20 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (169)
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:37:45 [error] [php] include(Country.php): failed to open stream: No such file or directory (/var/www/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(395): spl_autoload_call()
+#1 /var/www/yii/framework/validators/CExistValidator.php(117): model()
+#2 /var/www/yii/framework/validators/CExistValidator.php(85): CExistValidator->getModel()
+#3 /var/www/yii/framework/validators/CValidator.php(213): CExistValidator->validateAttribute()
+#4 /var/www/yii/framework/base/CModel.php(159): CExistValidator->validate()
+#5 /var/www/yii/framework/web/widgets/CActiveForm.php(920): DCSSizeScale->validate()
+#6 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(169): validate()
+#7 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(68): DCSSizeScaleController->performAjaxValidation()
+#8 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#9 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#10 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#11 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#12 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#13 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#14 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#15 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#16 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#17 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#18 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#19 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#20 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (169)
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (68)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:37:58 [error] [exception.CException] exception 'CException' with message 'Table "countries" does not have a column named "country_id".' in /var/www/yii/framework/validators/CExistValidator.php:88
+Stack trace:
+#0 /var/www/yii/framework/validators/CValidator.php(213): CExistValidator->validateAttribute(Object(DCSSizeScale), 'size_country_id')
+#1 /var/www/yii/framework/base/CModel.php(159): CValidator->validate(Object(DCSSizeScale), NULL)
+#2 /var/www/yii/framework/web/widgets/CActiveForm.php(920): CModel->validate(NULL)
+#3 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(169): CActiveForm::validate(Object(DCSSizeScale))
+#4 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(68): DCSSizeScaleController->performAjaxValidation(Object(DCSSizeScale))
+#5 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#6 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#8 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#12 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#14 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#15 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#16 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/ribom/index.php(13): CApplication->run()
+#18 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:37:59 [error] [exception.CException] exception 'CException' with message 'Table "countries" does not have a column named "country_id".' in /var/www/yii/framework/validators/CExistValidator.php:88
+Stack trace:
+#0 /var/www/yii/framework/validators/CValidator.php(213): CExistValidator->validateAttribute(Object(DCSSizeScale), 'size_country_id')
+#1 /var/www/yii/framework/base/CModel.php(159): CValidator->validate(Object(DCSSizeScale), NULL)
+#2 /var/www/yii/framework/web/widgets/CActiveForm.php(920): CModel->validate(NULL)
+#3 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(169): CActiveForm::validate(Object(DCSSizeScale))
+#4 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(68): DCSSizeScaleController->performAjaxValidation(Object(DCSSizeScale))
+#5 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#6 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#8 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#12 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#14 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#15 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#16 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/ribom/index.php(13): CApplication->run()
+#18 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:38:49 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:38:49 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:41:27 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:41:27 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:45:52 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:45:52 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:48:57 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:48:57 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:50:11 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:50:11 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:52:23 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:52:23 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:55:57 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:55:57 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:58:03 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:58:03 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:58:36 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:58:36 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 10:58:44 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 10:58:44 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 11:01:10 [error] [system.db.CDbCommand] CDbCommand::execute() failed: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2).
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (73)
+in /var/www/ribom/index.php (13)
+2014/10/11 11:01:10 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`ribom`.`DCS_size_scale`, CONSTRAINT `fk_DCS_size_scale_dept` FOREIGN KEY (`size_fulldept`) REFERENCES `departments` (`fulldept`)). The SQL statement executed was: INSERT INTO `DCS_size_scale` (`size_country_id`, `size_scale`, `size_fulldept`) VALUES (:yp0, :yp1, :yp2)' in /var/www/yii/framework/db/CDbCommand.php:358
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(1077): CDbCommand->execute()
+#1 /var/www/yii/framework/db/ar/CActiveRecord.php(806): CActiveRecord->insert(NULL)
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(73): CActiveRecord->save()
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(49): DCSSizeScaleController->actionCreate()
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('create')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/cr...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/create
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 11:04:38 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in /var/www/ribom/protected/controllers/DCSSizeScaleController.php:158
+Stack trace:
+#0 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(55): DCSSizeScaleController->loadModel('9')
+#1 [internal function]: DCSSizeScaleController->actionView('9')
+#2 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DCSSizeScaleController), Array)
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DCSSizeScaleController), Object(ReflectionMethod), Array)
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/vi...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=9
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/create
+---
+2014/10/11 11:11:24 [error] [php] Trying to get property of non-object (/var/www/ribom/protected/views/dCSSizeScale/view.php:32)
+Stack trace:
+#0 /var/www/yii/framework/web/CController.php(869): DCSSizeScaleController->renderFile()
+#1 /var/www/yii/framework/web/CController.php(782): DCSSizeScaleController->renderPartial()
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): DCSSizeScaleController->render()
+#3 unknown(0): DCSSizeScaleController->actionView()
+#4 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#5 /var/www/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#7 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#8 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#10 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#12 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#14 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#15 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#16 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=10
+in /var/www/ribom/protected/views/dCSSizeScale/view.php (32)
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (56)
+in /var/www/ribom/index.php (13)
+2014/10/11 11:11:59 [error] [php] Trying to get property of non-object (/var/www/ribom/protected/views/dCSSizeScale/view.php:32)
+Stack trace:
+#0 /var/www/yii/framework/web/CController.php(869): DCSSizeScaleController->renderFile()
+#1 /var/www/yii/framework/web/CController.php(782): DCSSizeScaleController->renderPartial()
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): DCSSizeScaleController->render()
+#3 unknown(0): DCSSizeScaleController->actionView()
+#4 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#5 /var/www/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#7 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#8 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#10 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#12 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#14 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#15 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#16 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=10
+in /var/www/ribom/protected/views/dCSSizeScale/view.php (32)
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (56)
+in /var/www/ribom/index.php (13)
+2014/10/11 11:12:00 [error] [php] Trying to get property of non-object (/var/www/ribom/protected/views/dCSSizeScale/view.php:32)
+Stack trace:
+#0 /var/www/yii/framework/web/CController.php(869): DCSSizeScaleController->renderFile()
+#1 /var/www/yii/framework/web/CController.php(782): DCSSizeScaleController->renderPartial()
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): DCSSizeScaleController->render()
+#3 unknown(0): DCSSizeScaleController->actionView()
+#4 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#5 /var/www/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#7 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#8 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#10 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#12 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#14 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#15 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#16 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=10
+in /var/www/ribom/protected/views/dCSSizeScale/view.php (32)
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (56)
+in /var/www/ribom/index.php (13)
+2014/10/11 11:12:43 [error] [php] Trying to get property of non-object (/var/www/ribom/protected/views/dCSSizeScale/view.php:32)
+Stack trace:
+#0 /var/www/yii/framework/web/CController.php(869): DCSSizeScaleController->renderFile()
+#1 /var/www/yii/framework/web/CController.php(782): DCSSizeScaleController->renderPartial()
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): DCSSizeScaleController->render()
+#3 unknown(0): DCSSizeScaleController->actionView()
+#4 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#5 /var/www/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#7 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#8 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#10 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#12 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#14 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#15 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#16 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=10
+in /var/www/ribom/protected/views/dCSSizeScale/view.php (32)
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (56)
+in /var/www/ribom/index.php (13)
+2014/10/11 11:13:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in /var/www/ribom/protected/controllers/DepartmentNameController.php:183
+Stack trace:
+#0 /var/www/ribom/protected/controllers/DepartmentNameController.php(55): DepartmentNameController->loadModel('C111  BZ1')
+#1 [internal function]: DepartmentNameController->actionView('C111  BZ1')
+#2 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DepartmentNameController), Array)
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DepartmentNameController), Object(ReflectionMethod), Array)
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('departmentName/...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=departmentName/view&id=C111++BZ1
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/view&id=10
+---
+2014/10/11 11:13:49 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in /var/www/ribom/protected/controllers/DepartmentNameController.php:183
+Stack trace:
+#0 /var/www/ribom/protected/controllers/DepartmentNameController.php(55): DepartmentNameController->loadModel('C111  BZ1')
+#1 [internal function]: DepartmentNameController->actionView('C111  BZ1')
+#2 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DepartmentNameController), Array)
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DepartmentNameController), Object(ReflectionMethod), Array)
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('departmentName/...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=departmentName/view&id=C111++BZ1
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/view&id=10
+---
+2014/10/11 11:14:06 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in /var/www/ribom/protected/controllers/DepartmentNameController.php:183
+Stack trace:
+#0 /var/www/ribom/protected/controllers/DepartmentNameController.php(55): DepartmentNameController->loadModel('C111  BZ1')
+#1 [internal function]: DepartmentNameController->actionView('C111  BZ1')
+#2 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DepartmentNameController), Array)
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DepartmentNameController), Object(ReflectionMethod), Array)
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('departmentName/...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=departmentName/view&id=C111++BZ1
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/view&id=10
+---
+2014/10/11 11:14:14 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in /var/www/ribom/protected/controllers/DepartmentNameController.php:183
+Stack trace:
+#0 /var/www/ribom/protected/controllers/DepartmentNameController.php(55): DepartmentNameController->loadModel('"C111  BZ1"')
+#1 [internal function]: DepartmentNameController->actionView('"C111  BZ1"')
+#2 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DepartmentNameController), Array)
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DepartmentNameController), Object(ReflectionMethod), Array)
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('departmentName/...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=departmentName/view&id=%22C111%20%20BZ1%22
+---
+2014/10/11 11:17:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in /var/www/ribom/protected/controllers/DepartmentNameController.php:183
+Stack trace:
+#0 /var/www/ribom/protected/controllers/DepartmentNameController.php(55): DepartmentNameController->loadModel('"C111  BZ1"')
+#1 [internal function]: DepartmentNameController->actionView('"C111  BZ1"')
+#2 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DepartmentNameController), Array)
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DepartmentNameController), Object(ReflectionMethod), Array)
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('departmentName/...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=departmentName/view&id=%22C111%20%20BZ1%22
+---
+2014/10/11 11:17:33 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in /var/www/ribom/protected/controllers/DepartmentNameController.php:183
+Stack trace:
+#0 /var/www/ribom/protected/controllers/DepartmentNameController.php(55): DepartmentNameController->loadModel('C111  BZ1')
+#1 [internal function]: DepartmentNameController->actionView('C111  BZ1')
+#2 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DepartmentNameController), Array)
+#3 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DepartmentNameController), Object(ReflectionMethod), Array)
+#4 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#13 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('departmentName/...')
+#14 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/ribom/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/ribom/index.php?r=departmentName/view&id=C111++BZ1
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/view&id=10
+---
+2014/10/11 11:17:33 [error] [php] Undefined index: size_country (/var/www/ribom/protected/views/dCSSizeScale/view.php:31)
+Stack trace:
+#0 /var/www/yii/framework/web/CController.php(869): DCSSizeScaleController->renderFile()
+#1 /var/www/yii/framework/web/CController.php(782): DCSSizeScaleController->renderPartial()
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): DCSSizeScaleController->render()
+#3 unknown(0): DCSSizeScaleController->actionView()
+#4 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#5 /var/www/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#7 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#8 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#10 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#12 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#14 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#15 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#16 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=10
+in /var/www/ribom/protected/views/dCSSizeScale/view.php (31)
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (56)
+in /var/www/ribom/index.php (13)
+2014/10/11 11:17:39 [error] [php] Undefined index: size_country (/var/www/ribom/protected/views/dCSSizeScale/view.php:31)
+Stack trace:
+#0 /var/www/yii/framework/web/CController.php(869): DCSSizeScaleController->renderFile()
+#1 /var/www/yii/framework/web/CController.php(782): DCSSizeScaleController->renderPartial()
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): DCSSizeScaleController->render()
+#3 unknown(0): DCSSizeScaleController->actionView()
+#4 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#5 /var/www/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#7 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#8 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#10 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#12 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#14 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#15 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#16 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=0000000010
+in /var/www/ribom/protected/views/dCSSizeScale/view.php (31)
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (56)
+in /var/www/ribom/index.php (13)
+2014/10/11 11:18:57 [error] [exception.CException] exception 'CException' with message 'Property "Countries.country_name" is not defined.' in /var/www/yii/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(145): CComponent->__get('country_name')
+#1 /var/www/ribom/protected/views/dCSSizeScale/view.php(33): CActiveRecord->__get('country_name')
+#2 /var/www/yii/framework/web/CBaseController.php(126): require('/var/www/ribom/...')
+#3 /var/www/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/ribom/...', Array, true)
+#4 /var/www/yii/framework/web/CController.php(869): CBaseController->renderFile('/var/www/ribom/...', Array, true)
+#5 /var/www/yii/framework/web/CController.php(782): CController->renderPartial('view', Array, true)
+#6 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): CController->render('view', Array)
+#7 [internal function]: DCSSizeScaleController->actionView('0000000010')
+#8 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DCSSizeScaleController), Array)
+#9 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DCSSizeScaleController), Object(ReflectionMethod), Array)
+#10 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#12 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#14 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#15 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#16 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#17 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#19 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/vi...')
+#20 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#21 /var/www/ribom/index.php(13): CApplication->run()
+#22 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=0000000010
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/index
+---
+2014/10/11 11:20:28 [error] [php] Trying to get property of non-object (/var/www/ribom/protected/views/dCSSizeScale/view.php:32)
+Stack trace:
+#0 /var/www/yii/framework/web/CController.php(869): DCSSizeScaleController->renderFile()
+#1 /var/www/yii/framework/web/CController.php(782): DCSSizeScaleController->renderPartial()
+#2 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): DCSSizeScaleController->render()
+#3 unknown(0): DCSSizeScaleController->actionView()
+#4 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#5 /var/www/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#7 /var/www/yii/framework/web/filters/CFilterChain.php(133): DCSSizeScaleController->runAction()
+#8 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#10 /var/www/yii/framework/web/filters/CInlineFilter.php(58): DCSSizeScaleController->filterAccessControl()
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#12 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(265): DCSSizeScaleController->runActionWithFilters()
+#14 /var/www/yii/framework/web/CWebApplication.php(282): DCSSizeScaleController->run()
+#15 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#16 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=0000000010
+in /var/www/ribom/protected/views/dCSSizeScale/view.php (32)
+in /var/www/ribom/protected/controllers/DCSSizeScaleController.php (56)
+in /var/www/ribom/index.php (13)
+2014/10/11 11:21:54 [error] [exception.CException] exception 'CException' with message 'Property "DCSSizeScale.sizeFullDept" is not defined.' in /var/www/yii/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(145): CComponent->__get('sizeFullDept')
+#1 /var/www/ribom/protected/views/dCSSizeScale/view.php(32): CActiveRecord->__get('sizeFullDept')
+#2 /var/www/yii/framework/web/CBaseController.php(126): require('/var/www/ribom/...')
+#3 /var/www/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/ribom/...', Array, true)
+#4 /var/www/yii/framework/web/CController.php(869): CBaseController->renderFile('/var/www/ribom/...', Array, true)
+#5 /var/www/yii/framework/web/CController.php(782): CController->renderPartial('view', Array, true)
+#6 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): CController->render('view', Array)
+#7 [internal function]: DCSSizeScaleController->actionView('0000000010')
+#8 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DCSSizeScaleController), Array)
+#9 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DCSSizeScaleController), Object(ReflectionMethod), Array)
+#10 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#12 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#14 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#15 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#16 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#17 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#19 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/vi...')
+#20 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#21 /var/www/ribom/index.php(13): CApplication->run()
+#22 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=0000000010
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/index
+---
+2014/10/11 11:22:07 [error] [exception.CException] exception 'CException' with message 'Property "DCSSizeScale.sizeFullDept" is not defined.' in /var/www/yii/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/yii/framework/db/ar/CActiveRecord.php(145): CComponent->__get('sizeFullDept')
+#1 /var/www/ribom/protected/views/dCSSizeScale/view.php(32): CActiveRecord->__get('sizeFullDept')
+#2 /var/www/yii/framework/web/CBaseController.php(126): require('/var/www/ribom/...')
+#3 /var/www/yii/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/ribom/...', Array, true)
+#4 /var/www/yii/framework/web/CController.php(869): CBaseController->renderFile('/var/www/ribom/...', Array, true)
+#5 /var/www/yii/framework/web/CController.php(782): CController->renderPartial('view', Array, true)
+#6 /var/www/ribom/protected/controllers/DCSSizeScaleController.php(56): CController->render('view', Array)
+#7 [internal function]: DCSSizeScaleController->actionView('0000000010')
+#8 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(DCSSizeScaleController), Array)
+#9 /var/www/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(DCSSizeScaleController), Object(ReflectionMethod), Array)
+#10 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#11 /var/www/yii/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#12 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#13 /var/www/yii/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#14 /var/www/yii/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#15 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#16 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#17 /var/www/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 /var/www/yii/framework/web/CWebApplication.php(282): CController->run('view')
+#19 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dCSSizeScale/vi...')
+#20 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#21 /var/www/ribom/index.php(13): CApplication->run()
+#22 {main}
+REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=0000000010
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/index
+---

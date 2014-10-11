@@ -30,7 +30,8 @@ class Size extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('scale_number, scale_size, scale_name', 'required'),
-			array('scale_number, scale_size', 'length', 'max'=>5),
+			array('scale_number', 'length', 'max'=>5),
+			array('scale_size', 'length', 'max'=>40),
 			array('scale_name', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

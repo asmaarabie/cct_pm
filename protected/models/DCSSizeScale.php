@@ -4,15 +4,14 @@
  * This is the model class for table "DCS_size_scale".
  *
  * The followings are the available columns in table 'DCS_size_scale':
- * @property string $dept_id
- * @property string $class_id
- * @property string $subclass_id
+ * @property string $DCS_size_id
  * @property string $size_scale
+ * @property string $size_fulldept
+ * @property string $size_country_id
  *
  * The followings are the available model relations:
- * @property Departments $dept
- * @property Departments $class
- * @property Departments $subclass
+ * @property Countries $sizeCountry
+ * @property Departments $sizeFulldept
  * @property Size $sizeScale
  */
 class DCSSizeScale extends CActiveRecord
@@ -33,12 +32,30 @@ class DCSSizeScale extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('dept_id, class_id, subclass_id, size_scale', 'required'),
-			array('dept_id, class_id, subclass_id', 'length', 'max'=>3),
-			array('size_scale', 'length', 'max'=>5),
+			array('size_scale, size_fulldept', 'required'),
+			array('size_scale, size_country_id', 'length', 'max'=>5),
+			array('size_fulldept', 'length', 'max'=>9),
+			array('size_fulldept', 'exist',
+					'attributeName'=>'fulldept',
+					'className'=>'Departments',
+					//'skipOnError',
+					'message'=>'Full Department id should exist in the departments table!'),
+			array('size_scale', 'exist',
+					'attributeName'=>'scale_number',
+					'className'=>'Size',
+					//'skipOnError',
+					'message'=>'Scale number should exist in the size table!'),
+			array('size_country_id', 'exist',
+					'attributeName'=>'countryid',
+					'className'=>'Countries',
+					//'skipOnError',
+					'message'=>'Country id should exist in the Country table!'),
+			array('size_scale, size_fulldept', 'ECompositeUniqueValidator',
+					'attributesToAddError'=>'size_fulldept',
+					'message'=>'This department {value_size_fulldept} already has this scale.'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('dept_id, class_id, subclass_id, size_scale', 'safe', 'on'=>'search'),
+			array('DCS_size_id, size_scale, size_fulldept, size_country_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,10 +67,10 @@ class DCSSizeScale extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'dept' => array(self::BELONGS_TO, 'Departments', 'dept_id'),
-			'class' => array(self::BELONGS_TO, 'Departments', 'class_id'),
-			'subclass' => array(self::BELONGS_TO, 'Departments', 'subclass_id'),
+			'sizeCountry' => array(self::BELONGS_TO, 'Countries', 'size_country_id'),
+			'sizeFulldept' => array(self::BELONGS_TO, 'Departments', 'size_fulldept'),
 			'sizeScale' => array(self::BELONGS_TO, 'Size', 'size_scale'),
+			'sizeDeptName' => array(self::BELONGS_TO, 'DCSName', 'size_fulldept'),
 		);
 	}
 
@@ -63,10 +80,10 @@ class DCSSizeScale extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'dept_id' => 'Dept',
-			'class_id' => 'Class',
-			'subclass_id' => 'Subclass',
-			'size_scale' => 'Size Scale',
+			'DCS_size_id' => 'DCS Size id',
+			'size_scale' => 'DCS Scale',
+			'size_fulldept' => 'Full Department id',
+			'size_country_id' => 'Country id',
 		);
 	}
 
@@ -88,10 +105,10 @@ class DCSSizeScale extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('dept_id',$this->dept_id,true);
-		$criteria->compare('class_id',$this->class_id,true);
-		$criteria->compare('subclass_id',$this->subclass_id,true);
+		$criteria->compare('DCS_size_id',$this->DCS_size_id,true);
 		$criteria->compare('size_scale',$this->size_scale,true);
+		$criteria->compare('size_fulldept',$this->size_fulldept,true);
+		$criteria->compare('size_country_id',$this->size_country_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -12,45 +12,49 @@ Yii::app()->clientScript->registerScript ("Color#color-autocomplete", "
 		};
 		");
 Yii::app()->clientScript->registerScript ("updateColorCode", "
-		var color = $('#ColorCode_color').val();
-		var shadow = $('#ColorCode_shadow').val();
-		var pattern = $('#ColorCode_pattern').val();
-		var length = $('#ColorCode_length').val();
-		var shape = $('#ColorCode_shape').val();
-		var serial = $('#ColorCode_color_serial').val();
-		$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+		if($.trim($('#ColorCode_color_code').val()) == '') {
+			var color = '--' ;
+			var shadow = '-' ;
+			var pattern = '-' ;
+			var length = '-' ;
+			var shape = '-' ;
+			
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape);		
+		}
 		
-		$('#ColorCode_color').focusout(function() {
+		
+		$('#ColorCode_color').change(function() {
 			if($.trim($('#ColorCode_color').val()) !== '')
 				color = $('#ColorCode_color').val(); else color = '--';
-			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape);
 		});
 		
-		$('#ColorCode_length').focusout(function() {
+		$('#ColorCode_length').change(function() {
 			if($.trim($('#ColorCode_length').val()) !== '')
 				length = $('#ColorCode_length').val(); else length = '-';
-			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape);
 		});
 		
-		$('#ColorCode_shape').focusout(function() {
+		$('#ColorCode_shape').change(function() {
 			if($.trim($('#ColorCode_shape').val()) !== '')
 				shape = $('#ColorCode_shape').val(); else shape = '-';
-			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape);
 		});
 		
-		$('#ColorCode_shadow').focusout(function() {
+		$('#ColorCode_shadow').change(function() {
 			if($.trim($('#ColorCode_shadow').val()) !== '')
 				shadow = $('#ColorCode_shadow').val(); else shadow = '-';
-			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape);
 		});
 		
-		$('#ColorCode_pattern').focusout(function() {
+		$('#ColorCode_pattern').change(function() {
 			if($.trim($('#ColorCode_pattern').val()) !== '')
 				pattern = $('#ColorCode_pattern').val(); else pattern = '-';
-			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape+serial);
+			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape);
 		});
-		");
 		
+		
+		");
 ?>
 
 <div class="form">
@@ -173,18 +177,27 @@ Yii::app()->clientScript->registerScript ("updateColorCode", "
 		'options'=>array(
 			'showAnim'=>'fold',
 			),
-         ));
+		));
 
 		?>
 		<?php echo $form->error($model,'shape'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'color_serial'); ?>
-		<?php echo $form->textField($model,'color_serial',array('size'=>2,'maxlength'=>2)); ?>
-		<?php echo $form->error($model,'color_serial'); ?>
+		<?php //echo $form->labelEx($model,'color_serial'); ?>
+		<?php //echo $form->dropDownList($model,'color_serial', array()); ?>
+		<?php //echo $form->error($model,'color_serial'); ?>
+		
+		
 	</div>
-
+	<div class="row">
+		<?php if ($model->isNewRecord) {
+				echo CHtml::checkBox('box', false); 
+				echo CHtml::label('Increment serial if the color code exists?', 'increment_label'); 
+			}
+		?>
+		
+	</div>
 	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

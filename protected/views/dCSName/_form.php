@@ -34,8 +34,8 @@
         'htmlOptions'=>array(
 			'placeholder'=>'Dept. name',
 			'minLength'=>'1',
-			'maxlength'=>8,
-			'size'=>8),
+			'maxlength'=>9,
+			'size'=>9),
 		
 		'options'=>array(
 			'showAnim'=>'fold'),
