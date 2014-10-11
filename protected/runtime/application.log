@@ -5486,3 +5486,30 @@ Stack trace:
 REQUEST_URI=/ribom/index.php?r=dCSSizeScale/view&id=0000000010
 HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=dCSSizeScale/index
 ---
+2014/10/11 12:13:45 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "iSOHeader/index".' in /var/www/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('iSOHeader/index')
+#1 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/ribom/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/ribom/index.php?r=iSOHeader/index
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=site/index
+---
+2014/10/11 12:13:55 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "iSOHeader/index".' in /var/www/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('iSOHeader/index')
+#1 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/ribom/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/ribom/index.php?r=iSOHeader/index
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=site/index
+---
+2014/10/11 12:14:04 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "dcsSizeScale/index".' in /var/www/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('dcsSizeScale/in...')
+#1 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/ribom/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/ribom/index.php?r=dcsSizeScale/index
+HTTP_REFERER=http://127.0.0.1/ribom/index.php?r=site/index
+---
