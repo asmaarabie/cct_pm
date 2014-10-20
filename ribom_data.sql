@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 16, 2014 at 06:19 PM
--- Server version: 5.5.38-0ubuntu0.14.04.1
+-- Generation Time: Oct 20, 2014 at 01:16 PM
+-- Server version: 5.5.40-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -92,7 +92,8 @@ CREATE TABLE IF NOT EXISTS `color` (
 
 INSERT INTO `color` (`color_id`, `color_desc_a`, `color_img`, `color_desc_e`) VALUES
 ('BL', 'أسود', 'black.png', 'Black'),
-('OR', 'برتقالي تكساس', 'orange.png', 'Texas Orange');
+('OR', 'برتقالي تكساس', 'orange.png', 'Texas Orange'),
+('W', 'أبيض', 'crop.png', 'White');
 
 -- --------------------------------------------------------
 
@@ -124,11 +125,15 @@ INSERT INTO `color_code` (`color`, `shadow`, `pattern`, `length`, `shape`, `colo
 ('BL', 'L', 'E', 'S', 'S', '00', 'BLLESS00'),
 ('BL', 'L', 'E', 'S', 'S', '02', 'BLLESS02'),
 ('BL', 'L', 'E', 'S', 'S', '03', 'BLLESS03'),
+('BL', 'L', 'E', 'S', 'S', '04', 'BLLESS04'),
 ('OR', 'L', 'E', 'S', 'S', '00', 'ORLESS00'),
 ('OR', 'L', 'E', 'S', 'S', '01', 'ORLESS01'),
 ('OR', 'L', 'E', 'S', 'S', '02', 'ORLESS02'),
 ('OR', 'L', 'E', 'S', 'S', '03', 'ORLESS03'),
-('OR', 'L', 'T', 'S', 'S', '00', 'ORLTSS00');
+('OR', 'L', 'T', 'S', 'S', '00', 'ORLTSS00'),
+('W', 'L', 'E', 'S', 'S', '00', 'W-LESS00'),
+('W', 'L', 'E', 'S', 'S', '01', 'W-LESS01'),
+('W', 'L', 'E', 'S', 'S', '02', 'W-LESS02');
 
 -- --------------------------------------------------------
 
@@ -1071,7 +1076,15 @@ CREATE TABLE IF NOT EXISTS `DCS_size_scale` (
   KEY `fk_DCS_size_scale_dept_idx` (`size_fulldept`),
   KEY `fk_DCS_size_scale_country_idx` (`size_country_id`),
   KEY `fk_DCS_size_scale_size_idx` (`size_scale`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `DCS_size_scale`
+--
+
+INSERT INTO `DCS_size_scale` (`DCS_size_id`, `size_scale`, `size_fulldept`, `size_country_id`) VALUES
+(0000000001, '10', 'c111  BZ1', '2'),
+(0000000002, '100', 'C111  BZ1', '2');
 
 -- --------------------------------------------------------
 
@@ -2061,18 +2074,26 @@ CREATE TABLE IF NOT EXISTS `stylesheet` (
   `season` char(1) NOT NULL,
   `year` char(4) NOT NULL,
   `pono` char(20) DEFAULT NULL,
-  `brand_dept_name` char(40) NOT NULL,
-  `category_subc_name` char(40) NOT NULL,
-  `dcs_notes` char(40) DEFAULT NULL,
-  `style_code` char(40) NOT NULL,
-  `stylesheet_note` text,
+  `dcs_notes` char(40) CHARACTER SET utf8 DEFAULT NULL,
+  `style_code` char(40) CHARACTER SET utf8 NOT NULL,
+  `stylesheet_note` text CHARACTER SET utf8,
   `fabric` char(40) NOT NULL,
+  `scale` char(5) NOT NULL,
+  `sizes` char(40) NOT NULL,
   PRIMARY KEY (`ss_id`),
   KEY `fk_stylesheet_country_index` (`country_id`),
   KEY `index3` (`country_id`,`season`,`year`,`style_code`,`dept_id`,`class_id`,`subclass_id`),
-  KEY `fk_stylesheet_brand_idx` (`brand_dept_name`),
-  KEY `fk_stylesheet_category_idx` (`category_subc_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `scale` (`scale`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+
+--
+-- Dumping data for table `stylesheet`
+--
+
+INSERT INTO `stylesheet` (`ss_id`, `country_id`, `dept_id`, `class_id`, `subclass_id`, `season`, `year`, `pono`, `dcs_notes`, `style_code`, `stylesheet_note`, `fabric`, `scale`, `sizes`) VALUES
+(24, '2', 'C11', '1', 'PJ0', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '001110000'),
+(25, '2', 'C11', '1', 'BZ1', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '100', '1110000000000'),
+(26, '2', 'C12', '1', 'PJ0', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000');
 
 -- --------------------------------------------------------
 
@@ -2106,17 +2127,25 @@ CREATE TABLE IF NOT EXISTS `stylesheet_bom` (
 --
 
 CREATE TABLE IF NOT EXISTS `stylesheet_color` (
-  `ss_color_id` int(11) NOT NULL,
+  `ss_color_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
-  `color_code` char(2) NOT NULL,
-  `print_emb` char(40) DEFAULT NULL,
+  `color_code` char(8) NOT NULL,
+  `print` tinyint(1) DEFAULT NULL,
+  `emb` tinyint(1) DEFAULT NULL,
   `place` char(40) DEFAULT NULL,
   `code` char(10) DEFAULT NULL,
-  `desc` char(40) DEFAULT NULL,
+  `ss_color_desc` char(40) DEFAULT NULL,
   PRIMARY KEY (`ss_color_id`),
   KEY `fk_stylesheet_color_color_idx` (`color_code`),
   KEY `fk_stylesheet_color_ss` (`ss_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `stylesheet_color`
+--
+
+INSERT INTO `stylesheet_color` (`ss_color_id`, `ss_id`, `color_code`, `print`, `emb`, `place`, `code`, `ss_color_desc`) VALUES
+(7, 25, 'W-LESS02', 1, 1, 'IN FRONT', '', '');
 
 -- --------------------------------------------------------
 
@@ -2130,7 +2159,14 @@ CREATE TABLE IF NOT EXISTS `stylesheet_images` (
   `img_path` char(50) NOT NULL,
   PRIMARY KEY (`ss_img_id`),
   KEY `fk_stylesheet_images_ss` (`ss_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+
+--
+-- Dumping data for table `stylesheet_images`
+--
+
+INSERT INTO `stylesheet_images` (`ss_img_id`, `ss_id`, `img_path`) VALUES
+(19, 25, '1922426_10152281479758967_548144733_n.jpg');
 
 -- --------------------------------------------------------
 
@@ -2159,7 +2195,7 @@ CREATE TABLE IF NOT EXISTS `stylesheet_log` (
 CREATE TABLE IF NOT EXISTS `stylesheet_size` (
   `ss_size_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
-  `scale` char(10) NOT NULL,
+  `sizes` char(40) NOT NULL,
   PRIMARY KEY (`ss_size_id`),
   KEY `fk_stylesheet_size_ss` (`ss_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -2217,7 +2253,8 @@ INSERT INTO `subclass_name` (`subclassid`, `subclass_name`) VALUES
 ('MT', 'MADE TO MEASURE'),
 ('NL', 'NL'),
 ('OT', 'OTHERS'),
-('PJ', 'PAJAMA'),
+('PJ0', 'PAJAMA'),
+('PJ5', 'PAJAMA'),
 ('PL', 'PULLOVER'),
 ('PN', 'PONCHES'),
 ('PT', 'PANT'),
@@ -2360,9 +2397,8 @@ ALTER TABLE `marker_log`
 -- Constraints for table `stylesheet`
 --
 ALTER TABLE `stylesheet`
-  ADD CONSTRAINT `fk_stylesheet_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_stylesheet_brand` FOREIGN KEY (`brand_dept_name`) REFERENCES `dept_name` (`dept_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_stylesheet_category` FOREIGN KEY (`category_subc_name`) REFERENCES `subclass_name` (`subclassid`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_ss_scale_sizes` FOREIGN KEY (`scale`) REFERENCES `size` (`scale_number`),
+  ADD CONSTRAINT `fk_stylesheet_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `stylesheet_bom`
