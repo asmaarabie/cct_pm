@@ -3,7 +3,11 @@
 /* @var $model Color */
 /* @var $form CActiveForm */
 ?>
-
+<?php if(Yii::app()->user->hasFlash('color_create')) { ?>
+<div class="flash-error">
+	<?php echo Yii::app()->user->getFlash('color_create'); ?>
+</div>
+<?php } ?>
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -43,7 +47,7 @@
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'color_img'); ?>
-		<?php echo $form->fileField($model, 'color_img'); ?> 
+		<?php echo CHtml::activeFileField($model, 'color_img'); ?> 
 		<?php 
 		
 		if($model->isNewRecord!='1') {
@@ -52,7 +56,7 @@
 		     <?php echo CHtml::image(Yii::app()->request->baseUrl.Yii::app()->params["colorUploadUrl"].$model->color_img,"image",array("width"=>200)); ?>
 		</div> 
 		<?php }?>
-		<?php echo $form->error($model,'color_img'); ?>
+		<?php //echo $form->error($model,'color_img'); ?>
 	</div>
 
 	

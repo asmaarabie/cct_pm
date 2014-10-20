@@ -28,7 +28,7 @@ class SizeController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'getSizeScaleNumAjax'),
+				'actions'=>array('index','view', 'getSizeScaleNumAjax', 'getSizesAjax'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -197,5 +197,24 @@ class SizeController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	public function actionGetSizesAjax () {
+			$scale =$_POST['Stylesheet']['scale'];
+			$sizes = $_POST['Stylesheet']['sizes'];
+			
+			if ($scale != "") {
+				$options = Size::model()->getScaleSizes($scale);
+				echo CHtml::label ('Sizes', 'label_size');
+				for ($i = 0 ; $i < count ($options); $i++) {
+					echo "<span style='float:left; margin: 10px 10px 10px 0'>".CHtml::label ($options[$i], 'label_box'.$i);
+					if ($sizes != "") {
+						$check = substr($sizes, $i, 1);
+					} else 
+						$check = 0;
+					echo CHtml::checkBox('box'.$scale.$options[$i], $check)."</span>";
+				}
+				echo "<div style='clear:both;'></div>";
+			}
 	}
 }

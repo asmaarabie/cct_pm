@@ -29,7 +29,7 @@
         'attribute' => 'fulldept',
 		'model'=>$model,
 		//'value'=> ($model->isNewRecord)? "": "lll",
-        'sourceUrl'=> '?r=dCSName/getDCSAjax',
+        'sourceUrl'=> '?r=department/getDCSAjax&param=fulldept',
  		//'cssFile'=>false,
         'htmlOptions'=>array(
 			'placeholder'=>'Dept. name',
@@ -52,7 +52,7 @@
         'attribute' => 'country_id',
 		'model'=>$model,
 		//'value'=> ($model->isNewRecord)? "": $model->country->countrydesc,
-        'sourceUrl'=> '?r=dCSName/getCountryAjax',
+        'sourceUrl'=> '?r=country/getCountryAjax',
  		//'cssFile'=>false,
         'htmlOptions'=>array(
 			'placeholder'=>'Country',

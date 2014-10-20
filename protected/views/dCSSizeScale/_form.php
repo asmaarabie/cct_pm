@@ -51,7 +51,7 @@
 		<?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
         'attribute' => 'size_fulldept',
 		'model'=>$model,
-        'sourceUrl'=> '?r=dCSName/getDCSAjax',
+        'sourceUrl'=> '?r=department/getDCSAjax&param=fulldept',
         'htmlOptions'=>array(
 			'placeholder'=>'Dept. name',
 			'minLength'=>'1',
@@ -69,7 +69,7 @@
 		<?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
         'attribute' => 'size_country_id',
 		'model'=>$model,
-        'sourceUrl'=> '?r=dCSName/getCountryAjax',
+        'sourceUrl'=> '?r=country/getCountryAjax',
         'htmlOptions'=>array(
 			'placeholder'=>'Country',
 			'minLength'=>'1',

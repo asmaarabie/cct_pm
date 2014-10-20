@@ -25,7 +25,7 @@ Yii::app()->clientScript->registerScript ("updateColorCode", "
 		
 		$('#ColorCode_color').change(function() {
 			if($.trim($('#ColorCode_color').val()) !== '')
-				color = $('#ColorCode_color').val(); else color = '--';
+				color = ($('#ColorCode_color').val().length < 2)? $('#ColorCode_color').val()+'-' : $('#ColorCode_color').val(); else color = '--';
 			$('#ColorCode_color_code').val(color+shadow+pattern+length+shape);
 		});
 		

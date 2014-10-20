@@ -76,9 +76,16 @@ class ColorController extends Controller
             
             if($model->validate())
             {
-            	$uploadedFile->saveAs(Yii::app()->params['colorUploadPath'].$fileName);  // image will uplode to rootDirectory/banner/
-				$model->save();
-            	$this->redirect(array('view','id'=>$model->color_id));
+            	$path = Yii::app()->params['colorUploadPath'].$fileName;
+            	if (file_exists ($path))
+            		Yii::app()->user->setFlash("color_create", "This image file '{$path}' exists, kindly rename the file and upload it again");
+            	elseif ($uploadedFile->saveAs($path)) {
+					$model->save();
+					$this->redirect(array('view','id'=>$model->color_id));
+            	}
+            	else 
+            		Yii::app()->user->setFlash("color_create", "Cannot save this image '{$path}'");
+            		
 				
 			}
 		}

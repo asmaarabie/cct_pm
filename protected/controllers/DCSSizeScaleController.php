@@ -171,4 +171,9 @@ class DCSSizeScaleController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function getDCSSizeScalesModels ($dcs, $country) {
+		$models = DCSSizeScale::model()->findAll("size_fulldept='{$dcs}' and size_country_id='{$country}'");
+		return $models;
+	}
 }

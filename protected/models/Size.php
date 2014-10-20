@@ -100,4 +100,10 @@ class Size extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public function getScaleSizes ($scale) {
+		$data = Size::model()->findByPk($scale);
+		$options = explode (',', $data->scale_size);
+		return $options;
+	}
 }

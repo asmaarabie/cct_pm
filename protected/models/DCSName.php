@@ -49,8 +49,8 @@ class DCSName extends CActiveRecord
 					'message'=>'Country id should exist in the countries table!'),
 			
 			 array('fulldept, country_id', 'ECompositeUniqueValidator',
-			 		'attributesToAddError'=>'fulldept',
-			 		'message'=>'This DCS {value_fulldept} already exists for this country id.'),
+			 		'attributesToAddError'=>'country_id',
+			 		'message'=>'This {attr_country_id} {value_country_id} already exists for this department.'),
 		);
 	}
 

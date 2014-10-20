@@ -227,3 +227,27 @@ div.search-form
 {
 	background: #80CFFF;
 }
+
+.stylesheet-galleryView {
+	background: #F7FAFA;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 10px 0px 10px 0px;
+}
+.stylesheet-galleryView .img-container{
+	background: white;
+	padding: 10px;
+	border-radius: 5px;
+	float: left;
+	margin-right: 10px;
+}
+
+.stylesheet-basic {
+	background: #F7FAFA;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.usr-def-null {
+	color: pink;
+}

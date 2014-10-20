@@ -38,7 +38,11 @@ ISO Header:
 		</ul>
 <br/>
 
-
+Stylesheets:
+		<ul>
+			<li><?php echo CHtml::link('Stylesheets', array('stylesheet/index'))?></li>
+		</ul>
+<br/>
 <p>For more details on how to further develop this application, please read
 the <a href="http://www.yiiframework.com/doc/">documentation</a>.
 Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,

@@ -73,27 +73,9 @@ class ColorCodeController extends Controller
 		if(isset($_POST['ColorCode']))
 		{
 			$model->attributes=$_POST['ColorCode'];
-			$model->color_serial = '00';
-			
 			$increment = isset($_POST['box'])? true:false ;
-			if ($increment) {
-				$data = Yii::app()->db->createCommand(
-						"SELECT color_serial FROM color_code WHERE
-						shadow='{$model->shadow}' AND
-						color='{$model->color}' AND
-						shape='{$model->shape}' AND
-						length='{$model->length}' AND
-						pattern='{$model->pattern}' 
-						ORDER BY color_serial DESC")
-				->queryAll();
-				
-				if (isset($data[0]['color_serial'])) {
-					$newSerial = intval($data[0]['color_serial']) +1;
-					// padding number 1-> 01, 2 -> 02
-					$model->color_serial = str_pad($newSerial, 2, '0', STR_PAD_LEFT);	
-				}
-			}
-			$model->color_code = $model->color.$model->shadow.$model->pattern.$model->length.$model->shape.$model->color_serial;
+			$model= ColorCodeController::setModelProperties($model, $increment) ["model"];
+			
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->color_code));
 		}
@@ -102,7 +84,39 @@ class ColorCodeController extends Controller
 			'model'=>$model,
 		));
 	}
-
+	
+	public function setModelProperties ($model, $increment) {
+		$model->color_serial = "00";
+		$lastModel = NULL;
+		$data = Yii::app()->db->createCommand(
+			"SELECT * FROM color_code WHERE
+			shadow='{$model->shadow}' AND
+			color='{$model->color}' AND
+			shape='{$model->shape}' AND
+			length='{$model->length}' AND
+			pattern='{$model->pattern}'
+			ORDER BY color_serial DESC")
+			->queryAll();
+		
+		$serial = $data[0]['color_serial'];
+		if (isset($serial)) 
+			$lastModel=ColorCode::model()->findByPk($data[0]['color_code']);
+		
+		if ($increment) {
+			$newSerial = intval($data[0]['color_serial']) +1;
+			// padding number 1-> 01, 2 -> 02
+			$model->color_serial = str_pad($newSerial, 2, '0', STR_PAD_LEFT);
+				
+		}
+		
+		// Pad color with extra '-' if the color's length is less than 2
+		$color = $model->color;
+		if (strlen($model->color)<2)
+			$color .= '-';
+			$model->color_code = $color.$model->shadow.$model->pattern.$model->length.$model->shape.$model->color_serial;
+		//var_dump($lastModel);
+		return array ('model'=> $model, 'lastModel' =>$lastModel);
+	}
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

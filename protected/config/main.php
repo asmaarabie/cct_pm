@@ -98,5 +98,8 @@ return array(
 		'adminEmail'=>'webmaster@example.com',
 		'colorUploadPath'=>dirname(__FILE__).'/../../images/colors/',
 		'colorUploadUrl'=>'/images/colors/',
+		'styleSheetImagesUploadPath'=>dirname(__FILE__).'/../../images/styleSheet/',
+		'styleSheetImagesUploadUrl'=>'/images/styleSheet/',
+		'systemIcons'=>'/images/system-icons/',
 	),
 );
