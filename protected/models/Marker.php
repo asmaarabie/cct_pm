@@ -6,14 +6,16 @@
  * The followings are the available columns in table 'marker':
  * @property integer $marker_id
  * @property integer $ss_id
- * @property string $width
- * @property string $length
- * @property string $utilization
- * @property string $t_size
+ * @property double $width
+ * @property double $length
+ * @property double $utilization
+ * @property double $t_size
  * @property string $ratio
  * @property string $marker_name
- *
+ * @property integer $owner
+ * 
  * The followings are the available model relations:
+ * @property User $owner0
  * @property Stylesheet $ss
  * @property MarkerLog[] $markerLogs
  */
@@ -35,9 +37,11 @@ class Marker extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ss_id, width, length, utilization, t_size, ratio, marker_name', 'required'),
+			array('width, length, utilization, t_size, ratio, marker_name, owner', 'required'),
 			array('ss_id', 'numerical', 'integerOnly'=>true),
-			array('width, length, utilization, t_size, ratio, marker_name', 'length', 'max'=>10),
+			array('ss_id', 'unique'),
+			array('width, length, utilization, t_size, owner', 'numerical'),
+			array('ratio, marker_name', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('marker_id, ss_id, width, length, utilization, t_size, ratio, marker_name', 'safe', 'on'=>'search'),
@@ -52,8 +56,9 @@ class Marker extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+				'owner0' => array(self::BELONGS_TO, 'User', 'owner'),
 			'ss' => array(self::BELONGS_TO, 'Stylesheet', 'ss_id'),
-			'markerLogs' => array(self::HAS_MANY, 'MarkerLog', 'marker_id'),
+			'markerLogs' => array(self::HAS_MANY, 'MarkerLog', 'marker_id'),				
 		);
 	}
 
@@ -63,14 +68,15 @@ class Marker extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'marker_id' => 'Marker',
-			'ss_id' => 'Ss',
+			'marker_id' => 'Marker id',
+			'ss_id' => 'Stylesheet id',
 			'width' => 'Width',
 			'length' => 'Length',
 			'utilization' => 'Utilization',
 			't_size' => 'T Size',
 			'ratio' => 'Ratio',
 			'marker_name' => 'Marker Name',
+			'owner' => "Owner"
 		);
 	}
 
@@ -94,13 +100,14 @@ class Marker extends CActiveRecord
 
 		$criteria->compare('marker_id',$this->marker_id);
 		$criteria->compare('ss_id',$this->ss_id);
-		$criteria->compare('width',$this->width,true);
-		$criteria->compare('length',$this->length,true);
-		$criteria->compare('utilization',$this->utilization,true);
-		$criteria->compare('t_size',$this->t_size,true);
+		$criteria->compare('width',$this->width);
+		$criteria->compare('length',$this->length);
+		$criteria->compare('utilization',$this->utilization);
+		$criteria->compare('t_size',$this->t_size);
 		$criteria->compare('ratio',$this->ratio,true);
 		$criteria->compare('marker_name',$this->marker_name,true);
-
+		$criteria->compare('owner',$this->owner,true);
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -116,4 +123,5 @@ class Marker extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
 }

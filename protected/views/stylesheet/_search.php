@@ -84,7 +84,11 @@
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>
 	</div>
-
+	
+	<div class="row">
+		<?php echo $form->label($model,'user_id'); ?>
+		<?php echo $form->textField($model,'user_id'); ?>
+	</div>
 <?php $this->endWidget(); ?>
 
 </div><!-- search-form -->

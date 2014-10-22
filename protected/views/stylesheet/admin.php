@@ -59,7 +59,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'stylesheet_note',
 		'fabric',
 		'scale',
-		'sizes
+		'sizes,
+		'user_id',
 		*/
 		array(
 			'class'=>'CButtonColumn',

@@ -32,7 +32,7 @@ class StylesheetController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'copy', 'getLogEntries', 'delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -71,37 +71,62 @@ class StylesheetController extends Controller
 	public function actionCreate()
 	{
 		$model=new Stylesheet;
+		StylesheetController::insert($model, false);
+	}
+	
+	public function actionCopy ($ss_id) {
+		$model = $this->loadModel($ss_id);
+		$model->isNewRecord=true;
+		unset($model->ss_id);
+		//var_dump($model);
+		StylesheetController::insert ($model, true);
+		
+	}
+	
+	private function insert ($model, $copy) {
 		$db_scales = Size::model()->findAll();
+		
+		// Create log entry
+		$log_entry = new StylesheetLog();
+		$log_entry->action_comment = "create stylesheet";
+		$log_entry->action_type = 'create';
+		$log_entry->user = Yii::app()->user->id;
 		
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 		
-		
 		if(isset($_POST['Stylesheet'])) {
- 
-            $model->attributes=$_POST['Stylesheet'];
-          	
-            if ($model->scale != "") {
-	            $sizes= Size::model()->getScaleSizes($model->scale);
-	            
-	            foreach ($sizes as $key=>$value) {
-	            	if (isset($_POST['box'.$model->scale.$value]))
-	            		$model->sizes.='1';
-	            	else 
-	            	$model->sizes.='0';
-            	}
-            }
-            
- 			if ($model->save())
-            	$this->redirect(array ('view', 'id'=>$model->ss_id));
-        }	
-        
+		
+			$model->attributes=$_POST['Stylesheet'];
+			 
+			if ($model->scale != "") {
+				$sizes= Size::model()->getScaleSizes($model->scale);
+				 
+				$model->sizes = "";
+				foreach ($sizes as $key=>$value) {
+					if (isset($_POST['box'.$model->scale.$value]))
+						$model->sizes.='1';
+					else
+						$model->sizes.='0';
+				}
+			}
+		
+			$model->user_id = Yii::app()->user->id;
+		
+			if ($model->save()) {
+				// Create log entry
+				$log_entry->ss_id = $model->ss_id;
+				$log_entry->save();
+					
+				$this->redirect(array ('stylesheetImages/create', 'ss_id'=>$model->ss_id, ' ss_code'=>$model->style_code));
+			}
+		}
+		
 		$this->render('create',array(
-			'model'=>$model,
-			'scales' => $db_scales
+				'model'=>$model,
+				'scales' => $db_scales
 		));
 	}
-
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -112,14 +137,20 @@ class StylesheetController extends Controller
 		$model=$this->loadModel($id);
 		$db_scales = Size::model()->findAll();
 		
+		$log_entry = new StylesheetLog();
+		$log_entry->action_type = 'update';
+		$log_entry->ss_id = $model->ss_id;
+		$log_entry->user = $model->user_id;
+		
 		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
+		$this->performAjaxValidation($model, $log_entry);
 		
 		// TODO Save Dept name and subclass name
-		if(isset($_POST['Stylesheet']))
+		if(isset($_POST['Stylesheet'], $_POST['StylesheetLog']))
 		{
 			//var_dump($_POST);
 			$model->attributes=$_POST['Stylesheet'];
+			$log_entry->attributes = $_POST['StylesheetLog'];
 			if ($model->scale != "") {
 				$sizes= Size::model()->getScaleSizes($model->scale);
 				$model->sizes ="";
@@ -131,13 +162,14 @@ class StylesheetController extends Controller
 				}
 			}
 			
-			if($model->save())
+			if($model->save() && $log_entry->save())
 				$this->redirect(array('view','id'=>$model->ss_id));
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
-			'scales' => $db_scales
+			'scales' => $db_scales,
+			'log' => $log_entry,
 		));
 	}
 
@@ -152,7 +184,7 @@ class StylesheetController extends Controller
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 	/**
@@ -232,6 +264,7 @@ class StylesheetController extends Controller
 		$model->formatSeasons = $model->season . substr($model->year, 2, 2);
 		$model->desc1 = $model->dept_id . " " . $model->class_id . " " . $model->subclass_id . " - ". $model->formatSeasons;
 		$model->countryName = $model->country_id . " - " . $model->country->countrydesc;
+		$model->owner = $model->user->user_name;
 		return $model;
 	}
 
@@ -248,6 +281,7 @@ class StylesheetController extends Controller
 		}
 	}
 	
+	// :TODO: replace this with the size/actionGetSizesAjax
 	public function fillSizesView ($model) {
 		$scale =$model->scale;
 		$sizes = $model->sizes;
@@ -265,6 +299,17 @@ class StylesheetController extends Controller
 			}
 			echo "<div style='clear:both;'></div>";
 		}
+	}
+	
+	public function actionGetLogEntries ($ss_id) {
+		$logsDataProvider=new CActiveDataProvider('StylesheetLog',
+				array(
+						'criteria'=>array('condition'=>"ss_id={$ss_id}")));
+		
+		$this->widget('zii.widgets.CListView', array(
+				'dataProvider'=>$logsDataProvider,
+				'itemView'=>"_viewLog",
+		));
 	}
 	 
 }

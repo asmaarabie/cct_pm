@@ -43,6 +43,15 @@ Stylesheets:
 			<li><?php echo CHtml::link('Stylesheets', array('stylesheet/index'))?></li>
 		</ul>
 <br/>
+
+Users Management:
+		<ul>
+			<li><?php echo CHtml::link('Users', array('user/index'))?></li>
+			<li><?php echo CHtml::link('Operation', array('operation/index'))?></li>
+			<li><?php echo CHtml::link('Groups', array('group/index'))?></li>
+		</ul>
+<br/>
+
 <p>For more details on how to further develop this application, please read
 the <a href="http://www.yiiframework.com/doc/">documentation</a>.
 Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,

@@ -19,7 +19,12 @@
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo $form->errorSummary($model); ?>
+	<?php 
+	if ($model->isNewRecord)
+		echo $form->errorSummary($model);
+	else 
+		echo $form->errorSummary(array($model, $log));
+	?>
 	
 	<div class="row" style="border-radius: 5px; background: #EFEFEF; padding: 10px">
 	
@@ -170,6 +175,14 @@
 		<?php echo $form->textArea($model,'stylesheet_note',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'stylesheet_note'); ?>
 	</div>
+	
+	<?php if (!$model->isNewRecord ) {?>
+	<div class="row">
+		<?php echo $form->labelEx($log,'action_comment'); ?>
+		<?php echo $form->textArea($log,'action_comment',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($log,'action_comment'); ?>
+	</div>
+	<?php }?>
 	
 	<div class="row buttons" style = "float:right">
 		<?php 

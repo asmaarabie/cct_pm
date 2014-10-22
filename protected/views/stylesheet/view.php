@@ -9,10 +9,12 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Manage this stylesheet', 'items'=> array(
+			array('label'=>'Copy Stylesheet', 'url'=>array('copy', 'ss_id'=>$model->ss_id)),
 			array('label'=>'Update Stylesheet', 'url'=>array('update', 'id'=>$model->ss_id)),
 			array('label'=>'Delete Stylesheet', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ss_id),'confirm'=>'Are you sure you want to delete this item?')),
 			array('label'=>'Stylesheet images', 'url'=>array('stylesheetImages/index', 'ss_id'=>$model->ss_id)),
 			array('label'=>'Stylesheet colors', 'url'=>array('stylesheetColor/index', 'ss_id'=>$model->ss_id)),
+			array('label'=>'Stylesheet Marker', 'url'=>array('marker/manage', 'ss_id'=>$model->ss_id)),
 	)),
 	
 	array('label'=>'Other operations', 'items'=> array(
@@ -47,6 +49,7 @@ $this->menu=array(
 		'fabric',
 		'stylesheet_note',
 		'pono',
+		'owner'
 		
 	),
 )); 
@@ -96,3 +99,21 @@ $this->widget('zii.widgets.CListView', array(
 )); ?>
 <div style="clear:both;"> </div>
 </div>
+
+<?php 
+echo CHtml::ajaxLink(
+    'View Log',          // the link body (it will NOT be HTML-encoded.)
+    array("stylesheet/getLogEntries&ss_id={$model->ss_id}"), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
+    array(
+        'update'=>'#ss_log',
+		'complete' => 'function() {
+          $("#ss_log").addClass("stylesheet-galleryView");
+			$("#ss_log").show();
+        }',
+    )
+);
+?>
+<div id="ss_log" style="display: none;">
+	
+</div>
+

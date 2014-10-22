@@ -6,11 +6,10 @@
  * The followings are the available columns in table 'user_group':
  * @property integer $group_id
  * @property string $group_name
- * @property integer $group_privilege
  *
  * The followings are the available model relations:
+ * @property GroupPrivileges[] $groupPrivileges
  * @property User[] $users
- * @property Privileges $groupPrivilege
  */
 class UserGroup extends CActiveRecord
 {
@@ -30,12 +29,12 @@ class UserGroup extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('group_name, group_privilege', 'required'),
-			array('group_privilege', 'numerical', 'integerOnly'=>true),
+			array('group_name', 'required'),
 			array('group_name', 'length', 'max'=>20),
+			array('group_name', 'unique'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('group_id, group_name, group_privilege', 'safe', 'on'=>'search'),
+			array('group_id, group_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,8 +46,8 @@ class UserGroup extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'groupPrivileges' => array(self::HAS_MANY, 'GroupPrivileges', 'group_id'),
 			'users' => array(self::HAS_MANY, 'User', 'user_group'),
-			'groupPrivilege' => array(self::BELONGS_TO, 'Privileges', 'group_privilege'),
 		);
 	}
 
@@ -60,7 +59,6 @@ class UserGroup extends CActiveRecord
 		return array(
 			'group_id' => 'Group',
 			'group_name' => 'Group Name',
-			'group_privilege' => 'Group Privilege',
 		);
 	}
 
@@ -84,7 +82,6 @@ class UserGroup extends CActiveRecord
 
 		$criteria->compare('group_id',$this->group_id);
 		$criteria->compare('group_name',$this->group_name,true);
-		$criteria->compare('group_privilege',$this->group_privilege);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

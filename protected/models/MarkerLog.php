@@ -4,12 +4,15 @@
  * This is the model class for table "marker_log".
  *
  * The followings are the available columns in table 'marker_log':
+ * @property integer $marker_log_id
  * @property integer $marker_id
  * @property string $action_time_stamp
  * @property string $action_type
  * @property string $action_comment
+ * @property integer $user
  *
  * The followings are the available model relations:
+ * @property User $user0
  * @property Marker $marker
  */
 class MarkerLog extends CActiveRecord
@@ -30,13 +33,12 @@ class MarkerLog extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('marker_id, action_time_stamp', 'required'),
-			array('marker_id', 'numerical', 'integerOnly'=>true),
+			array('marker_id, action_type, action_comment, user', 'required'),
+			array('marker_id, user', 'numerical', 'integerOnly'=>true),
 			array('action_type', 'length', 'max'=>10),
-			array('action_comment', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('marker_id, action_time_stamp, action_type, action_comment', 'safe', 'on'=>'search'),
+			array('marker_log_id, marker_id, action_time_stamp, action_type, action_comment, user', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,6 +50,7 @@ class MarkerLog extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'user0' => array(self::BELONGS_TO, 'User', 'user'),
 			'marker' => array(self::BELONGS_TO, 'Marker', 'marker_id'),
 		);
 	}
@@ -58,10 +61,12 @@ class MarkerLog extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'marker_log_id' => 'Marker Log',
 			'marker_id' => 'Marker',
 			'action_time_stamp' => 'Action Time Stamp',
 			'action_type' => 'Action Type',
 			'action_comment' => 'Action Comment',
+			'user' => 'User',
 		);
 	}
 
@@ -83,10 +88,12 @@ class MarkerLog extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('marker_log_id',$this->marker_log_id);
 		$criteria->compare('marker_id',$this->marker_id);
 		$criteria->compare('action_time_stamp',$this->action_time_stamp,true);
 		$criteria->compare('action_type',$this->action_type,true);
 		$criteria->compare('action_comment',$this->action_comment,true);
+		$criteria->compare('user',$this->user);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

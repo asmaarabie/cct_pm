@@ -32,11 +32,11 @@ class StylesheetImagesController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create'),
+				'actions'=>array('create', 'delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -87,7 +87,7 @@ class StylesheetImagesController extends Controller
             		Yii::app()->user->setFlash('ss_img_create',"This image file '{$path}' exists, kindly rename the file and upload it again");
             	elseif ($uploadedFile->saveAs($path)) {
 					$model->save();
-	            	$this->redirect(array('index','ss_id'=>$ss_id));
+	            	$this->redirect(array('stylesheet/view','id'=>$ss_id));
             	} else {
             		Yii::app()->user->setFlash('ss_img_create',"Cannot save this image '{$path}'");
             	}

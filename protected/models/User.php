@@ -10,7 +10,9 @@
  * @property integer $user_group
  *
  * The followings are the available model relations:
- * @property UserGroup $userGroup
+ * @property Stylesheet[] $stylesheets
+ * @property StylesheetLog[] $stylesheetLogs
+ * @property Group $userGroup
  */
 class User extends CActiveRecord
 {
@@ -32,7 +34,8 @@ class User extends CActiveRecord
 		return array(
 			array('user_name, password, user_group', 'required'),
 			array('user_group', 'numerical', 'integerOnly'=>true),
-			array('user_name, password', 'length', 'max'=>20),
+			array('user_name, password', 'length', 'max'=>100, 'min'=>5),
+			array('user_name', 'unique'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('user_id, user_name, password, user_group', 'safe', 'on'=>'search'),
@@ -47,7 +50,9 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'userGroup' => array(self::BELONGS_TO, 'UserGroup', 'user_group'),
+			'stylesheets' => array(self::HAS_MANY, 'Stylesheet', 'user_id'),
+			'stylesheetLogs' => array(self::HAS_MANY, 'StylesheetLog', 'user'),
+			'userGroup' => array(self::BELONGS_TO,'Group', 'user_group'),
 		);
 	}
 

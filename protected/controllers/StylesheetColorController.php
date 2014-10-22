@@ -32,11 +32,11 @@ class StylesheetColorController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -67,6 +67,13 @@ class StylesheetColorController extends Controller
 		$cc_model = new ColorCode;
 		$model->emb = 0;
 		$model->print = 0;
+		
+		// Create log entry
+		$log_entry = new StylesheetLog();
+		$log_entry->action_type = 'create';
+		$log_entry->user = Yii::app()->user->id;
+		$log_entry->ss_id = $ss_id;
+		
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation(array($model, $cc_model));
 
@@ -76,15 +83,18 @@ class StylesheetColorController extends Controller
 			$cc_model->attributes=$_POST['ColorCode'];
 			
 			// use false parameter to disable validation
-			//var_dump($_POST);
 			$increment = isset($_POST['box'])? true:false ;
 			
 			Yii::import('application.controllers.ColorCodeController');
 			$cc_model_properties = ColorCodeController::setModelProperties($cc_model, $increment);
 			
+			$existing = "a new";
+			// If there is a record for this color code, and the increment is not set, use the latest record color code
 			if (!is_null($cc_model_properties["lastModel"]) && !$increment) {
 				$cc_model= $cc_model_properties["lastModel"];
 				$model->color_code = $cc_model->color_code;
+				$existing = "an existing";
+			// If there isn't a record for this color code || the increment is set, use create a new color code
 			} else {
 				$cc_model= $cc_model_properties["model"];
 				if ($cc_model->validate()) {
@@ -95,6 +105,8 @@ class StylesheetColorController extends Controller
 
 			if($model->validate()) {
 					$model->save(false);
+					$log_entry->action_comment = "Add {$existing} Color: ".$model->color_code;
+					$log_entry->save();
 					$this->redirect(array('index','ss_id'=>$model->ss_id));
 				}
 				

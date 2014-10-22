@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 20, 2014 at 01:16 PM
+-- Generation Time: Oct 22, 2014 at 05:51 PM
 -- Server version: 5.5.40-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -1878,17 +1878,46 @@ INSERT INTO `dept_name` (`dept_id`, `dept_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_privileges`
+-- Table structure for table `group`
 --
 
-CREATE TABLE IF NOT EXISTS `group_privileges` (
-  `grp_pric_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `group` (
+  `group_id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` char(20) NOT NULL,
+  PRIMARY KEY (`group_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `group`
+--
+
+INSERT INTO `group` (`group_id`, `group_name`) VALUES
+(5, 'Administrators');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_operations`
+--
+
+CREATE TABLE IF NOT EXISTS `group_operations` (
+  `grp_op_id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
-  `privilege_id` int(11) NOT NULL,
-  PRIMARY KEY (`grp_pric_id`),
-  KEY `fk_group_privileges_priv_idx` (`privilege_id`),
+  `op_name` char(40) NOT NULL,
+  `checked` tinyint(1) NOT NULL,
+  PRIMARY KEY (`grp_op_id`),
+  KEY `fk_group_privileges_priv_idx` (`op_name`),
   KEY `fk_group_privileges_grp` (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `group_operations`
+--
+
+INSERT INTO `group_operations` (`grp_op_id`, `group_id`, `op_name`, `checked`) VALUES
+(10, 5, 'createStylesheet', 1),
+(11, 5, 'deleteOwnStylesheet', 0),
+(12, 5, 'updateOwnStylesheet', 1);
 
 -- --------------------------------------------------------
 
@@ -1995,15 +2024,24 @@ INSERT INTO `items` (`countryid`, `itemsid`, `desc1`, `desc2`, `desc3`, `desc4`,
 CREATE TABLE IF NOT EXISTS `marker` (
   `marker_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
-  `width` char(10) NOT NULL,
-  `length` char(10) NOT NULL,
-  `utilization` char(10) NOT NULL,
-  `t_size` char(10) NOT NULL,
-  `ratio` char(10) NOT NULL,
-  `marker_name` char(10) NOT NULL,
-  PRIMARY KEY (`marker_id`,`ss_id`),
-  KEY `fk_marker_ss_idx` (`ss_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `width` float NOT NULL,
+  `length` float NOT NULL,
+  `utilization` float NOT NULL,
+  `t_size` float NOT NULL,
+  `ratio` char(40) CHARACTER SET utf8 NOT NULL,
+  `marker_name` char(40) CHARACTER SET utf8 NOT NULL,
+  `owner` int(11) NOT NULL,
+  PRIMARY KEY (`marker_id`),
+  KEY `fk_marker_ss_idx` (`ss_id`),
+  KEY `owner` (`owner`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+
+--
+-- Dumping data for table `marker`
+--
+
+INSERT INTO `marker` (`marker_id`, `ss_id`, `width`, `length`, `utilization`, `t_size`, `ratio`, `marker_name`, `owner`) VALUES
+(15, 34, 147, 162.28, 80.48, 32, '3M--9M--18M', 'T-BSH-04-147-1', 3);
 
 -- --------------------------------------------------------
 
@@ -2012,31 +2050,46 @@ CREATE TABLE IF NOT EXISTS `marker` (
 --
 
 CREATE TABLE IF NOT EXISTS `marker_log` (
+  `marker_log_id` int(11) NOT NULL AUTO_INCREMENT,
   `marker_id` int(11) NOT NULL,
   `action_time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `action_type` char(10) DEFAULT NULL,
-  `action_comment` text,
-  PRIMARY KEY (`marker_id`,`action_time_stamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `action_type` char(10) NOT NULL,
+  `action_comment` text CHARACTER SET utf8 NOT NULL,
+  `user` int(11) NOT NULL,
+  PRIMARY KEY (`marker_log_id`),
+  KEY `marker_id` (`marker_id`),
+  KEY `user` (`user`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `marker_log`
+--
+
+INSERT INTO `marker_log` (`marker_log_id`, `marker_id`, `action_time_stamp`, `action_type`, `action_comment`, `user`) VALUES
+(7, 15, '2014-10-22 14:35:59', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
+(8, 15, '2014-10-22 14:36:36', 'update', 'Changing T size', 3);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `privileges`
+-- Table structure for table `operation`
 --
 
-CREATE TABLE IF NOT EXISTS `privileges` (
-  `priv_id` int(11) NOT NULL AUTO_INCREMENT,
-  `priv_name` char(40) NOT NULL,
-  PRIMARY KEY (`priv_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+CREATE TABLE IF NOT EXISTS `operation` (
+  `op_name` char(40) NOT NULL,
+  `operation` char(40) NOT NULL,
+  PRIMARY KEY (`op_name`),
+  KEY `operation` (`operation`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `privileges`
+-- Dumping data for table `operation`
 --
 
-INSERT INTO `privileges` (`priv_id`, `priv_name`) VALUES
-(1, 'Create Style Sheet');
+INSERT INTO `operation` (`op_name`, `operation`) VALUES
+('createStylesheet', 'Create Stylesheet'),
+('deleteOwnStylesheet', 'Delete Own Stylesheet'),
+('updateOwnStylesheet', 'Update Own Stylesheet');
 
 -- --------------------------------------------------------
 
@@ -2080,20 +2133,25 @@ CREATE TABLE IF NOT EXISTS `stylesheet` (
   `fabric` char(40) NOT NULL,
   `scale` char(5) NOT NULL,
   `sizes` char(40) NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`ss_id`),
   KEY `fk_stylesheet_country_index` (`country_id`),
   KEY `index3` (`country_id`,`season`,`year`,`style_code`,`dept_id`,`class_id`,`subclass_id`),
-  KEY `scale` (`scale`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+  KEY `scale` (`scale`),
+  KEY `owner` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
 
 --
 -- Dumping data for table `stylesheet`
 --
 
-INSERT INTO `stylesheet` (`ss_id`, `country_id`, `dept_id`, `class_id`, `subclass_id`, `season`, `year`, `pono`, `dcs_notes`, `style_code`, `stylesheet_note`, `fabric`, `scale`, `sizes`) VALUES
-(24, '2', 'C11', '1', 'PJ0', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '001110000'),
-(25, '2', 'C11', '1', 'BZ1', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '100', '1110000000000'),
-(26, '2', 'C12', '1', 'PJ0', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000');
+INSERT INTO `stylesheet` (`ss_id`, `country_id`, `dept_id`, `class_id`, `subclass_id`, `season`, `year`, `pono`, `dcs_notes`, `style_code`, `stylesheet_note`, `fabric`, `scale`, `sizes`, `user_id`) VALUES
+(26, '2', 'C12', '1', 'PJ0', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000', 3),
+(27, '2', 'C11', '1', 'BZ2', 'A', '2015', NULL, '', 'ASSUM/15', '', 'Cotton', '10', '110000000', 3),
+(31, '2', 'C11', '1', 'BZ1', 'S', '2017', NULL, 'NOTHING', 'GPJ/T-03', 'كالعينة', 'Cotton', '10', '011100001', 3),
+(32, '2', 'C12', '1', 'BZ1', 'S', '2016', NULL, 'NOTHING', 'GPJ/T-03', '', 'Cotton', '100', '0000000110000', 3),
+(33, '2', 'C12', '1', 'BZ1', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000000001110111100000', 3),
+(34, '2', 'C12', '1', 'BZ1', 'A', '2016', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000', 3);
 
 -- --------------------------------------------------------
 
@@ -2138,14 +2196,7 @@ CREATE TABLE IF NOT EXISTS `stylesheet_color` (
   PRIMARY KEY (`ss_color_id`),
   KEY `fk_stylesheet_color_color_idx` (`color_code`),
   KEY `fk_stylesheet_color_ss` (`ss_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
-
---
--- Dumping data for table `stylesheet_color`
---
-
-INSERT INTO `stylesheet_color` (`ss_color_id`, `ss_id`, `color_code`, `print`, `emb`, `place`, `code`, `ss_color_desc`) VALUES
-(7, 25, 'W-LESS02', 1, 1, 'IN FRONT', '', '');
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -2159,14 +2210,17 @@ CREATE TABLE IF NOT EXISTS `stylesheet_images` (
   `img_path` char(50) NOT NULL,
   PRIMARY KEY (`ss_img_id`),
   KEY `fk_stylesheet_images_ss` (`ss_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 --
 -- Dumping data for table `stylesheet_images`
 --
 
 INSERT INTO `stylesheet_images` (`ss_img_id`, `ss_id`, `img_path`) VALUES
-(19, 25, '1922426_10152281479758967_548144733_n.jpg');
+(21, 31, 'Screenshot from 2014-07-22 22:35:17.png'),
+(22, 31, 'Screenshot from 2014-07-10 16:39:05.png'),
+(23, 31, 'Screenshot from 2014-09-18 14:15:06.png'),
+(24, 34, 'Screenshot from 2014-07-22 22:36:58.png');
 
 -- --------------------------------------------------------
 
@@ -2176,15 +2230,39 @@ INSERT INTO `stylesheet_images` (`ss_img_id`, `ss_id`, `img_path`) VALUES
 
 CREATE TABLE IF NOT EXISTS `stylesheet_log` (
   `ss_log_id` int(11) NOT NULL AUTO_INCREMENT,
-  `stylesheet_id` int(11) NOT NULL,
+  `ss_id` int(11) NOT NULL,
   `action_time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `action_type` char(10) NOT NULL,
-  `action_comment` text NOT NULL,
+  `action_comment` text CHARACTER SET utf8 NOT NULL,
   `user` int(11) NOT NULL,
   PRIMARY KEY (`ss_log_id`),
   KEY `fk_stylesheet_log_user_idx` (`user`),
-  KEY `fk_stylesheet_log_ss` (`stylesheet_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `fk_stylesheet_log_ss` (`ss_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+
+--
+-- Dumping data for table `stylesheet_log`
+--
+
+INSERT INTO `stylesheet_log` (`ss_log_id`, `ss_id`, `action_time_stamp`, `action_type`, `action_comment`, `user`) VALUES
+(4, 31, '2014-10-22 11:35:55', 'create', 'create stylesheet', 3),
+(5, 31, '2014-10-22 11:42:27', 'create', 'Add an existing Color: W-LESS02', 3),
+(6, 31, '2014-10-22 11:46:17', 'delete', 'Delete color W-LESS02 from this stylesheet GPJ/T-03', 3),
+(7, 31, '2014-10-22 11:49:30', 'create', 'Uploaded image Screenshot from 2014-07-22 22:35:17.png for stylesheet GPJ/T-03', 3),
+(8, 31, '2014-10-22 11:53:43', 'delete', 'Delete image 1922426_10152281479758967_548144733_n.jpg from this stylesheet GPJ/T-03', 3),
+(9, 31, '2014-10-22 11:53:53', 'create', 'Uploaded image Screenshot from 2014-07-10 16:39:05.png for stylesheet GPJ/T-03', 3),
+(10, 31, '2014-10-22 11:54:53', 'create', 'Uploaded image Screenshot from 2014-09-18 14:15:06.png for stylesheet GPJ/T-03', 3),
+(11, 31, '2014-10-22 11:57:02', 'update', 'Just trying these things فوالا', 3),
+(12, 31, '2014-10-22 11:57:35', 'update', 'إضافة مقاس', 3),
+(13, 32, '2014-10-22 12:13:04', 'create', 'create stylesheet', 3),
+(14, 33, '2014-10-22 12:19:06', 'create', 'create stylesheet', 3),
+(15, 34, '2014-10-22 12:28:12', 'create', 'create stylesheet', 3),
+(16, 34, '2014-10-22 12:28:18', 'create', 'Uploaded image Screenshot from 2014-07-22 22:36:58.png for stylesheet GPJ/T-03', 3),
+(17, 34, '2014-10-22 14:23:43', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
+(18, 34, '2014-10-22 14:23:56', 'delete', 'Delete the marker', 3),
+(19, 26, '2014-10-22 14:26:05', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
+(20, 34, '2014-10-22 14:35:59', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
+(21, 26, '2014-10-22 14:47:34', 'delete', 'Deleted the marker', 3);
 
 -- --------------------------------------------------------
 
@@ -2294,37 +2372,19 @@ INSERT INTO `subclass_name` (`subclassid`, `subclass_name`) VALUES
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` char(20) NOT NULL,
-  `password` char(20) NOT NULL,
+  `password` char(100) NOT NULL,
   `user_group` int(11) NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `fk_users_1_idx` (`user_group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `password`, `user_group`) VALUES
-(1, 'admin', 'admin', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_group`
---
-
-CREATE TABLE IF NOT EXISTS `user_group` (
-  `group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_name` char(20) NOT NULL,
-  PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `user_group`
---
-
-INSERT INTO `user_group` (`group_id`, `group_name`) VALUES
-(1, 'Administrators');
+(1, 'admin', '$2y$10$6XHqCcpXsQKR1vyozMSyhuwHAikeMtw5.6n2aTs5zhhA/tgzpmC/O', 5),
+(3, 'Asmaa', '$2y$10$Z1AZzxm6s64Rb1GmWQFVQOop37bl6DOINbQeVW5e8aarYl9hY30/C', 5);
 
 --
 -- Constraints for dumped tables
@@ -2375,28 +2435,31 @@ ALTER TABLE `DCS_size_scale`
   ADD CONSTRAINT `fk_DCS_size_scale_size` FOREIGN KEY (`size_scale`) REFERENCES `size` (`scale_number`) ON DELETE CASCADE;
 
 --
--- Constraints for table `group_privileges`
+-- Constraints for table `group_operations`
 --
-ALTER TABLE `group_privileges`
-  ADD CONSTRAINT `fk_group_privileges_grp` FOREIGN KEY (`group_id`) REFERENCES `user_group` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_group_privileges_priv` FOREIGN KEY (`privilege_id`) REFERENCES `privileges` (`priv_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `group_operations`
+  ADD CONSTRAINT `fk_grp_op_op` FOREIGN KEY (`op_name`) REFERENCES `operation` (`op_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_group_privileges_grp` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `marker`
 --
 ALTER TABLE `marker`
+  ADD CONSTRAINT `fk_marker_owner` FOREIGN KEY (`owner`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_marker_ss` FOREIGN KEY (`ss_id`) REFERENCES `stylesheet` (`ss_id`) ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `marker_log`
 --
 ALTER TABLE `marker_log`
-  ADD CONSTRAINT `fk_marker_log_marker` FOREIGN KEY (`marker_id`) REFERENCES `marker` (`marker_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_marker_log` FOREIGN KEY (`marker_id`) REFERENCES `marker` (`marker_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_marker_user` FOREIGN KEY (`user`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `stylesheet`
 --
 ALTER TABLE `stylesheet`
+  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_ss_scale_sizes` FOREIGN KEY (`scale`) REFERENCES `size` (`scale_number`),
   ADD CONSTRAINT `fk_stylesheet_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION;
 
@@ -2426,7 +2489,7 @@ ALTER TABLE `stylesheet_images`
 -- Constraints for table `stylesheet_log`
 --
 ALTER TABLE `stylesheet_log`
-  ADD CONSTRAINT `fk_stylesheet_log_ss` FOREIGN KEY (`stylesheet_id`) REFERENCES `stylesheet` (`ss_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_stylesheet_log_ss` FOREIGN KEY (`ss_id`) REFERENCES `stylesheet` (`ss_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_stylesheet_log_user` FOREIGN KEY (`user`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -2439,7 +2502,7 @@ ALTER TABLE `stylesheet_size`
 -- Constraints for table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `fk_users_group` FOREIGN KEY (`user_group`) REFERENCES `user_group` (`group_id`) ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_users_group` FOREIGN KEY (`user_group`) REFERENCES `group` (`group_id`) ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

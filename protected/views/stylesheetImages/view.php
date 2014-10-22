@@ -5,7 +5,7 @@
 
 $this->breadcrumbs=array(
 	'Stylesheets' => array('stylesheet/index'),
-	$ss_model->style_code =>array('stylesheet/view', "id"=> $ss_model->ss_id),
+	$model->ss->style_code =>array('stylesheet/view', "id"=> $model->ss_id),
 	$model->ss_img_id,
 );
 

@@ -18,4 +18,4 @@ $this->menu=array(
 
 <h1>Update Stylesheet <?php echo $model->ss_id; ?></h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model,'scales'=>$scales)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model,'scales'=>$scales, 'log'=>$log)); ?>

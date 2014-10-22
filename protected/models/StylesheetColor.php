@@ -124,4 +124,17 @@ class StylesheetColor extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	
+	protected function beforeDelete () {
+		// Create log entry
+		$log_entry = new StylesheetLog();
+		$log_entry->action_type = 'delete';
+		$log_entry->user = Yii::app()->user->id;
+		$log_entry->ss_id = $this->ss_id;
+		$log_entry->action_comment = "Delete color {$this->color_code} from this stylesheet {$this->ss->style_code}";
+		$log_entry->save();
+		
+		return parent::beforeDelete();
+	}
 }

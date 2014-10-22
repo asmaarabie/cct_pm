@@ -18,9 +18,12 @@
  * @property string $fabric
  * @property string $scale
  * @property string $sizes
+ * @property integer $user_id
+ *  
  * The followings are the available model relations:
  * @property Bom[] $boms
  * @property Marker[] $markers
+ * @property User $user
  * @property Size $scale0
  * @property Countries $country
  * @property StylesheetBom[] $stylesheetBoms
@@ -31,7 +34,7 @@
  */
 class Stylesheet extends CActiveRecord
 {
-	public $brand, $category, $dcs, $desc1, $countryName, $formatSeasons ;
+	public $brand, $category, $dcs, $desc1, $countryName, $formatSeasons, $owner ;
 	
 	public $seasons = array ("S"=> "Summer", "A"=> "Autumn", "W"=> "Winter", "G" => "General");
 	
@@ -52,6 +55,7 @@ class Stylesheet extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('country_id, dept_id, class_id, subclass_id, season, year, style_code, fabric, scale', 'required'),
+			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('country_id, scale', 'length', 'max'=>5),
 			array('dept_id, class_id, subclass_id', 'length', 'max'=>3),
 			array('season', 'length', 'max'=>1),
@@ -102,6 +106,7 @@ class Stylesheet extends CActiveRecord
 		return array(
 			'boms' => array(self::HAS_MANY, 'Bom', 'ss_id'),
 			'markers' => array(self::HAS_MANY, 'Marker', 'ss_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 			'scale0' => array(self::BELONGS_TO, 'Size', 'scale'),
 			'country' => array(self::BELONGS_TO, 'Countries', 'country_id'),
 			'stylesheetBoms' => array(self::HAS_MANY, 'StylesheetBom', 'ss_id'),
@@ -135,7 +140,9 @@ class Stylesheet extends CActiveRecord
 			'desc1' => "DESC1",
 			'dcs' => 'DCS',
 			'brand' => 'Brand',
-			'category' => 'Category'
+			'category' => 'Category',
+			'user_id' => 'User id',
+			'owner' => 'Stylesheet Owner'
 		);
 	}
 
@@ -171,7 +178,7 @@ class Stylesheet extends CActiveRecord
 		$criteria->compare('fabric',$this->fabric,true);
 		$criteria->compare('scale',$this->scale,true);
 		$criteria->compare('sizes',$this->sizes,true);
-		
+		$criteria->compare('user_id',$this->user_id,true);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -200,4 +207,23 @@ class Stylesheet extends CActiveRecord
 		return array ("S"=> "Summer", "A"=> "Autumn", "W"=> "Winter", "G" => "General");
 	}
 	
+	protected function beforeDelete() {
+		
+		$delete = array ();
+		$delete["ss_boms"] = StylesheetBom::model()-> findAllByAttributes (array('ss_id'=>$this->ss_id));
+		$delete["boms"] = Bom::model()-> findAllByAttributes (array('ss_id'=>$this->ss_id));
+		$delete["marker"] = Marker::model()-> findAllByAttributes (array('ss_id'=>$this->ss_id));
+		$delete["colors"] = StylesheetColor::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
+		$delete["images"] = StylesheetImages::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
+		$delete["logs"] = StylesheetLog::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
+		$errorMsg = "";
+		
+		foreach ($delete as $table) 
+			foreach ($table as $record)
+				$record->delete();
+		
+		Yii::app()->user->setFlash('success', "Stylesheet {$this->style_code} is deleted successfully");
+		return parent::beforeDelete();
+		
+	}
 }
