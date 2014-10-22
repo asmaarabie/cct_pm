@@ -123,5 +123,11 @@ class Marker extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
+	
+	protected function beforeDelete() {
+		$logs  = MarkerLog::model()-> findAllByAttributes (array('marker_id'=>$this->marker_id));
+		foreach ($logs as $log)
+			$log->delete();
+		return parent::beforeDelete();
+	}
 }
