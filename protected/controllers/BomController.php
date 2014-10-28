@@ -1,6 +1,6 @@
 <?php
 
-class ColorPatternController extends Controller
+class BomController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -62,16 +62,16 @@ class ColorPatternController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new ColorPattern;
+		$model=new Bom;
 
 		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
+		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['ColorPattern']))
+		if(isset($_POST['Bom']))
 		{
-			$model->attributes=$_POST['ColorPattern'];
+			$model->attributes=$_POST['Bom'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->color_pattern));
+				$this->redirect(array('view','id'=>$model->bom_id));
 		}
 
 		$this->render('create',array(
@@ -89,13 +89,13 @@ class ColorPatternController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
+		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['ColorPattern']))
+		if(isset($_POST['Bom']))
 		{
-			$model->attributes=$_POST['ColorPattern'];
+			$model->attributes=$_POST['Bom'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->color_pattern));
+				$this->redirect(array('view','id'=>$model->bom_id));
 		}
 
 		$this->render('update',array(
@@ -120,11 +120,20 @@ class ColorPatternController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($ss_id)
 	{
-		$dataProvider=new CActiveDataProvider('ColorPattern');
+		$dataProvider=new CActiveDataProvider('Bom', array(
+				'criteria'=>array(
+						'condition'=>"ss_id={$ss_id}",
+		)));
+		
+		$ss_model = Stylesheet::model()->findByPk($ss_id);
+		if($ss_model===null)
+			throw new CHttpException(404,'The requested stylesheet page does not exist.');
+		
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+			'ss_model' => $ss_model,
 		));
 	}
 
@@ -133,10 +142,10 @@ class ColorPatternController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new ColorPattern('search');
+		$model=new Bom('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ColorPattern']))
-			$model->attributes=$_GET['ColorPattern'];
+		if(isset($_GET['Bom']))
+			$model->attributes=$_GET['Bom'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -147,12 +156,12 @@ class ColorPatternController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return ColorPattern the loaded model
+	 * @return Bom the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=ColorPattern::model()->findByPk($id);
+		$model=Bom::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -160,24 +169,14 @@ class ColorPatternController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param ColorPattern $model the model to be validated
+	 * @param Bom $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='color-pattern-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='bom-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
-	}
-	
-	public function getPatterns () {
-		$models = ColorPattern::model()->findAll();
-		$patterns = array();
-		foreach ($models as $model) {
-			$patterns[$model->color_pattern] = $model->pattern_desc_e." - ".$model->pattern_desc_a;
-		}
-	
-		return $patterns;
 	}
 }

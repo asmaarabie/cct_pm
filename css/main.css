@@ -251,3 +251,11 @@ div.search-form
 .usr-def-null {
 	color: pink;
 }
+
+.miniform-dd {
+	width: 115px;
+}
+
+.miniform-dd option {
+	width: 115px;
+}

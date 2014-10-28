@@ -174,9 +174,7 @@ class StylesheetColorController extends Controller
 	{
 	
 		$dataProvider = StylesheetColorController::getStylesheetColors($ss_id);
-		// Load Stylesheet model
-		Yii::import('application.controllers.StylesheetController');
-		$ss_model = StylesheetController::loadModel($ss_id);
+		$ss_model = Stylesheet::model()->findByPk($ss_id);
 	
 		$this->render('index',array(
 				'dataProvider'=>$dataProvider,

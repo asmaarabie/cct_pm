@@ -4,6 +4,7 @@
  * This is the model class for table "bom_log".
  *
  * The followings are the available columns in table 'bom_log':
+ * @property integer $bom_log_id
  * @property integer $bom_id
  * @property string $action_time_stamp
  * @property string $action_type
@@ -30,13 +31,13 @@ class BomLog extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('bom_id, action_time_stamp', 'required'),
-			array('bom_id', 'numerical', 'integerOnly'=>true),
+			array('bom_log_id, bom_id, action_time_stamp', 'required'),
+			array('bom_log_id, bom_id', 'numerical', 'integerOnly'=>true),
 			array('action_type', 'length', 'max'=>10),
 			array('action_comment', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('bom_id, action_time_stamp, action_type, action_comment', 'safe', 'on'=>'search'),
+			array('bom_log_id, bom_id, action_time_stamp, action_type, action_comment', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +59,7 @@ class BomLog extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'bom_log_id' => 'Bom Log',
 			'bom_id' => 'Bom',
 			'action_time_stamp' => 'Action Time Stamp',
 			'action_type' => 'Action Type',
@@ -83,6 +85,7 @@ class BomLog extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('bom_log_id',$this->bom_log_id);
 		$criteria->compare('bom_id',$this->bom_id);
 		$criteria->compare('action_time_stamp',$this->action_time_stamp,true);
 		$criteria->compare('action_type',$this->action_type,true);

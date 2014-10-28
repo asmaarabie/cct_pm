@@ -3,16 +3,14 @@
 /* @var $model StylesheetBom */
 
 $this->breadcrumbs=array(
-	'Stylesheet Boms'=>array('index'),
+	'Stylesheets'=>array('stylesheet/index'),
+	$ss_model->style_code=>array('stylesheet/view','id'=>$ss_model->ss_id),
+	'Boms Items'=>array('index', 'ss_id'=>$ss_model->ss_id),
 	'Create',
 );
 
-$this->menu=array(
-	array('label'=>'List StylesheetBom', 'url'=>array('index')),
-	array('label'=>'Manage StylesheetBom', 'url'=>array('admin')),
-);
 ?>
 
 <h1>Create StylesheetBom</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'cc_model'=> $cc_model)); ?>

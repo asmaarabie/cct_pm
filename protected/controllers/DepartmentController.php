@@ -36,11 +36,13 @@ class DepartmentController extends Controller
 	public function actionGetDCSAjax(){
 		$param = $_GET['param'];
 		$request=trim($_GET['term']);
+		$country= (isset($_GET['countryid']))? $_GET['countryid']: 2;
+		
 		if($request!=''){
 			$data = Yii::app()->db->createCommand()
 			->selectDistinct("{$param}")
 			->from('departments')
-			->where(array('like', "{$param}", "$request%"))
+			->where(array('like', "{$param}", "$request%"), array('=', "countryid", "{$country}"))
 			->queryAll();
 	
 			$return_array = array();
@@ -59,5 +61,15 @@ class DepartmentController extends Controller
 	
 	}
 	
+	public function getDepartments () {
+		$models = Departments::model()->findAll();
+		$depts = array(); $depts["class"] = array(); $depts["dept"] = array(); $depts["subclass"] = array();
+		foreach ($models as $model) {
+			$depts["dept"][$model->deptid] = $model->deptid. " - ".$model->deptname;
+			$depts["class"][$model->classid] = $model->classid. " - ".$model->classname;
+			$depts["subclass"][$model->subclassid] = $model->subclassid. " - ".$model->subclassname;
+		}
+		return $depts;
+	}
 	
 }

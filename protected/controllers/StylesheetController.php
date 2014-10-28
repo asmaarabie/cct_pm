@@ -57,10 +57,14 @@ class StylesheetController extends Controller
 		Yii::import('application.controllers.StylesheetColorController');
 		$colors = StylesheetColorController::getStylesheetColors($id);
 		
+		Yii::import('application.controllers.StylesheetBomController');
+		$accessories = StylesheetBomController::getStylesheetBoms($id);
+		
 		$this->render('view',array(
 			'model'=>$model,
 			'images' => $images,
-			'colors' => $colors
+			'colors' => $colors,
+			'accessories'=> $accessories
 		));
 	}
 
@@ -207,7 +211,7 @@ class StylesheetController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
-
+	
 	/**
 	 * Manages all models.
 	 */

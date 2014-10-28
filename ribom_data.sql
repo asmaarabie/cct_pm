@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 22, 2014 at 05:51 PM
+-- Generation Time: Oct 28, 2014 at 11:51 AM
 -- Server version: 5.5.40-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -29,16 +29,16 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `bom` (
   `bom_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
-  `item_desc` char(40) DEFAULT NULL,
-  `item_placement` char(40) DEFAULT NULL,
+  `item_desc` char(40) CHARACTER SET utf8 DEFAULT NULL,
+  `item_placement` char(40) CHARACTER SET utf8 DEFAULT NULL,
   `bom_dcs_code` char(10) NOT NULL,
   `item_qty` int(11) NOT NULL,
-  `item_consumption` char(10) NOT NULL,
+  `item_consumption` char(10) CHARACTER SET utf8 NOT NULL,
   `item_increase` int(11) NOT NULL DEFAULT '0',
   `pono` int(11) NOT NULL,
   `countryid` char(5) NOT NULL,
   `itemno` int(11) NOT NULL,
-  PRIMARY KEY (`bom_id`,`ss_id`,`pono`,`countryid`),
+  PRIMARY KEY (`bom_id`),
   KEY `fk_bom_ss` (`ss_id`),
   KEY `fk_bom_pono_idx` (`pono`),
   KEY `fk_bom_country_idx` (`countryid`),
@@ -52,11 +52,14 @@ CREATE TABLE IF NOT EXISTS `bom` (
 --
 
 CREATE TABLE IF NOT EXISTS `bom_log` (
+  `bom_log_id` int(11) NOT NULL,
   `bom_id` int(11) NOT NULL,
   `action_time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `action_type` char(10) DEFAULT NULL,
-  `action_comment` text,
-  PRIMARY KEY (`bom_id`,`action_time_stamp`)
+  `action_comment` text CHARACTER SET utf8,
+  PRIMARY KEY (`bom_log_id`),
+  KEY `bom_log_id` (`bom_log_id`),
+  KEY `bom_id` (`bom_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -126,14 +129,17 @@ INSERT INTO `color_code` (`color`, `shadow`, `pattern`, `length`, `shape`, `colo
 ('BL', 'L', 'E', 'S', 'S', '02', 'BLLESS02'),
 ('BL', 'L', 'E', 'S', 'S', '03', 'BLLESS03'),
 ('BL', 'L', 'E', 'S', 'S', '04', 'BLLESS04'),
+('BL', 'L', 'T', 'S', 'S', '00', 'BLLTSS00'),
 ('OR', 'L', 'E', 'S', 'S', '00', 'ORLESS00'),
 ('OR', 'L', 'E', 'S', 'S', '01', 'ORLESS01'),
 ('OR', 'L', 'E', 'S', 'S', '02', 'ORLESS02'),
-('OR', 'L', 'E', 'S', 'S', '03', 'ORLESS03'),
 ('OR', 'L', 'T', 'S', 'S', '00', 'ORLTSS00'),
+('OR', 'L', 'T', 'S', 'S', '01', 'ORLTSS01'),
 ('W', 'L', 'E', 'S', 'S', '00', 'W-LESS00'),
 ('W', 'L', 'E', 'S', 'S', '01', 'W-LESS01'),
-('W', 'L', 'E', 'S', 'S', '02', 'W-LESS02');
+('W', 'L', 'E', 'S', 'S', '02', 'W-LESS02'),
+('W', 'L', 'E', 'S', 'S', '03', 'W-LESS03'),
+('W', 'L', 'T', 'S', 'S', '00', 'W-LTSS00');
 
 -- --------------------------------------------------------
 
@@ -2059,7 +2065,7 @@ CREATE TABLE IF NOT EXISTS `marker_log` (
   PRIMARY KEY (`marker_log_id`),
   KEY `marker_id` (`marker_id`),
   KEY `user` (`user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `marker_log`
@@ -2139,7 +2145,7 @@ CREATE TABLE IF NOT EXISTS `stylesheet` (
   KEY `index3` (`country_id`,`season`,`year`,`style_code`,`dept_id`,`class_id`,`subclass_id`),
   KEY `scale` (`scale`),
   KEY `owner` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
 
 --
 -- Dumping data for table `stylesheet`
@@ -2151,7 +2157,8 @@ INSERT INTO `stylesheet` (`ss_id`, `country_id`, `dept_id`, `class_id`, `subclas
 (31, '2', 'C11', '1', 'BZ1', 'S', '2017', NULL, 'NOTHING', 'GPJ/T-03', 'كالعينة', 'Cotton', '10', '011100001', 3),
 (32, '2', 'C12', '1', 'BZ1', 'S', '2016', NULL, 'NOTHING', 'GPJ/T-03', '', 'Cotton', '100', '0000000110000', 3),
 (33, '2', 'C12', '1', 'BZ1', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000000001110111100000', 3),
-(34, '2', 'C12', '1', 'BZ1', 'A', '2016', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000', 3);
+(34, '2', 'C12', '1', 'BZ1', 'A', '2016', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000', 3),
+(35, '1', 'C11', '1', 'BZ1', 'S', '2000', NULL, '-', 'NEWs', '-', 'Linen', '10', '110000000', 3);
 
 -- --------------------------------------------------------
 
@@ -2167,16 +2174,24 @@ CREATE TABLE IF NOT EXISTS `stylesheet_bom` (
   `class_id` char(3) NOT NULL,
   `subclass_id` char(3) NOT NULL,
   `item_color_id` char(40) NOT NULL,
-  `item_desc` char(40) DEFAULT NULL,
-  `item_cons` char(20) DEFAULT NULL,
-  `item_placement` char(40) DEFAULT NULL,
+  `item_desc` char(40) CHARACTER SET utf8 DEFAULT NULL,
+  `item_cons` char(20) CHARACTER SET utf8 DEFAULT NULL,
+  `item_placement` char(40) CHARACTER SET utf8 DEFAULT NULL,
   `countryid` char(5) NOT NULL,
   PRIMARY KEY (`ss_bom_id`),
-  KEY `fk_stylesheet_bom_dept_idx` (`dept_id`,`class_id`,`subclass_id`),
   KEY `fk_stylesheet_bom_country_idx` (`countryid`),
   KEY `fk_stylesheet_bom_color_idx` (`item_color_id`),
   KEY `fk_ss_bom_ss` (`ss_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `stylesheet_bom`
+--
+
+INSERT INTO `stylesheet_bom` (`ss_bom_id`, `ss_id`, `dcs_name`, `dept_id`, `class_id`, `subclass_id`, `item_color_id`, `item_desc`, `item_cons`, `item_placement`, `countryid`) VALUES
+(1, 26, 'MF D.BREAST BLAZER', 'C11', '1', 'BZ1', 'ORLESS00', 'الجسم', '', 'ON', '1'),
+(7, 26, 'MC SCARF', 'T12', '6', 'SF1', 'BLLTSS00', '-', NULL, NULL, '1'),
+(8, 27, 'MEN TRAINING TOP', 'C12', '1', 'TE8', 'BLLTSS00', '', '', '', '1');
 
 -- --------------------------------------------------------
 
@@ -2196,7 +2211,14 @@ CREATE TABLE IF NOT EXISTS `stylesheet_color` (
   PRIMARY KEY (`ss_color_id`),
   KEY `fk_stylesheet_color_color_idx` (`color_code`),
   KEY `fk_stylesheet_color_ss` (`ss_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `stylesheet_color`
+--
+
+INSERT INTO `stylesheet_color` (`ss_color_id`, `ss_id`, `color_code`, `print`, `emb`, `place`, `code`, `ss_color_desc`) VALUES
+(1, 26, 'W-LESS03', 1, 1, 'IN FRONT', 'GS 11', 'AS REFERENCE');
 
 -- --------------------------------------------------------
 
@@ -2210,7 +2232,7 @@ CREATE TABLE IF NOT EXISTS `stylesheet_images` (
   `img_path` char(50) NOT NULL,
   PRIMARY KEY (`ss_img_id`),
   KEY `fk_stylesheet_images_ss` (`ss_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `stylesheet_images`
@@ -2220,7 +2242,8 @@ INSERT INTO `stylesheet_images` (`ss_img_id`, `ss_id`, `img_path`) VALUES
 (21, 31, 'Screenshot from 2014-07-22 22:35:17.png'),
 (22, 31, 'Screenshot from 2014-07-10 16:39:05.png'),
 (23, 31, 'Screenshot from 2014-09-18 14:15:06.png'),
-(24, 34, 'Screenshot from 2014-07-22 22:36:58.png');
+(24, 34, 'Screenshot from 2014-07-22 22:36:58.png'),
+(25, 35, 'slide1.png');
 
 -- --------------------------------------------------------
 
@@ -2238,7 +2261,7 @@ CREATE TABLE IF NOT EXISTS `stylesheet_log` (
   PRIMARY KEY (`ss_log_id`),
   KEY `fk_stylesheet_log_user_idx` (`user`),
   KEY `fk_stylesheet_log_ss` (`ss_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `stylesheet_log`
@@ -2262,7 +2285,13 @@ INSERT INTO `stylesheet_log` (`ss_log_id`, `ss_id`, `action_time_stamp`, `action
 (18, 34, '2014-10-22 14:23:56', 'delete', 'Delete the marker', 3),
 (19, 26, '2014-10-22 14:26:05', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
 (20, 34, '2014-10-22 14:35:59', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
-(21, 26, '2014-10-22 14:47:34', 'delete', 'Deleted the marker', 3);
+(21, 26, '2014-10-22 14:47:34', 'delete', 'Deleted the marker', 3),
+(22, 26, '2014-10-28 07:05:35', 'create', 'Add an existing Color: W-LESS03', 3),
+(23, 27, '2014-10-28 09:26:56', 'create', 'create stylesheet bom item #8', 3),
+(24, 27, '2014-10-28 09:28:03', 'update', 'update stylesheet bom item #8', 3),
+(25, 35, '2014-10-28 09:29:36', 'create', 'create stylesheet', 3),
+(26, 35, '2014-10-28 09:29:43', 'create', 'Uploaded image slide1.png for stylesheet NEWs', 3),
+(27, 26, '2014-10-28 09:31:19', 'delete', 'delete stylesheet bom item #5', 3);
 
 -- --------------------------------------------------------
 
@@ -2438,8 +2467,8 @@ ALTER TABLE `DCS_size_scale`
 -- Constraints for table `group_operations`
 --
 ALTER TABLE `group_operations`
-  ADD CONSTRAINT `fk_grp_op_op` FOREIGN KEY (`op_name`) REFERENCES `operation` (`op_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_group_privileges_grp` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_group_privileges_grp` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_grp_op_op` FOREIGN KEY (`op_name`) REFERENCES `operation` (`op_name`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `marker`
@@ -2459,9 +2488,9 @@ ALTER TABLE `marker_log`
 -- Constraints for table `stylesheet`
 --
 ALTER TABLE `stylesheet`
-  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_ss_scale_sizes` FOREIGN KEY (`scale`) REFERENCES `size` (`scale_number`),
-  ADD CONSTRAINT `fk_stylesheet_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_stylesheet_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION,
+  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `stylesheet_bom`
@@ -2469,8 +2498,7 @@ ALTER TABLE `stylesheet`
 ALTER TABLE `stylesheet_bom`
   ADD CONSTRAINT `fk_ss_bom_ss` FOREIGN KEY (`ss_id`) REFERENCES `stylesheet` (`ss_id`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_stylesheet_bom_color` FOREIGN KEY (`item_color_id`) REFERENCES `color_code` (`color_code`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_stylesheet_bom_country` FOREIGN KEY (`countryid`) REFERENCES `countries` (`countryid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_stylesheet_bom_dept` FOREIGN KEY (`dept_id`, `class_id`, `subclass_id`) REFERENCES `departments` (`deptid`, `classid`, `subclassid`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_stylesheet_bom_country` FOREIGN KEY (`countryid`) REFERENCES `countries` (`countryid`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `stylesheet_color`

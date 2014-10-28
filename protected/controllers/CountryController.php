@@ -58,4 +58,13 @@ class CountryController extends Controller
 		}
 	
 	}
+	public function getCountries () {
+		$models = Countries::model()->findAll();
+		$countries = array();
+		foreach ($models as $model) {
+			$countries[$model->countryid] = $model->countryid." - ".$model->countrydesc;
+		}
+	
+		return $countries;
+	}
 }

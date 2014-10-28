@@ -3,19 +3,14 @@
 /* @var $model StylesheetBom */
 
 $this->breadcrumbs=array(
-	'Stylesheet Boms'=>array('index'),
-	$model->ss_bom_id=>array('view','id'=>$model->ss_bom_id),
-	'Update',
+	'Stylesheets'=>array('stylesheet/index'),
+	$ss_model->style_code=>array('stylesheet/view','id'=>$ss_model->ss_id),
+	'Boms Items'=>array('index', 'ss_id'=>$ss_model->ss_id),
+	'Update bom item '.$model->ss_bom_id,
 );
 
-$this->menu=array(
-	array('label'=>'List StylesheetBom', 'url'=>array('index')),
-	array('label'=>'Create StylesheetBom', 'url'=>array('create')),
-	array('label'=>'View StylesheetBom', 'url'=>array('view', 'id'=>$model->ss_bom_id)),
-	array('label'=>'Manage StylesheetBom', 'url'=>array('admin')),
-);
 ?>
 
-<h1>Update StylesheetBom <?php echo $model->ss_bom_id; ?></h1>
+<h1>Update Stylesheet <?php echo $model->ss->style_code; ?> Bom item #<?php echo $model->ss_bom_id;?> </h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_updateForm', array('model'=>$model, 'cc_model'=> $cc_model)); ?>

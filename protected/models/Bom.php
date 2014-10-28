@@ -17,10 +17,10 @@
  * @property integer $itemno
  *
  * The followings are the available model relations:
- * @property Stylesheet $ss
- * @property Customers $pono0
  * @property Countries $country
  * @property Items $itemno0
+ * @property Customers $pono0
+ * @property Stylesheet $ss
  * @property BomLog[] $bomLogs
  * @property BomSizeQty[] $bomSizeQties
  */
@@ -61,10 +61,10 @@ class Bom extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'ss' => array(self::BELONGS_TO, 'Stylesheet', 'ss_id'),
-			'pono0' => array(self::BELONGS_TO, 'Customers', 'pono'),
 			'country' => array(self::BELONGS_TO, 'Countries', 'countryid'),
 			'itemno0' => array(self::BELONGS_TO, 'Items', 'itemno'),
+			'pono0' => array(self::BELONGS_TO, 'Customers', 'pono'),
+			'ss' => array(self::BELONGS_TO, 'Stylesheet', 'ss_id'),
 			'bomLogs' => array(self::HAS_MANY, 'BomLog', 'bom_id'),
 			'bomSizeQties' => array(self::HAS_MANY, 'BomSizeQty', 'bom_id'),
 		);

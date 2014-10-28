@@ -199,4 +199,17 @@ class ColorController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function getColors () {
+		$models = Color::model()->findAll();
+		$colors = array();
+		//$colors["images"] = array(); $colors["images"]["options"] = array();
+		//$colors["options"] = array();
+		foreach ($models as $model) {
+			///$colors["images"]["options"][$model->color_id] = array ("style"=> "background-image:url(".Yii::app()->params['colorUploadPath'].$model->color_img.")");
+			$colors[$model->color_id] = $model->color_desc_e." - ".$model->color_desc_a;
+		}
+		
+		return $colors;
+	}
 }

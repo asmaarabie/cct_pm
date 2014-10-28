@@ -170,4 +170,13 @@ class ColorShapeController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function getShapes () {
+		$models = ColorShape::model()->findAll();
+		$shapes = array();
+		foreach ($models as $model) {
+			$shapes[$model->color_shape] = $model->shape_desc_e." - ".$model->shape_desc_a;
+		}
+		return $shapes;
+	}
 }

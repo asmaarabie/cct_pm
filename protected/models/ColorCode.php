@@ -150,4 +150,22 @@ class ColorCode extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	protected function beforeDelete() {
+		if (count($this->stylesheetBoms)!=0) {
+			Yii::app()->user->setFlash('error', "There are stylesheet bom items attached to this color code and cannot be deleted");
+			return false;
+		}
+		if (count($this->stylesheets)!=0) {
+			Yii::app()->user->setFlash('error', "There are stylesheets attached to this color code and cannot be deleted");
+			return false;
+		}
+		
+		return parent::beforeDelete();
+	}
+	
+	protected function afterDelete () {
+		Yii::app()->user->setFlash('success', "Color code is deleted successfully");
+		return parent::afterDelete();
+	}
 }

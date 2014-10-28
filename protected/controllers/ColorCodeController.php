@@ -32,11 +32,11 @@ class ColorCodeController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create'),
+				'actions'=>array('create', 'admin','delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('delete'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -85,9 +85,12 @@ class ColorCodeController extends Controller
 		));
 	}
 	
-	public function setModelProperties ($model, $increment) {
+	public function setModelProperties ($model, $increment, $last=true) {
 		$model->color_serial = "00";
 		$lastModel = NULL;
+		
+		// if last = true => sort DESC, else ASC
+		$sort = ($last)? "DESC": "ASC";
 		$data = Yii::app()->db->createCommand(
 			"SELECT * FROM color_code WHERE
 			shadow='{$model->shadow}' AND
@@ -95,18 +98,19 @@ class ColorCodeController extends Controller
 			shape='{$model->shape}' AND
 			length='{$model->length}' AND
 			pattern='{$model->pattern}'
-			ORDER BY color_serial DESC")
+			ORDER BY color_serial $sort")
 			->queryAll();
 		
-		$serial = $data[0]['color_serial'];
-		if (isset($serial)) 
+
+		if (count($data)!=0) {
 			$lastModel=ColorCode::model()->findByPk($data[0]['color_code']);
 		
-		if ($increment) {
-			$newSerial = intval($data[0]['color_serial']) +1;
-			// padding number 1-> 01, 2 -> 02
-			$model->color_serial = str_pad($newSerial, 2, '0', STR_PAD_LEFT);
-				
+			if ($increment) {
+				$newSerial = intval($data[0]['color_serial']) +1;
+				// padding number 1-> 01, 2 -> 02
+				$model->color_serial = str_pad($newSerial, 2, '0', STR_PAD_LEFT);
+					
+			}
 		}
 		
 		// Pad color with extra '-' if the color's length is less than 2

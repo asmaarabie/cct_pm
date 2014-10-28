@@ -172,8 +172,10 @@ Yii::app()->clientScript->registerScript ("updateColorCode", "
 	<div style="clear: both;"></div>
 	
 	<div class="row">
+		<?php if (!isset($noIncrement)) :?>
 		<?php echo CHtml::label('Increment serial if the color code exists?', 'increment_label'); ?>
 		<?php echo CHtml::checkBox('box', false);?>
+		<?php endif;?>
 	</div>
 	
 	<?php echo $form->error($model,'color_code'); ?>

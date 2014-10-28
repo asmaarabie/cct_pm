@@ -170,4 +170,13 @@ class ColorLengthController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function getLengths () {
+		$models = ColorLength::model()->findAll();
+		$lengths = array();
+		foreach ($models as $model) {
+			$lengths[$model->color_length] = $model->length_desc_e." - ".$model->length_desc_a;
+		}
+		return $lengths;
+	}
 }

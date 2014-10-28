@@ -170,4 +170,14 @@ class ColorShadowController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function getShadows () {
+		$models = ColorShadow::model()->findAll();
+		$shadows = array();
+		foreach ($models as $model) {
+			$shadows[$model->color_shadow] = $model->shadow_desc_e." - ".$model->shadow_desc_a;
+		}
+	
+		return $shadows;
+	}
 }

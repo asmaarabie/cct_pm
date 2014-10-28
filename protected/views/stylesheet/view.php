@@ -15,6 +15,8 @@ $this->menu=array(
 			array('label'=>'Stylesheet images', 'url'=>array('stylesheetImages/index', 'ss_id'=>$model->ss_id)),
 			array('label'=>'Stylesheet colors', 'url'=>array('stylesheetColor/index', 'ss_id'=>$model->ss_id)),
 			array('label'=>'Stylesheet Marker', 'url'=>array('marker/manage', 'ss_id'=>$model->ss_id)),
+			array('label'=>'Stylesheet Trims & Accessories', 'url'=>array('stylesheetBom/index', 'ss_id'=>$model->ss_id)),
+			array('label'=>'Stylesheet BOM', 'url'=>array('bom/index', 'ss_id'=>$model->ss_id)),
 	)),
 	
 	array('label'=>'Other operations', 'items'=> array(
@@ -100,20 +102,46 @@ $this->widget('zii.widgets.CListView', array(
 <div style="clear:both;"> </div>
 </div>
 
+
+
+<div class = "stylesheet-galleryView">
+<h2>Trims and Accessories</h2>
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'stylesheet-accessories-grid',
+	'dataProvider'=>$accessories,
+	'columns'=>array(
+		'dcs_name',
+		'code',
+		'item_color_id',
+		'item_desc',
+		'item_cons',
+		'item_placement',
+		array(
+		'class'=>'CButtonColumn',
+		'template'=>'{view}{update}{delete}',
+		'buttons'=>array (
+				'view' => array ('url'=>'Yii::app()->createUrl("stylesheetBom/view", array("id"=>$data->ss_bom_id))'),
+				'delete' => array ('url'=>'Yii::app()->createUrl("stylesheetBom/delete", array("id"=>$data->ss_bom_id))'),
+				'update' => array ('url'=>'Yii::app()->createUrl("stylesheetBom/update", array("id"=>$data->ss_bom_id))'),
+			),
+		),
+	),
+)); ?>
+</div>
+
+
 <?php 
 echo CHtml::ajaxLink(
-    'View Log',          // the link body (it will NOT be HTML-encoded.)
+    'View Stylesheet Log',          // the link body (it will NOT be HTML-encoded.)
     array("stylesheet/getLogEntries&ss_id={$model->ss_id}"), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
     array(
         'update'=>'#ss_log',
 		'complete' => 'function() {
-          $("#ss_log").addClass("stylesheet-galleryView");
+         // $("#ss_log").addClass("stylesheet-galleryView");
 			$("#ss_log").show();
         }',
     )
 );
 ?>
-<div id="ss_log" style="display: none;">
-	
-</div>
+<div id="ss_log" style="display: none;"></div>
 

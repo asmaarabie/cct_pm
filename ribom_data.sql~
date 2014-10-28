@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 16, 2014 at 06:08 PM
--- Server version: 5.5.38-0ubuntu0.14.04.1
+-- Generation Time: Oct 22, 2014 at 05:51 PM
+-- Server version: 5.5.40-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `bom`
 --
 
-CREATE TABLE `bom` (
+CREATE TABLE IF NOT EXISTS `bom` (
   `bom_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
   `item_desc` char(40) DEFAULT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `bom` (
   KEY `fk_bom_pono_idx` (`pono`),
   KEY `fk_bom_country_idx` (`countryid`),
   KEY `fk_bom_item_idx` (`itemno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ CREATE TABLE `bom` (
 -- Table structure for table `bom_log`
 --
 
-CREATE TABLE `bom_log` (
+CREATE TABLE IF NOT EXISTS `bom_log` (
   `bom_id` int(11) NOT NULL,
   `action_time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `action_type` char(10) DEFAULT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE `bom_log` (
 -- Table structure for table `bom_size_qty`
 --
 
-CREATE TABLE `bom_size_qty` (
+CREATE TABLE IF NOT EXISTS `bom_size_qty` (
   `bom_id` int(11) NOT NULL,
   `size` char(10) NOT NULL,
   `size_qty` int(11) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE `bom_size_qty` (
 -- Table structure for table `color`
 --
 
-CREATE TABLE `color` (
+CREATE TABLE IF NOT EXISTS `color` (
   `color_id` char(2) NOT NULL,
   `color_desc_a` char(20) CHARACTER SET utf8 NOT NULL,
   `color_img` char(40) NOT NULL,
@@ -92,7 +92,8 @@ CREATE TABLE `color` (
 
 INSERT INTO `color` (`color_id`, `color_desc_a`, `color_img`, `color_desc_e`) VALUES
 ('BL', 'أسود', 'black.png', 'Black'),
-('OR', 'برتقالي تكساس', 'orange.png', 'Texas Orange');
+('OR', 'برتقالي تكساس', 'orange.png', 'Texas Orange'),
+('W', 'أبيض', 'crop.png', 'White');
 
 -- --------------------------------------------------------
 
@@ -100,7 +101,7 @@ INSERT INTO `color` (`color_id`, `color_desc_a`, `color_img`, `color_desc_e`) VA
 -- Table structure for table `color_code`
 --
 
-CREATE TABLE `color_code` (
+CREATE TABLE IF NOT EXISTS `color_code` (
   `color` char(2) NOT NULL,
   `shadow` char(1) NOT NULL,
   `pattern` char(1) NOT NULL,
@@ -116,13 +117,14 @@ CREATE TABLE `color_code` (
   KEY `fk_color_code_shape_idx` (`shape`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `color_length`
 --
 
-CREATE TABLE `color_length` (
+CREATE TABLE IF NOT EXISTS `color_length` (
   `color_length` char(1) NOT NULL,
   `length_desc_e` char(20) NOT NULL,
   `length_desc_a` char(20) CHARACTER SET utf8 NOT NULL,
@@ -142,7 +144,7 @@ INSERT INTO `color_length` (`color_length`, `length_desc_e`, `length_desc_a`) VA
 -- Table structure for table `color_pattern`
 --
 
-CREATE TABLE `color_pattern` (
+CREATE TABLE IF NOT EXISTS `color_pattern` (
   `color_pattern` char(1) NOT NULL,
   `pattern_desc_e` char(40) NOT NULL,
   `pattern_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
@@ -163,7 +165,7 @@ INSERT INTO `color_pattern` (`color_pattern`, `pattern_desc_e`, `pattern_desc_a`
 -- Table structure for table `color_shadow`
 --
 
-CREATE TABLE `color_shadow` (
+CREATE TABLE IF NOT EXISTS `color_shadow` (
   `color_shadow` char(1) NOT NULL,
   `shadow_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
   `shadow_desc_e` char(40) NOT NULL,
@@ -183,7 +185,7 @@ INSERT INTO `color_shadow` (`color_shadow`, `shadow_desc_a`, `shadow_desc_e`) VA
 -- Table structure for table `color_shape`
 --
 
-CREATE TABLE `color_shape` (
+CREATE TABLE IF NOT EXISTS `color_shape` (
   `color_shape` char(1) NOT NULL,
   `shape_desc_e` char(40) NOT NULL,
   `shape_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
@@ -197,7 +199,7 @@ CREATE TABLE `color_shape` (
 INSERT INTO `color_shape` (`color_shape`, `shape_desc_e`, `shape_desc_a`) VALUES
 ('S', 'Small', 'صغير');
 
-
+-- --------------------------------------------------------
 --
 -- Dumping data for table `color_code`
 --
@@ -206,19 +208,21 @@ INSERT INTO `color_code` (`color`, `shadow`, `pattern`, `length`, `shape`, `colo
 ('BL', 'L', 'E', 'S', 'S', '00', 'BLLESS00'),
 ('BL', 'L', 'E', 'S', 'S', '02', 'BLLESS02'),
 ('BL', 'L', 'E', 'S', 'S', '03', 'BLLESS03'),
+('BL', 'L', 'E', 'S', 'S', '04', 'BLLESS04'),
 ('OR', 'L', 'E', 'S', 'S', '00', 'ORLESS00'),
 ('OR', 'L', 'E', 'S', 'S', '01', 'ORLESS01'),
 ('OR', 'L', 'E', 'S', 'S', '02', 'ORLESS02'),
 ('OR', 'L', 'E', 'S', 'S', '03', 'ORLESS03'),
-('OR', 'L', 'T', 'S', 'S', '00', 'ORLTSS00');
-
--- --------------------------------------------------------
+('OR', 'L', 'T', 'S', 'S', '00', 'ORLTSS00'),
+('W', 'L', 'E', 'S', 'S', '00', 'W-LESS00'),
+('W', 'L', 'E', 'S', 'S', '01', 'W-LESS01'),
+('W', 'L', 'E', 'S', 'S', '02', 'W-LESS02');
 
 --
 -- Table structure for table `countries`
 --
 
-CREATE TABLE `countries` (
+CREATE TABLE IF NOT EXISTS `countries` (
   `countryid` char(5) NOT NULL,
   `countrydesc` char(40) NOT NULL,
   `filepath` char(255) DEFAULT NULL,
@@ -241,7 +245,7 @@ INSERT INTO `countries` (`countryid`, `countrydesc`, `filepath`, `rpro9sbsid`, `
 -- Table structure for table `customers`
 --
 
-CREATE TABLE `customers` (
+CREATE TABLE IF NOT EXISTS `customers` (
   `countryid` char(5) NOT NULL,
   `custsid` bigint(20) NOT NULL,
   `compname` char(25) DEFAULT NULL,
@@ -315,764 +319,14 @@ INSERT INTO `customers` (`countryid`, `custsid`, `compname`, `titlename`, `foren
 -- Table structure for table `DCS_name`
 --
 
-CREATE TABLE `DCS_name` (
+CREATE TABLE IF NOT EXISTS `DCS_name` (
   `dcs_id` int(11) NOT NULL AUTO_INCREMENT,
   `fulldept` char(9) NOT NULL,
   `country_id` char(5) NOT NULL,
   `dcs_name` char(40) NOT NULL,
   PRIMARY KEY (`dcs_id`),
   KEY `fk_DCS_name_country_idx` (`country_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `DCS_name`
---
-
-INSERT INTO `DCS_name` (`dcs_id`, `fulldept`, `country_id`, `dcs_name`) VALUES
-(1, 'C111  BZ2', '2', 'MF S.BREAST BLAZER'),
-(3, 'C111  BZ4', '2', '4BT S.BRST BLAZER'),
-(4, 'C111  BZ5', '2', 'MIX & MATCH, CLASSIC, BLAZER'),
-(5, 'C111  BZ8', '2', 'FASHION  BLAZER  M F'),
-(6, 'C111  BZ9', '2', 'MF 2PC BLAZER'),
-(7, 'C111  BZV', '2', 'MF D.BREAST BLAZER'),
-(8, 'C111  CV1', '2', 'COVAR COAT'),
-(9, 'C111  PJ0', '2', 'PAJAMA'),
-(10, 'C111  PT0', '2', 'PANT'),
-(11, 'C111  SH0', '2', 'SHIRT'),
-(12, 'C111  SH1', '2', 'L/S SOLIDSHIRT'),
-(13, 'C111  SH2', '2', 'L/S  PRINT SHIRT'),
-(14, 'C111  SH3', '2', 'S/S SOLIDSHIRT'),
-(15, 'C111  SH4', '2', 'S/S  PRINT SHIRT'),
-(16, 'C111  SH5', '2', 'L/S SOLIDSHIRT CUFFLINKS'),
-(17, 'C111  SH6', '2', 'MF L/S REG.CLASSIC SHIRT'),
-(18, 'C111  SH7', '2', 'MF S/S REG.CLASSIC SHIRT'),
-(19, 'C111  SH8', '2', 'MF L/S FSH.CLASSIC SHIRT'),
-(20, 'C111  SH9', '2', 'MF S/S FSH.CLASSIC SHIRT'),
-(21, 'C111  SU1', '2', 'MF 2PC D.BREAST SUIT'),
-(22, 'C111  SU2', '2', 'MF 2PC S.BREAST SUIT'),
-(23, 'C111  SU3', '2', '2BT S.BRST 1PLEAT SUIT'),
-(24, 'C111  SU4', '2', '2BT S.BRST F.FRNT SUIT'),
-(25, 'C111  SU5', '2', 'MF 3PC D.BREAST SUIT'),
-(26, 'C111  SU6', '2', 'MF 3PC S.BREAST SUIT'),
-(27, 'C111  SU8', '2', 'SUIT'),
-(28, 'C111  SUV', '2', 'MF 3PC D.BREAST SUIT'),
-(29, 'C111  TE0', '2', 'T-SHIRT'),
-(30, 'C111  TR5', '2', 'MIX & MATCH TROUSERS'),
-(31, 'C111  VS1', '2', 'MF D.BREAST VEST'),
-(32, 'C111  VS2', '2', 'MF S.BREAST VEST'),
-(33, 'C112  TR1', '2', 'MF 2PLEATTROUSER'),
-(34, 'C112  TR2', '2', 'MF 1PLEATTROUSER'),
-(35, 'C112  TR3', '2', 'MF F.FRNTTROUSER'),
-(36, 'C112  TR4', '2', 'MF FASHION TROUSER'),
-(37, 'C112  TR5', '2', 'MIX & MATCH TROUSERS'),
-(38, 'C113  CT1', '2', 'MF S.BREAST REG COAT'),
-(39, 'C113  CT2', '2', 'MF S.BREAST LNG COAT'),
-(40, 'C113  CT3', '2', 'MF D.BREAST REG COAT'),
-(41, 'C113  CT4', '2', 'MF D.BREAST LNG COAT'),
-(42, 'C116  BG1', '2', 'MF BAG'),
-(43, 'C116  BT1', '2', 'MF BELT'),
-(44, 'C116  BT3', '2', 'MF Classic BELT'),
-(45, 'C116  CB1', '2', 'MC TIE BAR'),
-(46, 'C116  CL1', '2', 'METAL CUFFLINK'),
-(47, 'C116  CV1', '2', 'COVAR COAT'),
-(48, 'C116  GV2', '2', 'LEATHER GLOVE'),
-(49, 'C116  HA1', '2', 'HA1'),
-(50, 'C116  HK1', '2', 'MF HANDKERCHIEF'),
-(51, 'C116  HN1', '2', 'Chandler'),
-(52, 'C116  LR1', '2', 'LR1'),
-(53, 'C116  OTH', '2', 'MF Others'),
-(54, 'C116  RL1', '2', 'RUBBER LINK'),
-(55, 'C116  S01', '2', 'SO1'),
-(56, 'C116  SC1', '2', 'Regular length'),
-(57, 'C116  SO2', '2', 'LEATHER SHOES'),
-(58, 'C116  SV1', '2', 'MF SUIT COVER'),
-(59, 'C116  TB1', '2', 'MC TIE BAR'),
-(60, 'C116  TY1', '2', 'MF TIE'),
-(61, 'C117  SO1', '2', 'MF SHOES'),
-(62, 'C121  PL1', '2', 'MC BASIC LT.PULLOVER'),
-(63, 'C121  PL2', '2', 'MC FASHION LT.PULLOVER'),
-(64, 'C121  PL3', '2', 'MC REG HVY.PULLOVER'),
-(65, 'C121  PL4', '2', 'MC FSH. HVY.PULLOVER'),
-(66, 'C121  PL5', '2', 'MC BTN FRNT PULLOVER'),
-(67, 'C121  PL6', '2', 'MC ZIP FRNT PULLOVER'),
-(68, 'C121  PL8', '2', 'MC FIT TIGHT PULLOVER'),
-(69, 'C121  SH1', '2', 'MC L/S SLD SAFARI SHIRT'),
-(70, 'C121  SH2', '2', 'MC L/S Y/D & PRINT SHIRT'),
-(71, 'C121  SH3', '2', 'MC S/S SLD SAFARI SHIRT'),
-(72, 'C121  SH4', '2', 'MC S/S Y/D & PRINT SHIRT'),
-(73, 'C121  SH5', '2', 'MC OVERSHIRT'),
-(74, 'C121  SH6', '2', 'MC LS REGSHIRT'),
-(75, 'C121  SH7', '2', 'MC SS REGSHIRT'),
-(76, 'C121  SW1', '2', 'MC POLO SWEATSHIRT'),
-(77, 'C121  SW2', '2', 'MC REG. SWEATSHIRT'),
-(78, 'C121  SW3', '2', 'MC FSH SWEATSHIRT'),
-(79, 'C121  SW4', '2', 'MC BTN FRNT SWEATSHIRT'),
-(80, 'C121  SW5', '2', 'MC ZIP FRNT SWEATSHIRT'),
-(81, 'C121  SW7', '2', 'MC FIT TIGHT SWEATSHIRT'),
-(82, 'C121  SW9', '2', 'MC TRAINING TOP SWEATSHIRT'),
-(83, 'C121  TE1', '2', 'MC S/S T-SHIRT'),
-(84, 'C121  TE2', '2', 'MC S/S POLO T-SHIRT'),
-(85, 'C121  TE3', '2', 'MC S/S FITTED T-SHIRT'),
-(86, 'C121  TE4', '2', 'MC TANK TOP T-SHIRT'),
-(87, 'C121  TE5', '2', 'MC L/S T-SHIRT'),
-(88, 'C121  TE6', '2', 'MC L/S POLO T-SHIRT'),
-(89, 'C121  TE7', '2', 'MC L/S FITTED T-SHIRT'),
-(90, 'C121  TE8', '2', 'MEN TRAINING TOP'),
-(91, 'C121  TE9', '2', 'MC SLEEVLESS T-SHIRT'),
-(92, 'C121  VS5', '2', 'MC TRICOTE VEST'),
-(93, 'C122  PT1', '2', 'MC REGULAR CHINO PANT'),
-(94, 'C122  PT2', '2', 'MC PULLONPANT'),
-(95, 'C122  PT3', '2', 'MC FASHION PANT'),
-(96, 'C122  PT4', '2', 'MC 5 POCKET PANT'),
-(97, 'C122  PT5', '2', 'MC REGULAR SEMI CLASSIC PANT'),
-(98, 'C122  PT6', '2', 'MC FASHION SEMI CLASSIC PANT'),
-(99, 'C122  PT9', '2', 'MC TRAINING PANT'),
-(101, 'C122  SM1', '2', 'MC SWIMWEAR'),
-(102, 'C122  SR1', '2', 'MC BASIC SHORT'),
-(103, 'C122  SR2', '2', 'MC PULLONSHORT'),
-(104, 'C122  SR3', '2', 'MC FASHION SHORT'),
-(105, 'C122  SR4', '2', 'MC PERMUDA SHORT'),
-(106, 'C122  SR5', '2', 'MC 5 POCKET SHORT'),
-(107, 'C122  SR9', '2', 'MC TRAINING SHORT'),
-(108, 'C123  HT1', '2', 'HAT'),
-(109, 'C123  JK1', '2', 'MC BASIC JACKET'),
-(110, 'C123  JK2', '2', 'MC FASHION JACKET'),
-(111, 'C123  JK5', '2', 'MC PARKA JACKET'),
-(112, 'C123  JK9', '2', 'MC LEATHER JACKET'),
-(113, 'C123  SM1', '2', 'MC SMWR. 1 Piece'),
-(114, 'C123  SM3', '2', 'KGC SMWR.ONE PCS.SHORT'),
-(115, 'C123  TE1', '2', 'S/S T-SHIRT'),
-(116, 'C123  TE9', '2', 'SLVLES T.SHIRT'),
-(117, 'C123  VS3', '2', 'MC BASIC VEST'),
-(118, 'C123  VS4', '2', 'MC SAFARIVEST'),
-(119, 'C124  BX1', '2', 'MC REGULAR BOXER'),
-(120, 'C124  BX2', '2', 'MC FITTEDBOXER'),
-(121, 'C124  BX6', '2', 'MC Uware'),
-(122, 'C124  SP1', '2', 'MC REGULAR SLIP'),
-(123, 'C124  TE1', '2', 'MC S/S T-SHIRT'),
-(124, 'C124  TE2', '2', 'MC SS POLO T-SHIRT'),
-(125, 'C124  TE4', '2', 'MC TANK TOP T-SHIRT'),
-(126, 'C124  TE5', '2', 'MC LS T-SHIRT'),
-(127, 'C124  TE6', '2', 'MC LS POLO T-SHIRT'),
-(128, 'C124  TE9', '2', 'MC NS T-SHIRT'),
-(129, 'C126  BG1', '2', 'BG1'),
-(130, 'C126  BSK', '2', 'BASKET'),
-(131, 'C126  BT1', '2', 'MC BELT'),
-(132, 'C126  BT2', '2', 'WOVEN BELT'),
-(133, 'C126  BT4', '2', 'MC CasualBELT'),
-(134, 'C126  BT5', '2', 'MC Jeans BELT'),
-(135, 'C126  EW1', '2', 'EW1'),
-(136, 'C126  FL1', '2', 'Flash Memory'),
-(137, 'C126  GV1', '2', 'MEN TRICOT GLOVE'),
-(138, 'C126  GV2', '2', 'MC TRICOTE GLOVE'),
-(139, 'C126  HN1', '2', 'Chandler'),
-(140, 'C126  HT1', '2', 'MEN HAT'),
-(141, 'C126  HT2', '2', 'ITALIAN HAT'),
-(142, 'C126  IC1', '2', 'MC ICE CAP'),
-(143, 'C126  KC1', '2', 'KC1'),
-(144, 'C126  LR1', '2', 'LR1'),
-(145, 'C126  MDL', '2', 'CONCRETE MEDAL'),
-(146, 'C126  MNQ', '2', 'MEN MANNEQUIN'),
-(147, 'C126  OTH', '2', 'MC Others'),
-(148, 'C126  PJ5', '2', 'PAJAMA TOP'),
-(149, 'C126  PJ6', '2', 'PAJAMA BOTTOM'),
-(150, 'C126  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
-(151, 'C126  PJ8', '2', 'PAJAMA 2 PIECES'),
-(152, 'C126  SC1', '2', 'Regular length'),
-(153, 'C126  SC2', '2', 'SOCKS'),
-(154, 'C126  SC3', '2', 'ANKLE'),
-(155, 'C126  SF1', '2', 'MC SCARF'),
-(156, 'C126  SL1', '2', 'SL1'),
-(157, 'C126  SO1', '2', 'SO1'),
-(158, 'C126  WB1', '2', 'MC Wrist Band'),
-(159, 'C126  WL1', '2', 'LEATHER WALLET'),
-(160, 'C126  WT1', '2', 'WT1'),
-(161, 'C211  SH0', '2', 'SHIRT'),
-(162, 'C221  JK2', '2', 'KBC FASHION JACKET'),
-(163, 'C221  PL1', '2', 'JBC BSC LT. PULLOVER'),
-(164, 'C221  PL2', '2', 'JBC FASHION LT. PULLOVER'),
-(165, 'C221  PL3', '2', 'JBC REG HVY. PULLOVER'),
-(166, 'C221  PL4', '2', 'JBC FSH.HVY.PULLOVER'),
-(167, 'C221  PL5', '2', 'JBC BTN FRNT PULLOVER'),
-(168, 'C221  PL6', '2', 'JBC ZIP FRNT PULLOVER'),
-(169, 'C221  PL8', '2', 'JBC FIT TIGHT PULLOVER'),
-(170, 'C221  SH1', '2', 'JBC L/S SLD SAFARI SHIRT'),
-(171, 'C221  SH2', '2', 'JBC L/S Y/D & PRINTSHIRT'),
-(172, 'C221  SH3', '2', 'JBC S/S SLD SAFARI SHIRT'),
-(173, 'C221  SH4', '2', 'JBC S/S Y/D & PRINTSHIRT'),
-(174, 'C221  SH5', '2', 'JBC OVERSHIRT'),
-(175, 'C221  SH7', '2', 'JBC SS REG SHIRT'),
-(176, 'C221  SH8', '2', 'JBC LS FSH SHIRT'),
-(177, 'C221  SW1', '2', 'JBC POLO SWEATSHIRT'),
-(178, 'C221  SW2', '2', 'JBC REG. SWEATSHIRT'),
-(179, 'C221  SW3', '2', 'JBC FSH SWEATSHIRT'),
-(180, 'C221  SW4', '2', 'JBC BTN FRNT SWEATSHIRT'),
-(181, 'C221  SW5', '2', 'JBC ZIP FRNT SWEATSHIRT'),
-(182, 'C221  SW7', '2', 'JBC FIT TIGHT SWEATSHIRT'),
-(183, 'C221  SW9', '2', 'JBC TRAINING TOP SWEATSHIRT'),
-(184, 'C221  TE1', '2', 'JBC S/S T-SHIRT'),
-(185, 'C221  TE2', '2', 'JBC S/S POLO T-SHIRT'),
-(186, 'C221  TE3', '2', 'JBC S/S FITTED T-SHIRT'),
-(187, 'C221  TE4', '2', 'JBC TANK TOP T-SHIRT'),
-(188, 'C221  TE5', '2', 'JBC L/S T-SHIRT'),
-(189, 'C221  TE6', '2', 'JBC L/S POLO T-SHIRT'),
-(190, 'C221  TE7', '2', 'JBC L/S FITTED T-SHIRT'),
-(191, 'C221  TE8', '2', 'JBC TRAINING TOP'),
-(192, 'C221  TE9', '2', 'JBC SLEEVLESS T-SHIRT'),
-(193, 'C221  VS3', '2', 'JBC BASICVEST'),
-(194, 'C221  VS5', '2', 'JBC TRICOTE VEST'),
-(195, 'C222  PT1', '2', 'JBC REGULAR CHINO PANT'),
-(196, 'C222  PT2', '2', 'JBC PULLON PANT'),
-(197, 'C222  PT3', '2', 'JBC FASHION PANT'),
-(198, 'C222  PT4', '2', 'JBC 5 POCKET PANT'),
-(199, 'C222  PT9', '2', 'JBC TRAINING PANT'),
-(200, 'C222  SAM', '2', 'SAMPLE'),
-(201, 'C222  SM1', '2', 'JBC SWIMWEAR'),
-(202, 'C222  SM9', '2', 'JBC Btm'),
-(203, 'C222  SR1', '2', 'JBC BASICSHORT'),
-(204, 'C222  SR2', '2', 'JBC PULLON SHORT'),
-(205, 'C222  SR3', '2', 'JBC FASHION SHORT'),
-(206, 'C222  SR4', '2', 'JBC PERMUDA SHORT'),
-(207, 'C222  SR5', '2', 'JBC 5 POCKET SHORT'),
-(208, 'C222  SR9', '2', 'JBC TRAINING SHORT'),
-(209, 'C222  ST1', '2', 'JBC SALOPPETTE SHORT'),
-(210, 'C222  ST2', '2', 'JBC SALOPPETTE PANT'),
-(211, 'C223  HT1', '2', 'HAT'),
-(212, 'C223  JK1', '2', 'JBC BASICJACKET'),
-(213, 'C223  JK2', '2', 'JBC FASHION JACKET'),
-(214, 'C223  JK5', '2', 'JBC PARKAJACKET'),
-(215, 'C223  JK6', '2', 'JBC JACKET'),
-(216, 'C223  JK9', '2', 'JBC LEATHER JACKET'),
-(217, 'C223  SM1', '2', 'JBC SMWR.1 Piece'),
-(218, 'C223  SW7', '2', 'JBC BODY SWEATSHIRT'),
-(219, 'C223  TE1', '2', 'JBC S/S T-SHIRT'),
-(220, 'C223  TE9', '2', 'MC SLEEVLESS T-SHIRT'),
-(221, 'C223  VS4', '2', 'JBC  SAFARI VEST'),
-(222, 'C224  BX1', '2', 'JBC REGULAR BOXER'),
-(223, 'C224  BX2', '2', 'JBC FITTED BOXER'),
-(224, 'C224  TE1', '2', 'JBC S/S T-SHIRT'),
-(225, 'C224  TE4', '2', 'JBC TANK TOP T-SHIRT'),
-(226, 'C224  TE5', '2', 'JBC L/S UNDERSHIRT'),
-(227, 'C224  TE9', '2', 'JBC NS T-SHIRT'),
-(228, 'C226  BG1', '2', 'JGC BAG'),
-(229, 'C226  BG2', '2', 'JB BAG'),
-(230, 'C226  BT1', '2', 'JBC BELT'),
-(231, 'C226  BT2', '2', 'JBC WOVENBELT'),
-(232, 'C226  BT4', '2', 'JB CasualBELT'),
-(233, 'C226  BT5', '2', 'JB Jeans BELT'),
-(234, 'C226  GV1', '2', 'JBC  TRICOTE GLOVE'),
-(235, 'C226  HN1', '2', 'Chandler'),
-(236, 'C226  HT1', '2', 'JBC HAT'),
-(237, 'C226  HT2', '2', 'ITALIAN HAT'),
-(238, 'C226  IC1', '2', 'JBC ICE CAP'),
-(239, 'C226  OTH', '2', 'JBC Others'),
-(240, 'C226  PJ5', '2', 'PAJAMA TOP'),
-(241, 'C226  PJ6', '2', 'PAJAMA BOTTOM PANNT'),
-(242, 'C226  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
-(243, 'C226  SC1', '2', 'Regular length'),
-(244, 'C226  SC2', '2', 'Medium Length'),
-(245, 'C226  SC3', '2', 'ankle'),
-(246, 'C226  SF1', '2', 'JBC SCARF'),
-(247, 'C226  SL1', '2', 'JBC SLIPPER'),
-(248, 'C226  SO1', '2', 'SHOES'),
-(249, 'C227  SL1', '2', 'JBC SLIPPERS'),
-(250, 'C311  JK0', '2', 'JACKET'),
-(251, 'C311  PT0', '2', 'PANT'),
-(252, 'C311  SH0', '2', 'SHIRT'),
-(253, 'C311  SR0', '2', 'SHORT'),
-(254, 'C311  ST0', '2', 'SALOPPETTE'),
-(255, 'C311  SW0', '2', 'SWEATSHIRT'),
-(256, 'C311  TE0', '2', 'T-SHIRT'),
-(257, 'C321  C32', '2', 'KBC TRICOTE VEST'),
-(258, 'C321  JK2', '2', 'KBC FASHION JACKET'),
-(259, 'C321  PL1', '2', 'KBC BSC LT. PULLOVER'),
-(260, 'C321  PL2', '2', 'KBC FASHION LT. PULLOVER'),
-(261, 'C321  PL3', '2', 'KBC REG HVY. PULLOVER'),
-(262, 'C321  PL4', '2', 'KBC FSH.HVY.PULLOVER'),
-(263, 'C321  PL5', '2', 'KBC BTN FRNT PULLOVER'),
-(264, 'C321  PL6', '2', 'KBC ZIP FRNT PULLOVER'),
-(265, 'C321  PL8', '2', 'KBC FIT TIGHT PULLOVER'),
-(266, 'C321  SH1', '2', 'KBC L/S SLD SAFARI SHIRT'),
-(267, 'C321  SH2', '2', 'KBC L/S Y/D & PRINTSHIRT'),
-(268, 'C321  SH3', '2', 'KBC S/S SLD SAFARI SHIRT'),
-(269, 'C321  SH4', '2', 'KBC S/S Y/D & PRINTSHIRT'),
-(270, 'C321  SH5', '2', 'KBC OVERSHIRT'),
-(271, 'C321  SH7', '2', 'KBC SS REG SHIRT'),
-(272, 'C321  SH8', '2', 'KBC LS FSH SHIRT'),
-(273, 'C321  SW1', '2', 'KBC POLO SWEATSHIRT'),
-(274, 'C321  SW2', '2', 'KBC REG. SWEATSHIRT'),
-(275, 'C321  SW3', '2', 'KBC FSH SWEATSHIRT'),
-(276, 'C321  SW4', '2', 'KBC BTN FRNT SWEATSHIRT'),
-(277, 'C321  SW5', '2', 'KBC ZIP FRNT SWEATSHIRT'),
-(278, 'C321  SW7', '2', 'KBC FIT TIGHT SWEATSHIRT'),
-(279, 'C321  SW9', '2', 'KBC TRAINING TOP SWEATSHIRT'),
-(280, 'C321  TE1', '2', 'KBC S/S T-SHIRT'),
-(281, 'C321  TE2', '2', 'KBC S/S POLO T-SHIRT'),
-(282, 'C321  TE3', '2', 'KBC S/S FITTED T-SHIRT'),
-(283, 'C321  TE4', '2', 'KBC TANK TOP T-SHIRT'),
-(284, 'C321  TE5', '2', 'KBC L/S T-SHIRT'),
-(285, 'C321  TE6', '2', 'KBC L/S POLO T-SHIRT'),
-(286, 'C321  TE7', '2', 'KBC L/S FITTED T-SHIRT'),
-(287, 'C321  TE8', '2', 'KBC TRAINING TOP'),
-(288, 'C321  TE9', '2', 'KBC SLEEVLESS T-SHIRT'),
-(289, 'C321  VS3', '2', 'KBC BASICVEST'),
-(290, 'C321  VS5', '2', 'KBC TRICOTE VEST'),
-(291, 'C322  PT1', '2', 'KBC REGULAR CHINO PANT'),
-(292, 'C322  PT2', '2', 'KBC PULLON PANT'),
-(293, 'C322  PT3', '2', 'KBC FASHION PANT'),
-(294, 'C322  PT4', '2', 'KBC 5 POCKET PANT'),
-(295, 'C322  PT9', '2', 'KBC TRAINING PANT'),
-(296, 'C322  SM1', '2', 'KBC SWIMWEAR'),
-(297, 'C322  SM9', '2', 'KBC SWIMWEAR'),
-(298, 'C322  SR1', '2', 'KBC BASICSHORT'),
-(299, 'C322  SR2', '2', 'KBC PULLON SHORT'),
-(300, 'C322  SR3', '2', 'KBC FASHION SHORT'),
-(301, 'C322  SR4', '2', 'KBC PERMUDA SHORT'),
-(302, 'C322  SR5', '2', 'KBC 5 POCKET SHORT'),
-(303, 'C322  SR9', '2', 'KBC TRAINING SHORT'),
-(304, 'C322  ST1', '2', 'KBC SALOPPETTE SHORT'),
-(305, 'C322  ST2', '2', 'KBC SALOPPETTE PANT'),
-(306, 'C323  HT1', '2', 'HAT'),
-(307, 'C323  JK1', '2', 'KBC BASICJACKET'),
-(308, 'C323  JK2', '2', 'KBC FASHION JACKET'),
-(309, 'C323  JK5', '2', 'KBC PARKAJACKET'),
-(310, 'C323  JK6', '2', 'KBC Jacket'),
-(311, 'C323  JK9', '2', 'KBC LEATHER JACKET'),
-(312, 'C323  SM1', '2', 'KBC SMWR.1 Piece'),
-(313, 'C323  SW7', '2', 'KBC BODY SWEATSHIRT'),
-(314, 'C323  TE1', '2', 'KBC S/S T-SHIRT'),
-(315, 'C323  TE9', '2', 'MC SLEEVLESS T-SHIRT'),
-(316, 'C324  BX1', '2', 'KBC REGULAR BOXER'),
-(317, 'C324  BX2', '2', 'KBC  FITTED BOXER'),
-(318, 'C324  TE1', '2', 'KBC S/S T-SHIRT'),
-(319, 'C324  TE4', '2', 'KBC TANK TOP T-SHIRT'),
-(320, 'C324  TE5', '2', 'KBC L/S T.SHIRT'),
-(321, 'C324  TE9', '2', 'KBC NS T-SHIRT'),
-(322, 'C325  SC5', '2', 'KBC HOME SOCKS'),
-(323, 'C326  BG1', '2', 'JGC BAG'),
-(324, 'C326  BG2', '2', 'JB BAG'),
-(325, 'C326  BT1', '2', 'KBC BELT'),
-(326, 'C326  BT2', '2', 'JBC WOVENBELT'),
-(327, 'C326  BT4', '2', 'KB CasualBELT'),
-(328, 'C326  BT5', '2', 'KB Jeans BELT'),
-(329, 'C326  GV1', '2', 'KBC  TRICOTE GLOVE'),
-(330, 'C326  HN1', '2', 'Chandler'),
-(331, 'C326  HT1', '2', 'KBC HAT'),
-(332, 'C326  HT2', '2', 'ITALIAN HAT'),
-(333, 'C326  IC1', '2', 'KBC ICE CAP'),
-(334, 'C326  MNQ', '2', 'BOYS MANNEQUIN'),
-(335, 'C326  OTH', '2', 'KBC Others'),
-(336, 'C326  PJ5', '2', 'PAJAMA TOP'),
-(337, 'C326  PJ6', '2', 'PAJAMA BOTTOM PANNT'),
-(338, 'C326  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
-(339, 'C326  SC1', '2', 'Regular length'),
-(340, 'C326  SC2', '2', 'Medium Length'),
-(341, 'C326  SC3', '2', 'SOCKS'),
-(342, 'C326  SC5', '2', 'KBC SOCKS'),
-(343, 'C326  SF1', '2', 'KBC SCARF'),
-(344, 'C326  SL1', '2', 'KBC SLIPPER'),
-(345, 'C326  SO1', '2', 'SHOSES'),
-(346, 'C327  SL1', '2', 'KBC SLIPPERS'),
-(347, 'C411  PT0', '2', 'Pant'),
-(348, 'C411  VS0', '2', 'VEST'),
-(349, 'C421  BL1', '2', 'JGC L/S BTN FRNT BLOUSE'),
-(350, 'C421  BL2', '2', 'JGC S/S BTN FRNT BLOUSE'),
-(351, 'C421  BL3', '2', 'JGC N/S BTN FRNT BLOUSE'),
-(352, 'C421  BL4', '2', 'JGC L/S BLOUSE'),
-(353, 'C421  BL5', '2', 'JGC S/S BLOUSE'),
-(354, 'C421  BL6', '2', 'JGC SLEEVELESS BLOUSE'),
-(355, 'C421  BL7', '2', 'JGC TANK TOP BLOUSE'),
-(356, 'C421  BL9', '2', 'JGC JACKET/SET BLOUSE'),
-(357, 'C421  JK2', '2', 'JGC FASHION JACKET'),
-(358, 'C421  JK8', '2', 'RELATED JACKET-OVERSHIRT'),
-(359, 'C421  PL1', '2', 'JGC BSC LT. PULLOVER'),
-(360, 'C421  PL2', '2', 'JGC FASHION LT. PULLOVER'),
-(361, 'C421  PL3', '2', 'JGC REG HVY. PULLOVER'),
-(362, 'C421  PL4', '2', 'JGC FSH.HVY.PULLOVER'),
-(363, 'C421  PL5', '2', 'JGC BTN FRNT PULLOVER'),
-(364, 'C421  PL6', '2', 'JGC ZIP FRNT PULLOVER'),
-(365, 'C421  PL7', '2', 'JGC TWIN SET LT.PULLOVER'),
-(366, 'C421  PL8', '2', 'JGC FIT TIGHT PULLOVER'),
-(367, 'C421  SH5', '2', 'JGC OVERSHIRT'),
-(368, 'C421  SW1', '2', 'JGC POLO SWEATSHIRT'),
-(369, 'C421  SW2', '2', 'JGC REG. SWEATSHIRT'),
-(370, 'C421  SW3', '2', 'JGC FSH SWEATSHIRT'),
-(371, 'C421  SW4', '2', 'JGC BTN FRNT SWEATSHIRT'),
-(372, 'C421  SW5', '2', 'JGC ZIP FRNT SWEATSHIRT'),
-(373, 'C421  SW6', '2', 'JGC TWIN SET SWEATSHIRT'),
-(374, 'C421  SW7', '2', 'JGC FIT TIGHT SWEATSHIRT'),
-(375, 'C421  SW9', '2', 'JGC TRAINING TOP SWEATSHIRT'),
-(376, 'C421  TE1', '2', 'JGC S/S T-SHIRT'),
-(377, 'C421  TE2', '2', 'JGC S/S POLO T-SHIRT'),
-(378, 'C421  TE3', '2', 'JGC S/S FITTED T-SHIRT'),
-(379, 'C421  TE4', '2', 'JGC TANK TOP T-SHIRT'),
-(380, 'C421  TE5', '2', 'JGC L/S T-SHIRT'),
-(381, 'C421  TE6', '2', 'JGC L/S POLO T-SHIRT'),
-(382, 'C421  TE7', '2', 'JGC L/S FITTED T-SHIRT'),
-(383, 'C421  TE8', '2', 'JGC TWIN SET T-SHIRT'),
-(384, 'C421  TE9', '2', 'JGC SLEEVLESS T-SHIRT'),
-(385, 'C421  VS3', '2', 'JGC REGULAR CASUAL VEST'),
-(386, 'C421  VS4', '2', 'JGC  SAFARI VEST'),
-(387, 'C421  VS5', '2', 'JGC TRICOTE VEST'),
-(388, 'C422  DR3', '2', 'JGC  2 PICES DRESS'),
-(389, 'C422  DR4', '2', 'S/S REGULAR  LNGTH DRESS'),
-(390, 'C422  DR7', '2', 'JGC N/S REG DRESS'),
-(391, 'C422  DR8', '2', 'NO SLV LNG DRESS'),
-(392, 'C422  PT1', '2', 'JGC REGULAR CHINO PANT'),
-(393, 'C422  PT2', '2', 'JGC PULLON PANT'),
-(394, 'C422  PT3', '2', 'JGC FASHION PANT'),
-(395, 'C422  PT4', '2', 'JGC 5 POCKET PANT'),
-(396, 'C422  PT9', '2', 'JGC TRAINING PANT'),
-(397, 'C422  SAM', '2', 'SAMPLE'),
-(398, 'C422  SK1', '2', 'JGC REGULAR SKIRT'),
-(399, 'C422  SK2', '2', 'JGC LONG SKIRT'),
-(400, 'C422  SK3', '2', 'JGC SHORTSKIRT'),
-(401, 'C422  SK4', '2', 'JGC SKIRT'),
-(402, 'C422  SK6', '2', 'JGC REGULAR SKORT'),
-(403, 'C422  SK7', '2', 'JGC LONG SKORT'),
-(404, 'C422  SK8', '2', 'JGC SHORTSKORT'),
-(405, 'C422  SR1', '2', 'JGC BASICSHORT'),
-(406, 'C422  SR2', '2', 'JGC PULLON SHORT'),
-(407, 'C422  SR3', '2', 'JGC FASHION SHORT'),
-(408, 'C422  SR4', '2', 'JGC PERMUDA SHORT'),
-(409, 'C422  SR5', '2', 'JGC 5 POCKET SHORT'),
-(410, 'C422  SR9', '2', 'JGC TRAINING SHORT'),
-(411, 'C422  ST1', '2', 'JGC SALOPPETTE SHORT'),
-(412, 'C422  ST2', '2', 'JGC SALOPPETTE PANT'),
-(413, 'C422  ST3', '2', 'JGC SALOPPETTE DRESS'),
-(414, 'C423  CM1', '2', 'JGC CACHEMAILLOT'),
-(415, 'C423  CT1', '2', 'JGC S.BREAST REG COAT'),
-(416, 'C423  DR1', '2', 'JGC L/S REG DRESS'),
-(417, 'C423  DR2', '2', 'JGC L/S LONG DRESS'),
-(418, 'C423  DR3', '2', 'JGC L/S SHORT DRESS'),
-(419, 'C423  DR4', '2', 'JGC S/S REG DRESS'),
-(420, 'C423  DR5', '2', 'JGC S/S LONG DRESS'),
-(421, 'C423  DR6', '2', 'JGC S/S SHORT DRESS'),
-(422, 'C423  DR7', '2', 'JGC N/S REG DRESS'),
-(423, 'C423  DR8', '2', 'JGC N/S LONG DRESS'),
-(424, 'C423  DR9', '2', 'JGC N/S SHORT DRESS'),
-(425, 'C423  HT1', '2', 'JGC HAT'),
-(426, 'C423  JK1', '2', 'JGC BASICJACKET'),
-(427, 'C423  JK2', '2', 'JGC FASHION JACKET'),
-(428, 'C423  JK5', '2', 'JGC PARKAJACKET'),
-(429, 'C423  JK9', '2', 'JGC LEATHER JACKET'),
-(430, 'C423  SM1', '2', 'JGC SMWR.1 Piece'),
-(431, 'C423  SM2', '2', 'JGC SMWR.2 Pieces'),
-(432, 'C423  SW3', '2', 'JGC BODY SWEATSHIRT'),
-(433, 'C423  SW7', '2', 'JGC BODY SWEATSHIRT'),
-(434, 'C423  TE1', '2', 'JGC S/S T-SHIRT'),
-(435, 'C423  TE4', '2', 'TANK TOP SEPARATE T-SHIRT'),
-(436, 'C423  TE9', '2', 'KGC BASICSUSPENDER'),
-(437, 'C423  VS2', '2', 'JGC S.BREAST'),
-(438, 'C423  VS3', '2', 'JGC BASICVEST'),
-(439, 'C424  PY1', '2', 'JGC REGULAR PANTY'),
-(440, 'C424  PY2', '2', 'JGC BIKINI PANTY'),
-(441, 'C424  PY9', '2', 'JGC Uware'),
-(442, 'C424  TE1', '2', 'JGC S/S T-SHIRT'),
-(443, 'C424  TE2', '2', 'JGC SS POLO T-SHIRT'),
-(444, 'C424  TE4', '2', 'JGC TANK TOP T-SHIRT'),
-(445, 'C424  TE9', '2', 'JGC SLEEVLESS T-SHIRT'),
-(446, 'C426  BD1', '2', 'SQUARED BANDANA'),
-(447, 'C426  BD2', '2', 'SQUARED BANDANA'),
-(448, 'C426  BG1', '2', 'JGC BAG'),
-(449, 'C426  BG2', '2', 'JB BAG'),
-(450, 'C426  BT1', '2', 'JGC BELT'),
-(451, 'C426  BT2', '2', 'JGC NO BUCKLE BELT'),
-(452, 'C426  BT4', '2', 'JG CasualBELT'),
-(453, 'C426  BT5', '2', 'JG Jeans BELT'),
-(454, 'C426  GV1', '2', 'KIDS TRICOT GLOVE'),
-(455, 'C426  HA1', '2', 'HAIR HOOP'),
-(456, 'C426  HA2', '2', 'HAIR CHOUCHOU'),
-(457, 'C426  HN1', '2', 'Chandler'),
-(458, 'C426  HT1', '2', 'JGC HAT'),
-(459, 'C426  HT3', '2', 'JGC Sun HAT'),
-(460, 'C426  HT5', '2', 'JGC Sun HAT'),
-(461, 'C426  IC1', '2', 'JGC ICE CAP'),
-(462, 'C426  OTH', '2', 'JGC Others'),
-(463, 'C426  PJ5', '2', 'PAJAMA TOP'),
-(464, 'C426  PJ6', '2', 'PAJAMA BOTTOM PANNT'),
-(465, 'C426  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
-(466, 'C426  PN1', '2', 'JGC PONCHES'),
-(467, 'C426  SF1', '2', 'JGC SCARF'),
-(468, 'C426  SO1', '2', 'SHOSES'),
-(469, 'C426  WB1', '2', 'JGC WRISTBANDS'),
-(470, 'C427  SO1', '2', 'JGC SHOES'),
-(471, 'C511  BL0', '2', 'BLOUSE'),
-(472, 'C511  DR0', '2', 'C511  DR0'),
-(473, 'C511  JK0', '2', 'JACKET'),
-(474, 'C511  PT0', '2', 'PANT'),
-(475, 'C511  SK0', '2', 'SKIRT'),
-(476, 'C511  SR0', '2', 'Short'),
-(477, 'C511  ST0', '2', 'SALOPETTE'),
-(478, 'C521  BL1', '2', 'KGC L/S BTN FRNT BLOUSE'),
-(479, 'C521  BL2', '2', 'KGC S/S BTN FRNT BLOUSE'),
-(480, 'C521  BL3', '2', 'KGC N/S BTN FRNT BLOUSE'),
-(481, 'C521  BL4', '2', 'KGC L/S BLOUSE'),
-(482, 'C521  BL5', '2', 'KGC S/S BLOUSE'),
-(483, 'C521  BL6', '2', 'KGC SLEEVELESS BLOUSE'),
-(484, 'C521  BL7', '2', 'KGC TANK TOP BLOUSE'),
-(485, 'C521  BL9', '2', 'KGC JACKET/SET BLOUSE'),
-(486, 'C521  JK8', '2', 'RELATED JACKET-OVERSHIRT'),
-(487, 'C521  PL1', '2', 'KGC BSC LT. PULLOVER'),
-(488, 'C521  PL2', '2', 'KGC FASHION LT. PULLOVER'),
-(489, 'C521  PL3', '2', 'KGC REG HVY. PULLOVER'),
-(490, 'C521  PL4', '2', 'KGC FSH.HVY.PULLOVER'),
-(491, 'C521  PL5', '2', 'KGC BTN FRNT PULLOVER'),
-(492, 'C521  PL6', '2', 'KGC ZIP FRNT PULLOVER'),
-(493, 'C521  PL7', '2', 'KGC TWIN SET LT.PULLOVER'),
-(494, 'C521  PL8', '2', 'KGC FIT TIGHT PULLOVER'),
-(495, 'C521  SH5', '2', 'KGC OVERSHIRT'),
-(496, 'C521  SW1', '2', 'KGC POLO SWEATSHIRT'),
-(497, 'C521  SW2', '2', 'KGC REG. SWEATSHIRT'),
-(498, 'C521  SW3', '2', 'KGC FSH SWEATSHIRT'),
-(499, 'C521  SW4', '2', 'KGC BTN FRNT SWEATSHIRT'),
-(500, 'C521  SW5', '2', 'KGC ZIP FRNT SWEATSHIRT'),
-(501, 'C521  SW6', '2', 'KGC TWIN SET SWEATSHIRT'),
-(502, 'C521  SW7', '2', 'KGC FIT TIGHT SWEATSHIRT'),
-(503, 'C521  SW9', '2', 'KGC TRAINING TOP SWEATSHIRT'),
-(504, 'C521  TE1', '2', 'KGC S/S T-SHIRT'),
-(505, 'C521  TE2', '2', 'KGC S/S POLO T-SHIRT'),
-(506, 'C521  TE3', '2', 'KGC S/S FITTED T-SHIRT'),
-(507, 'C521  TE4', '2', 'KGC TANK TOP T-SHIRT'),
-(508, 'C521  TE5', '2', 'KGC L/S T-SHIRT'),
-(509, 'C521  TE6', '2', 'KGC L/S POLO T-SHIRT'),
-(510, 'C521  TE7', '2', 'KGC L/S FITTED T-SHIRT'),
-(511, 'C521  TE8', '2', 'KGC TWIN SET T-SHIRT'),
-(512, 'C521  TE9', '2', 'KGC SLEEVLESS T-SHIRT'),
-(513, 'C521  VS3', '2', 'KGC REGULAR CASUAL VEST'),
-(514, 'C521  VS5', '2', 'KGC TRICOTE VEST'),
-(515, 'C522  DR3', '2', 'KGC 2 PICES DRESS'),
-(516, 'C522  DR7', '2', 'KGC NS REG DRESS'),
-(517, 'C522  DR8', '2', 'KGC NS LNG DRESS'),
-(518, 'C522  PT1', '2', 'KGC REGULAR CHINO PANT'),
-(519, 'C522  PT2', '2', 'KGC PULLON PANT'),
-(520, 'C522  PT3', '2', 'KGC FASHION PANT'),
-(521, 'C522  PT4', '2', 'KGC 5 POCKET PANT'),
-(522, 'C522  PT9', '2', 'KGC TRAINING PANT'),
-(523, 'C522  SK1', '2', 'KGC REGULAR SKIRT'),
-(524, 'C522  SK2', '2', 'KGC LONG SKIRT'),
-(525, 'C522  SK3', '2', 'KGC SHORTSKIRT'),
-(526, 'C522  SK4', '2', 'KGC Btm'),
-(527, 'C522  SK6', '2', 'KGC REGULAR SKORT'),
-(528, 'C522  SK7', '2', 'KGC LONG SKORT'),
-(529, 'C522  SK8', '2', 'KGC SHORTSKORT'),
-(530, 'C522  SR1', '2', 'KGC BASICSHORT'),
-(531, 'C522  SR2', '2', 'KGC PULLON SHORT'),
-(532, 'C522  SR3', '2', 'KGC FASHION SHORT'),
-(533, 'C522  SR4', '2', 'KGC PERMUDA SHORT'),
-(534, 'C522  SR5', '2', 'KGC 5 POCKET SHORT'),
-(535, 'C522  SR9', '2', 'KGC TRAINING SHORT'),
-(536, 'C522  ST1', '2', 'KGC SALOPPETTE SHORT'),
-(537, 'C522  ST2', '2', 'KGC SALOPPETTE PANT'),
-(538, 'C522  ST3', '2', 'KGC SALOPPETTE DRESS'),
-(539, 'C522  TE3', '2', 'KGC TANK TOP T-SHIRT'),
-(540, 'C523  CM1', '2', 'KGC CACHEMAILLOT'),
-(541, 'C523  CT1', '2', 'KGC S.BREAST REG COAT'),
-(542, 'C523  DR1', '2', 'KGC L/S REG DRESS'),
-(543, 'C523  DR2', '2', 'KGC L/S LONG DRESS'),
-(544, 'C523  DR3', '2', 'KGC L/S SHORT DRESS'),
-(545, 'C523  DR4', '2', 'KGC S/S REG DRESS'),
-(546, 'C523  DR5', '2', 'KGC S/S LONG DRESS'),
-(547, 'C523  DR6', '2', 'KGC S/S SHORT DRESS'),
-(548, 'C523  DR7', '2', 'KGC N/S REG DRESS'),
-(549, 'C523  DR8', '2', 'KGC N/S LONG DRESS'),
-(550, 'C523  DR9', '2', 'KGC N/S SHORT DRESS'),
-(551, 'C523  HT1', '2', 'KGC HAT'),
-(552, 'C523  JK1', '2', 'KGC BASICJACKET'),
-(553, 'C523  JK2', '2', 'KGC FASHION JACKET'),
-(554, 'C523  JK5', '2', 'KGC PARKAJACKET'),
-(555, 'C523  JK9', '2', 'KGC LEATHER JACKET'),
-(556, 'C523  PT2', '2', 'KGC FASHION PANT'),
-(557, 'C523  SM1', '2', 'KGC SMWR.1 Piece'),
-(558, 'C523  SM2', '2', 'KGC SMWR.2 Pieces'),
-(559, 'C523  ST1', '2', 'KGC SALOPETTE SHORT'),
-(560, 'C523  SW3', '2', 'KGC BODY SWEATSHIRT'),
-(561, 'C523  SW7', '2', 'KGC BODY SWEATSHIRT'),
-(562, 'C523  TE1', '2', 'KGC S/S T-SHIRT'),
-(563, 'C523  TE4', '2', 'TANK TOP SEPARATE T-SHIRT'),
-(564, 'C523  TE9', '2', 'KGC BASICSUSPENDER'),
-(565, 'C523  VS2', '2', 'KGC S.BREAST'),
-(566, 'C523  VS3', '2', 'KGC BASICVEST'),
-(567, 'C523  VS4', '2', 'KGC  SAFARI VEST'),
-(568, 'C524  PY1', '2', 'KGC REGULAR PANTY'),
-(569, 'C524  PY2', '2', 'KGC BIKINI PANTY'),
-(570, 'C524  PY9', '2', 'KGC Uware'),
-(571, 'C524  TE1', '2', 'KGC S/S T-SHIRT'),
-(572, 'C524  TE2', '2', 'KGC SS POLO T-SHIRT'),
-(573, 'C524  TE4', '2', 'KGC TANK TOP T-SHIRT'),
-(574, 'C524  TE9', '2', 'KGC SLEEVLESS T-SHIRT'),
-(575, 'C526  BD1', '2', 'SQUARED BANDANA'),
-(576, 'C526  BD2', '2', 'SQUARED BANDANA'),
-(577, 'C526  BG1', '2', 'KGC BAG'),
-(578, 'C526  BG2', '2', 'JB BAG'),
-(579, 'C526  BT1', '2', 'KGC BELT'),
-(580, 'C526  BT2', '2', 'KGC NO BUCKLE BELT'),
-(581, 'C526  BT4', '2', 'KG CasualBELT'),
-(582, 'C526  BT5', '2', 'KG Jeans BELT'),
-(583, 'C526  GV1', '2', 'KIDS TRICOT GLOVE'),
-(584, 'C526  HA1', '2', 'HAIR HOOP'),
-(585, 'C526  HA2', '2', 'HAIR CHOUCHOU'),
-(586, 'C526  HN1', '2', 'Chandler'),
-(587, 'C526  HT1', '2', 'KGC HAT'),
-(588, 'C526  HT3', '2', 'KGC HAT'),
-(589, 'C526  HT5', '2', 'KGC Sun HAT'),
-(590, 'C526  IC1', '2', 'KGC ICE CAP'),
-(591, 'C526  MNQ', '2', 'GIRLS MANNEQUIN'),
-(592, 'C526  NL1', '2', 'NL1'),
-(593, 'C526  OTH', '2', 'KGC Others'),
-(594, 'C526  PJ5', '2', 'PAJAMA TOP'),
-(595, 'C526  PJ6', '2', 'PAJAMA BOTTOM PANNT'),
-(596, 'C526  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
-(597, 'C526  PN1', '2', 'KGC PONCHES'),
-(598, 'C526  SC1', '2', 'REGULAR LENGTH'),
-(599, 'C526  SC2', '2', 'MEDIUIM LENGTH'),
-(600, 'C526  SC5', '2', 'KGC HOME SOCKS'),
-(601, 'C526  SC6', '2', 'WGC SOCKS'),
-(602, 'C526  SF1', '2', 'KGC SCARF'),
-(603, 'C526  SO1', '2', 'SHOSES'),
-(604, 'C526  WT1', '2', 'WT1'),
-(605, 'C527  SO1', '2', 'KGC SHOES'),
-(606, 'C626  SC6', '2', 'WGC SOCKS'),
-(607, 'C626  SC7', '2', 'SOCKS'),
-(608, 'C711  BL0', '2', 'BLOUSE'),
-(609, 'C711  PT0', '2', 'C711  PT0'),
-(610, 'C711  SH0', '2', 'SHIRT'),
-(611, 'C711  SK0', '2', 'SKIRT'),
-(612, 'C821  JK2', '2', 'JACKET'),
-(613, 'C821  PL5', '2', 'PULLOVER'),
-(614, 'C821  PL6', '2', 'BBC ZIP FRNT PULLOVER'),
-(615, 'C821  SH1', '2', 'SHIRT'),
-(616, 'C821  SH2', '2', 'BBC L/S SHIRT'),
-(617, 'C821  SH3', '2', 'BBC S/S SLD SAFARI SHIRT'),
-(618, 'C821  SH4', '2', 'BBC S/S SHIRT'),
-(619, 'C821  SW3', '2', 'BBC FSH SWEATSHIRT'),
-(620, 'C821  TE1', '2', 'T-SHIRT'),
-(621, 'C822  PT3', '2', 'BBC (FASHION PANT)'),
-(622, 'C822  SR3', '2', 'BBC (FASHION SHORT)'),
-(623, 'C822  ST1', '2', 'BBC (SALLOPPETTE SHORT)'),
-(624, 'C822  ST2', '2', 'SALLOPPETTE'),
-(625, 'C823  JK2', '2', 'BBC FSH JACKET'),
-(626, 'C826  BK1', '2', 'BLANKET'),
-(627, 'C921  BL1', '2', 'BLOUSE'),
-(628, 'C921  BL3', '2', 'BGC (N/S BTN FRNT BLOUSE)'),
-(629, 'C921  BL5', '2', 'BGC (S/S BLOUSE)'),
-(630, 'C921  BL6', '2', 'BGC ( SLEEVELESS BLOUSE )'),
-(631, 'C921  PL5', '2', 'PULLOVER'),
-(632, 'C921  PL6', '2', 'BBC ZIP FRNT PULLOVER'),
-(633, 'C921  SW3', '2', 'BGC FSH SWEATSHIRT'),
-(634, 'C921  TE1', '2', 'T-SHIRT'),
-(635, 'C922  PT3', '2', 'BGC (FASHION PANT)'),
-(636, 'C922  SR3', '2', 'BGC (FASHION SHORT)'),
-(637, 'C922  ST1', '2', 'BGC (SALOPETTE SHORT)'),
-(638, 'C922  ST3', '2', 'SALOPETTE'),
-(639, 'C923  DR1', '2', 'DRESS'),
-(640, 'C923  DR6', '2', 'BGC S/S SHORT DRESS'),
-(641, 'C923  DR7', '2', 'BGC (N/S REG DRESS)'),
-(642, 'C923  JK2', '2', 'BGC FSH JACKET'),
-(643, 'C926  BK1', '2', 'BLANKET'),
-(644, 'CDSP  TLS', '2', 'STORES DISPLAY TOOLS'),
-(645, 'CDWN  CDW', '2', 'DOWN PAYMENT'),
-(646, 'CFAB  MTM', '2', 'FABRIC MADE TO MEASURE'),
-(647, 'CGFT  BOX', '2', 'CGFT BOX = Gift Box'),
-(648, 'CGFT  CRD', '2', 'GIFT CARD'),
-(649, 'CMIX  BZ3', '2', 'MIX'),
-(650, 'CMIX  SU3', '2', 'MIX'),
-(651, 'CMIX  SU4', '2', 'MIX'),
-(652, 'CMIX  TR2', '2', 'MIX'),
-(653, 'CMIX  TR3', '2', 'MIX'),
-(654, 'CMTM  CT1', '2', 'COAT'),
-(655, 'CMTM  SU3', '2', 'MADE TO MEASURE'),
-(656, 'CMTM  SU4', '2', 'MADE TO MEASURE'),
-(657, 'CMTM  SU8', '2', 'MTM ceremonial suit'),
-(658, 'CMTM  TR3', '2', 'MADE TO MEASURE'),
-(659, 'CMTM  VS1', '2', 'MF D.BREAST VEST'),
-(660, 'MTMM  BZ3', '2', 'M TO MSURE SNGL BRST BLZ'),
-(661, 'MTMM  JK2', '2', 'MADE TO MEASURE JACKET'),
-(662, 'MTMM  TR2', '2', 'M TO MSURE 1PLT TROUSER'),
-(663, 'PROMOTI', '2', 'PROMOTION'),
-(664, 'Q111  BZ1', '2', 'MF 2 BTN DOUBLE BREAST'),
-(665, 'Q111  BZ2', '2', 'MF 3 B S.REAST BLAZER'),
-(666, 'Q111  BZ3', '2', 'MF 2 B S.REAST BLAZER'),
-(667, 'Q111  BZ4', '2', 'MF 4 B S.REAST BLAZER'),
-(668, 'Q111  SH1', '2', 'L/S SOLIDSHIRT'),
-(669, 'Q111  SH2', '2', 'L/S  PRINT SHIRT'),
-(670, 'Q111  SH3', '2', 'S/S SOLIDSHIRT'),
-(671, 'Q111  SH4', '2', 'S/S  PRINT SHIRT'),
-(672, 'Q111  SH5', '2', 'L/S SOLIDSHIRT CUFFLINKS'),
-(673, 'Q111  SH6', '2', 'L/S PRINTSHIRT CUFFLINKS'),
-(674, 'Q111  SH8', '2', 'L/S CEREMONIAL SHIRT CUFFLINKS'),
-(675, 'Q111  SH9', '2', 'HIGH QUALITY SHIRT'),
-(676, 'Q111  SU1', '2', 'MF 2 BTN DOUBLE BREAST F.FRONT'),
-(677, 'Q111  SU2', '2', 'MF 3 B S .BREAST -1PLEAT'),
-(678, 'Q111  SU3', '2', 'MF 2 B S .BREAST -1PLEAT'),
-(679, 'Q111  SU4', '2', 'MF 2 B S .BREAST -F.FRONT'),
-(680, 'Q111  SU8', '2', 'SUIT'),
-(681, 'Q112  TR2', '2', 'MF 1PLEATTROUSER'),
-(682, 'Q112  TR3', '2', 'TROUSER FLAT FRONT'),
-(683, 'Q113  CT2', '2', 'MF S.BREAST LNG COAT'),
-(684, 'Q116  BW1', '2', 'MC BOW TIE'),
-(685, 'Q116  CB1', '2', 'MC CUMMERBAND'),
-(686, 'Q116  CL1', '2', 'METAL CUFFLINK'),
-(687, 'Q116  SO2', '2', 'MC CLASSIC LEATHER SHOES'),
-(688, 'Q116  SO8', '2', 'MC CEREMONIAL LEATHER SHOES'),
-(689, 'Q116  TY1', '2', 'MC TIE'),
-(690, 'Q121  PL1', '2', 'MC BASIC LT.PULLOVER'),
-(691, 'Q121  VS3', '2', 'MC BASIC VEST'),
-(692, 'Q123  JK1', '2', 'MC BASIC JACKET'),
-(693, 'Q123  JK9', '2', 'MC LEATHER JACKET'),
-(694, 'Q126  GV1', '2', 'MC LEATHER GLOVE'),
-(695, 'Q126  SF1', '2', 'MC SCARF'),
-(696, 'QMIX  SU3', '2', 'QMIXSU3'),
-(697, 'QMIX  SU4', '2', 'QMIXSU4'),
-(698, 'T111  BZ5', '2', 'MIX & MATCH CLASSICBLAZER'),
-(699, 'T111  BZ8', '2', 'FASHION BLAZER M F'),
-(700, 'T111  SH0', '2', 'SHIRT'),
-(701, 'T111  SH1', '2', 'L/S SOLIDSHIRT'),
-(702, 'T111  SH2', '2', 'L/S PRINTSHIRT'),
-(703, 'T111  SH3', '2', 'S/S SOLIDSHIRT'),
-(704, 'T111  SH4', '2', 'S/S PRINTSHIRT'),
-(705, 'T111  SH5', '2', 'L/S SOLIDSHIRT CUFF'),
-(706, 'T111  SH6', '2', 'L/S PRINTSHIRT CUFF'),
-(707, 'T111  SH8', '2', 'L/S CEREMONIAL SHIRT CUFFLINKS'),
-(708, 'T111  SU4', '2', '2BTN S.BREAST FLAT FRONT'),
-(709, 'T111  SU8', '2', 'SUIT'),
-(710, 'T111  VS0', '2', 'VEST'),
-(711, 'T112  TR3', '2', 'FLAT FRONT TROUSER'),
-(712, 'T112  TR5', '2', 'MIX & MATCH CLASSICTROUSER'),
-(713, 'T113  CT1', '2', 'M/F S.BREAST REG COAT'),
-(714, 'T116  BT1', '2', 'MC CLASSIC BELT'),
-(715, 'T116  TY1', '2', 'MC TIE'),
-(716, 'T121  PL4', '2', 'MC FSH. HVY. PULLOVER'),
-(717, 'T121  TE1', '2', 'MC S/S  T.SHIRT'),
-(718, 'T121  TE5', '2', 'MC L/S T.SHIRT'),
-(719, 'T121  TE7', '2', 'MC L/S FITTED T.SHIRT'),
-(720, 'T122  PT4', '2', 'MC 5 PANTPOCKET'),
-(721, 'T122  PT5', '2', 'MC REGULAR SEMI CLASSIC'),
-(722, 'T122  PT6', '2', 'MC FASHION SEMI CLASSIC'),
-(723, 'T123  JK5', '2', 'MC PARKA JACKET'),
-(724, 'T123  JK9', '2', 'MC LEATHER JACKET'),
-(725, 'T126  BT1', '2', 'MC BELT'),
-(726, 'T126  SF1', '2', 'MC SCARF'),
-(2190, 'C111  BZ1', '2', 'MF D.BREAST BLAZER'),
-(2193, 'C122  SAM', '2', 'SAMPLE'),
-(2194, 'C111  BZ3', '2', '2BT S.BRST BLAZER');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `DCS_size_scale`
---
-
-CREATE TABLE `DCS_size_scale` (
-  `DCS_size_id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `size_scale` char(5) NOT NULL,
-  `size_fulldept` char(9) NOT NULL,
-  `size_country_id` char(5) NOT NULL DEFAULT '2',
-  PRIMARY KEY (`DCS_size_id`),
-  KEY `fk_DCS_size_scale_dept_idx` (`size_fulldept`),
-  KEY `fk_DCS_size_scale_country_idx` (`size_country_id`),
-  KEY `fk_DCS_size_scale_size_idx` (`size_scale`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2195 ;
 
 -- --------------------------------------------------------
 
@@ -1080,7 +334,7 @@ CREATE TABLE `DCS_size_scale` (
 -- Table structure for table `departments`
 --
 
-CREATE TABLE `departments` (
+CREATE TABLE IF NOT EXISTS `departments` (
   `countryid` char(5) NOT NULL,
   `fulldept` char(9) NOT NULL,
   `deptid` char(3) NOT NULL,
@@ -1833,7 +1087,7 @@ INSERT INTO `departments` (`countryid`, `fulldept`, `deptid`, `classid`, `subcla
 -- Table structure for table `dept_name`
 --
 
-CREATE TABLE `dept_name` (
+CREATE TABLE IF NOT EXISTS `dept_name` (
   `dept_id` char(3) NOT NULL,
   `dept_name` char(40) NOT NULL,
   PRIMARY KEY (`dept_id`)
@@ -1866,24 +1120,37 @@ INSERT INTO `dept_name` (`dept_id`, `dept_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_privileges`
+-- Table structure for table `group`
 --
 
-CREATE TABLE `group_privileges` (
-  `grp_pric_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `group` (
+  `group_id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` char(20) NOT NULL,
+  PRIMARY KEY (`group_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `group`
+--
+
+INSERT INTO `group` (`group_id`, `group_name`) VALUES
+(5, 'Administrators');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_operations`
+--
+
+CREATE TABLE IF NOT EXISTS `group_operations` (
+  `grp_op_id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
-  `privilege_id` int(11) NOT NULL,
-  PRIMARY KEY (`grp_pric_id`),
-  KEY `fk_group_privileges_priv_idx` (`privilege_id`),
+  `op_name` char(40) NOT NULL,
+  `checked` tinyint(1) NOT NULL,
+  PRIMARY KEY (`grp_op_id`),
+  KEY `fk_group_privileges_priv_idx` (`op_name`),
   KEY `fk_group_privileges_grp` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `group_privileges`
---
-
-INSERT INTO `group_privileges` (`grp_pric_id`, `group_id`, `privilege_id`) VALUES
-(1, 1, 1);
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 -- --------------------------------------------------------
 
@@ -1891,13 +1158,13 @@ INSERT INTO `group_privileges` (`grp_pric_id`, `group_id`, `privilege_id`) VALUE
 -- Table structure for table `iso_header`
 --
 
-CREATE TABLE `iso_header` (
+CREATE TABLE IF NOT EXISTS `iso_header` (
   `header_id` int(11) NOT NULL AUTO_INCREMENT,
   `header_code` char(15) NOT NULL,
   `version` int(11) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`header_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `iso_header`
@@ -1912,7 +1179,7 @@ INSERT INTO `iso_header` (`header_id`, `header_code`, `version`, `date`) VALUES
 -- Table structure for table `items`
 --
 
-CREATE TABLE `items` (
+CREATE TABLE IF NOT EXISTS `items` (
   `countryid` char(5) NOT NULL,
   `itemsid` bigint(20) NOT NULL,
   `desc1` char(40) NOT NULL DEFAULT '',
@@ -1981,57 +1248,36 @@ INSERT INTO `items` (`countryid`, `itemsid`, `desc1`, `desc2`, `desc3`, `desc4`,
 ('1', 9186704661212561648, 'C421SW2-W10-000-S001', 'ÚíäÇÊ ÇäÊÇÌ ãæÓã ÔÊæì 2010', '001', NULL, '1', 'SW2', '0', 'MIX', NULL, 'ÚíäÇÊ ÇäÊÇÌ', 'C42', 'C421  SW2', '000 Others', '5-Stock', 'Concrete', '', '', '', 'MIX', '', 1.000, 0.000, 1.000, 0.000, 19.6400, 25.0000, 5.3600, 27.29, 19.6400, 25.0000, 5.3600, 19.6400, 25.0000, 5.3600, 'CONCRT', 240908, 9186704661690712304, '2014-06-28 00:00:00', '2009-12-15 00:00:00', 'Winter', '2010', '-No Entry-', '-No Entry-', '2009-12-15 00:00:00', '2014-09-10 00:00:00', NULL, 0.00, 0.0000, 25.0000, NULL, 0.0000, 0.0000),
 ('1', 9185548084896071920, 'C112TR3-G00-71N-S107', 'TROUSER FLAT FRONT SLANT PCKT', '107', NULL, '2', 'TR3', '54', 'LBEG', NULL, NULL, 'C11', 'C112  TR3', '71N RG.100% WOOL', '5-Stock', 'Concrete', '', '', '', 'LIGHT BEIGE', '', 0.000, 0.000, 0.000, 0.000, 106.7000, 100.0000, -6.7000, -6.28, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 'ETC', 240886, 8221416704522060016, '2013-02-15 00:00:00', NULL, 'General', '0000', '-No Entry-', '-No Entry-', NULL, '2014-08-07 00:00:00', NULL, 0.00, 0.0000, 100.0000, '2009-12-07 00:00:00', 0.0000, 0.0000);
 
--- --------------------------------------------------------
 
 --
--- Table structure for table `marker`
+-- Table structure for table `operation`
 --
 
-CREATE TABLE `marker` (
-  `marker_id` int(11) NOT NULL AUTO_INCREMENT,
-  `ss_id` int(11) NOT NULL,
-  `width` char(10) NOT NULL,
-  `length` char(10) NOT NULL,
-  `utilization` char(10) NOT NULL,
-  `t_size` char(10) NOT NULL,
-  `ratio` char(10) NOT NULL,
-  `marker_name` char(10) NOT NULL,
-  PRIMARY KEY (`marker_id`,`ss_id`),
-  KEY `fk_marker_ss_idx` (`ss_id`)
+CREATE TABLE IF NOT EXISTS `operation` (
+  `op_name` char(40) NOT NULL,
+  `operation` char(40) NOT NULL,
+  PRIMARY KEY (`op_name`),
+  KEY `operation` (`operation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `marker_log`
+-- Dumping data for table `operation`
 --
 
-CREATE TABLE `marker_log` (
-  `marker_id` int(11) NOT NULL,
-  `action_time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `action_type` char(10) DEFAULT NULL,
-  `action_comment` text,
-  PRIMARY KEY (`marker_id`,`action_time_stamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `operation` (`op_name`, `operation`) VALUES
+('createStylesheet', 'Create Stylesheet'),
+('deleteOwnStylesheet', 'Delete Own Stylesheet'),
+('updateOwnStylesheet', 'Update Own Stylesheet');
 
--- --------------------------------------------------------
 
 --
--- Table structure for table `privileges`
+-- Dumping data for table `group_operations`
 --
 
-CREATE TABLE `privileges` (
-  `priv_id` int(11) NOT NULL AUTO_INCREMENT,
-  `priv_name` char(40) NOT NULL,
-  PRIMARY KEY (`priv_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `privileges`
---
-
-INSERT INTO `privileges` (`priv_id`, `priv_name`) VALUES
-(1, 'Create Style Sheet');
+INSERT INTO `group_operations` (`grp_op_id`, `group_id`, `op_name`, `checked`) VALUES
+(10, 5, 'createStylesheet', 1),
+(11, 5, 'deleteOwnStylesheet', 0),
+(12, 5, 'updateOwnStylesheet', 1);
 
 -- --------------------------------------------------------
 
@@ -2039,7 +1285,7 @@ INSERT INTO `privileges` (`priv_id`, `priv_name`) VALUES
 -- Table structure for table `size`
 --
 
-CREATE TABLE `size` (
+CREATE TABLE IF NOT EXISTS `size` (
   `scale_number` char(5) NOT NULL,
   `scale_size` char(40) NOT NULL,
   `scale_name` char(10) NOT NULL,
@@ -2060,7 +1306,7 @@ INSERT INTO `size` (`scale_number`, `scale_size`, `scale_name`) VALUES
 -- Table structure for table `stylesheet`
 --
 
-CREATE TABLE `stylesheet` (
+CREATE TABLE IF NOT EXISTS `stylesheet` (
   `ss_id` int(11) NOT NULL AUTO_INCREMENT,
   `country_id` char(5) NOT NULL,
   `dept_id` char(3) NOT NULL,
@@ -2069,19 +1315,31 @@ CREATE TABLE `stylesheet` (
   `season` char(1) NOT NULL,
   `year` char(4) NOT NULL,
   `pono` char(20) DEFAULT NULL,
-  `brand_dept_name` char(40) NOT NULL,
-  `category_subc_name` char(40) NOT NULL,
-  `dcs_notes` char(40) DEFAULT NULL,
-  `style_code` char(40) NOT NULL,
-  `stylesheet_note` text,
+  `dcs_notes` char(40) CHARACTER SET utf8 DEFAULT NULL,
+  `style_code` char(40) CHARACTER SET utf8 NOT NULL,
+  `stylesheet_note` text CHARACTER SET utf8,
   `fabric` char(40) NOT NULL,
+  `scale` char(5) NOT NULL,
+  `sizes` char(40) NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`ss_id`),
   KEY `fk_stylesheet_country_index` (`country_id`),
   KEY `index3` (`country_id`,`season`,`year`,`style_code`,`dept_id`,`class_id`,`subclass_id`),
-  KEY `fk_stylesheet_dept_idx` (`dept_id`,`class_id`,`subclass_id`),
-  KEY `fk_stylesheet_brand_idx` (`brand_dept_name`),
-  KEY `fk_stylesheet_category_idx` (`category_subc_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+  KEY `scale` (`scale`),
+  KEY `owner` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
+
+--
+-- Dumping data for table `stylesheet`
+--
+
+INSERT INTO `stylesheet` (`ss_id`, `country_id`, `dept_id`, `class_id`, `subclass_id`, `season`, `year`, `pono`, `dcs_notes`, `style_code`, `stylesheet_note`, `fabric`, `scale`, `sizes`, `user_id`) VALUES
+(26, '2', 'C12', '1', 'PJ0', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000', 3),
+(27, '2', 'C11', '1', 'BZ2', 'A', '2015', NULL, '', 'ASSUM/15', '', 'Cotton', '10', '110000000', 3),
+(31, '2', 'C11', '1', 'BZ1', 'S', '2017', NULL, 'NOTHING', 'GPJ/T-03', 'كالعينة', 'Cotton', '10', '011100001', 3),
+(32, '2', 'C12', '1', 'BZ1', 'S', '2016', NULL, 'NOTHING', 'GPJ/T-03', '', 'Cotton', '100', '0000000110000', 3),
+(33, '2', 'C12', '1', 'BZ1', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000000001110111100000', 3),
+(34, '2', 'C12', '1', 'BZ1', 'A', '2016', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000', 3);
 
 -- --------------------------------------------------------
 
@@ -2089,7 +1347,7 @@ CREATE TABLE `stylesheet` (
 -- Table structure for table `stylesheet_bom`
 --
 
-CREATE TABLE `stylesheet_bom` (
+CREATE TABLE IF NOT EXISTS `stylesheet_bom` (
   `ss_bom_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
   `dcs_name` char(40) NOT NULL,
@@ -2106,7 +1364,7 @@ CREATE TABLE `stylesheet_bom` (
   KEY `fk_stylesheet_bom_country_idx` (`countryid`),
   KEY `fk_stylesheet_bom_color_idx` (`item_color_id`),
   KEY `fk_ss_bom_ss` (`ss_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2114,18 +1372,19 @@ CREATE TABLE `stylesheet_bom` (
 -- Table structure for table `stylesheet_color`
 --
 
-CREATE TABLE `stylesheet_color` (
-  `ss_color_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `stylesheet_color` (
+  `ss_color_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
-  `color_code` char(2) NOT NULL,
-  `print_emb` char(40) DEFAULT NULL,
+  `color_code` char(8) NOT NULL,
+  `print` tinyint(1) DEFAULT NULL,
+  `emb` tinyint(1) DEFAULT NULL,
   `place` char(40) DEFAULT NULL,
   `code` char(10) DEFAULT NULL,
-  `desc` char(40) DEFAULT NULL,
+  `ss_color_desc` char(40) DEFAULT NULL,
   PRIMARY KEY (`ss_color_id`),
   KEY `fk_stylesheet_color_color_idx` (`color_code`),
   KEY `fk_stylesheet_color_ss` (`ss_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -2133,13 +1392,23 @@ CREATE TABLE `stylesheet_color` (
 -- Table structure for table `stylesheet_images`
 --
 
-CREATE TABLE `stylesheet_images` (
+CREATE TABLE IF NOT EXISTS `stylesheet_images` (
   `ss_img_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
   `img_path` char(50) NOT NULL,
   PRIMARY KEY (`ss_img_id`),
   KEY `fk_stylesheet_images_ss` (`ss_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+
+--
+-- Dumping data for table `stylesheet_images`
+--
+
+INSERT INTO `stylesheet_images` (`ss_img_id`, `ss_id`, `img_path`) VALUES
+(21, 31, 'Screenshot from 2014-07-22 22:35:17.png'),
+(22, 31, 'Screenshot from 2014-07-10 16:39:05.png'),
+(23, 31, 'Screenshot from 2014-09-18 14:15:06.png'),
+(24, 34, 'Screenshot from 2014-07-22 22:36:58.png');
 
 -- --------------------------------------------------------
 
@@ -2147,17 +1416,41 @@ CREATE TABLE `stylesheet_images` (
 -- Table structure for table `stylesheet_log`
 --
 
-CREATE TABLE `stylesheet_log` (
+CREATE TABLE IF NOT EXISTS `stylesheet_log` (
   `ss_log_id` int(11) NOT NULL AUTO_INCREMENT,
-  `stylesheet_id` int(11) NOT NULL,
+  `ss_id` int(11) NOT NULL,
   `action_time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `action_type` char(10) NOT NULL,
-  `action_comment` text NOT NULL,
+  `action_comment` text CHARACTER SET utf8 NOT NULL,
   `user` int(11) NOT NULL,
   PRIMARY KEY (`ss_log_id`),
   KEY `fk_stylesheet_log_user_idx` (`user`),
-  KEY `fk_stylesheet_log_ss` (`stylesheet_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `fk_stylesheet_log_ss` (`ss_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+
+--
+-- Dumping data for table `stylesheet_log`
+--
+
+INSERT INTO `stylesheet_log` (`ss_log_id`, `ss_id`, `action_time_stamp`, `action_type`, `action_comment`, `user`) VALUES
+(4, 31, '2014-10-22 11:35:55', 'create', 'create stylesheet', 3),
+(5, 31, '2014-10-22 11:42:27', 'create', 'Add an existing Color: W-LESS02', 3),
+(6, 31, '2014-10-22 11:46:17', 'delete', 'Delete color W-LESS02 from this stylesheet GPJ/T-03', 3),
+(7, 31, '2014-10-22 11:49:30', 'create', 'Uploaded image Screenshot from 2014-07-22 22:35:17.png for stylesheet GPJ/T-03', 3),
+(8, 31, '2014-10-22 11:53:43', 'delete', 'Delete image 1922426_10152281479758967_548144733_n.jpg from this stylesheet GPJ/T-03', 3),
+(9, 31, '2014-10-22 11:53:53', 'create', 'Uploaded image Screenshot from 2014-07-10 16:39:05.png for stylesheet GPJ/T-03', 3),
+(10, 31, '2014-10-22 11:54:53', 'create', 'Uploaded image Screenshot from 2014-09-18 14:15:06.png for stylesheet GPJ/T-03', 3),
+(11, 31, '2014-10-22 11:57:02', 'update', 'Just trying these things فوالا', 3),
+(12, 31, '2014-10-22 11:57:35', 'update', 'إضافة مقاس', 3),
+(13, 32, '2014-10-22 12:13:04', 'create', 'create stylesheet', 3),
+(14, 33, '2014-10-22 12:19:06', 'create', 'create stylesheet', 3),
+(15, 34, '2014-10-22 12:28:12', 'create', 'create stylesheet', 3),
+(16, 34, '2014-10-22 12:28:18', 'create', 'Uploaded image Screenshot from 2014-07-22 22:36:58.png for stylesheet GPJ/T-03', 3),
+(17, 34, '2014-10-22 14:23:43', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
+(18, 34, '2014-10-22 14:23:56', 'delete', 'Delete the marker', 3),
+(19, 26, '2014-10-22 14:26:05', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
+(20, 34, '2014-10-22 14:35:59', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
+(21, 26, '2014-10-22 14:47:34', 'delete', 'Deleted the marker', 3);
 
 -- --------------------------------------------------------
 
@@ -2165,13 +1458,13 @@ CREATE TABLE `stylesheet_log` (
 -- Table structure for table `stylesheet_size`
 --
 
-CREATE TABLE `stylesheet_size` (
+CREATE TABLE IF NOT EXISTS `stylesheet_size` (
   `ss_size_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
-  `scale` char(10) NOT NULL,
+  `sizes` char(40) NOT NULL,
   PRIMARY KEY (`ss_size_id`),
   KEY `fk_stylesheet_size_ss` (`ss_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2179,7 +1472,7 @@ CREATE TABLE `stylesheet_size` (
 -- Table structure for table `subclass_name`
 --
 
-CREATE TABLE `subclass_name` (
+CREATE TABLE IF NOT EXISTS `subclass_name` (
   `subclassid` char(3) NOT NULL,
   `subclass_name` char(40) NOT NULL,
   PRIMARY KEY (`subclassid`)
@@ -2226,7 +1519,8 @@ INSERT INTO `subclass_name` (`subclassid`, `subclass_name`) VALUES
 ('MT', 'MADE TO MEASURE'),
 ('NL', 'NL'),
 ('OT', 'OTHERS'),
-('PJ', 'PAJAMA'),
+('PJ0', 'PAJAMA'),
+('PJ5', 'PAJAMA'),
 ('PL', 'PULLOVER'),
 ('PN', 'PONCHES'),
 ('PT', 'PANT'),
@@ -2263,50 +1557,838 @@ INSERT INTO `subclass_name` (`subclassid`, `subclass_name`) VALUES
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` char(20) NOT NULL,
-  `password` char(20) NOT NULL,
+  `password` char(100) NOT NULL,
   `user_group` int(11) NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `fk_users_1_idx` (`user_group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `password`, `user_group`) VALUES
-(1, 'admin', 'admin', 1);
+(1, 'admin', '$2y$10$6XHqCcpXsQKR1vyozMSyhuwHAikeMtw5.6n2aTs5zhhA/tgzpmC/O', 5),
+(3, 'Asmaa', '$2y$10$Z1AZzxm6s64Rb1GmWQFVQOop37bl6DOINbQeVW5e8aarYl9hY30/C', 5);
+
+
+--
+-- Dumping data for table `DCS_name`
+--
+
+INSERT INTO `DCS_name` (`dcs_id`, `fulldept`, `country_id`, `dcs_name`) VALUES
+(1, 'C111  BZ2', '2', 'MF S.BREAST BLAZER'),
+(3, 'C111  BZ4', '2', '4BT S.BRST BLAZER'),
+(4, 'C111  BZ5', '2', 'MIX & MATCH, CLASSIC, BLAZER'),
+(5, 'C111  BZ8', '2', 'FASHION  BLAZER  M F'),
+(6, 'C111  BZ9', '2', 'MF 2PC BLAZER'),
+(7, 'C111  BZV', '2', 'MF D.BREAST BLAZER'),
+(8, 'C111  CV1', '2', 'COVAR COAT'),
+(9, 'C111  PJ0', '2', 'PAJAMA'),
+(10, 'C111  PT0', '2', 'PANT'),
+(11, 'C111  SH0', '2', 'SHIRT'),
+(12, 'C111  SH1', '2', 'L/S SOLIDSHIRT'),
+(13, 'C111  SH2', '2', 'L/S  PRINT SHIRT'),
+(14, 'C111  SH3', '2', 'S/S SOLIDSHIRT'),
+(15, 'C111  SH4', '2', 'S/S  PRINT SHIRT'),
+(16, 'C111  SH5', '2', 'L/S SOLIDSHIRT CUFFLINKS'),
+(17, 'C111  SH6', '2', 'MF L/S REG.CLASSIC SHIRT'),
+(18, 'C111  SH7', '2', 'MF S/S REG.CLASSIC SHIRT'),
+(19, 'C111  SH8', '2', 'MF L/S FSH.CLASSIC SHIRT'),
+(20, 'C111  SH9', '2', 'MF S/S FSH.CLASSIC SHIRT'),
+(21, 'C111  SU1', '2', 'MF 2PC D.BREAST SUIT'),
+(22, 'C111  SU2', '2', 'MF 2PC S.BREAST SUIT'),
+(23, 'C111  SU3', '2', '2BT S.BRST 1PLEAT SUIT'),
+(24, 'C111  SU4', '2', '2BT S.BRST F.FRNT SUIT'),
+(25, 'C111  SU5', '2', 'MF 3PC D.BREAST SUIT'),
+(26, 'C111  SU6', '2', 'MF 3PC S.BREAST SUIT'),
+(27, 'C111  SU8', '2', 'SUIT'),
+(28, 'C111  SUV', '2', 'MF 3PC D.BREAST SUIT'),
+(29, 'C111  TE0', '2', 'T-SHIRT'),
+(30, 'C111  TR5', '2', 'MIX & MATCH TROUSERS'),
+(31, 'C111  VS1', '2', 'MF D.BREAST VEST'),
+(32, 'C111  VS2', '2', 'MF S.BREAST VEST'),
+(33, 'C112  TR1', '2', 'MF 2PLEATTROUSER'),
+(34, 'C112  TR2', '2', 'MF 1PLEATTROUSER'),
+(35, 'C112  TR3', '2', 'MF F.FRNTTROUSER'),
+(36, 'C112  TR4', '2', 'MF FASHION TROUSER'),
+(37, 'C112  TR5', '2', 'MIX & MATCH TROUSERS'),
+(38, 'C113  CT1', '2', 'MF S.BREAST REG COAT'),
+(39, 'C113  CT2', '2', 'MF S.BREAST LNG COAT'),
+(40, 'C113  CT3', '2', 'MF D.BREAST REG COAT'),
+(41, 'C113  CT4', '2', 'MF D.BREAST LNG COAT'),
+(42, 'C116  BG1', '2', 'MF BAG'),
+(43, 'C116  BT1', '2', 'MF BELT'),
+(44, 'C116  BT3', '2', 'MF Classic BELT'),
+(45, 'C116  CB1', '2', 'MC TIE BAR'),
+(46, 'C116  CL1', '2', 'METAL CUFFLINK'),
+(47, 'C116  CV1', '2', 'COVAR COAT'),
+(48, 'C116  GV2', '2', 'LEATHER GLOVE'),
+(49, 'C116  HA1', '2', 'HA1'),
+(50, 'C116  HK1', '2', 'MF HANDKERCHIEF'),
+(51, 'C116  HN1', '2', 'Chandler'),
+(52, 'C116  LR1', '2', 'LR1'),
+(53, 'C116  OTH', '2', 'MF Others'),
+(54, 'C116  RL1', '2', 'RUBBER LINK'),
+(55, 'C116  S01', '2', 'SO1'),
+(56, 'C116  SC1', '2', 'Regular length'),
+(57, 'C116  SO2', '2', 'LEATHER SHOES'),
+(58, 'C116  SV1', '2', 'MF SUIT COVER'),
+(59, 'C116  TB1', '2', 'MC TIE BAR'),
+(60, 'C116  TY1', '2', 'MF TIE'),
+(61, 'C117  SO1', '2', 'MF SHOES'),
+(62, 'C121  PL1', '2', 'MC BASIC LT.PULLOVER'),
+(63, 'C121  PL2', '2', 'MC FASHION LT.PULLOVER'),
+(64, 'C121  PL3', '2', 'MC REG HVY.PULLOVER'),
+(65, 'C121  PL4', '2', 'MC FSH. HVY.PULLOVER'),
+(66, 'C121  PL5', '2', 'MC BTN FRNT PULLOVER'),
+(67, 'C121  PL6', '2', 'MC ZIP FRNT PULLOVER'),
+(68, 'C121  PL8', '2', 'MC FIT TIGHT PULLOVER'),
+(69, 'C121  SH1', '2', 'MC L/S SLD SAFARI SHIRT'),
+(70, 'C121  SH2', '2', 'MC L/S Y/D & PRINT SHIRT'),
+(71, 'C121  SH3', '2', 'MC S/S SLD SAFARI SHIRT'),
+(72, 'C121  SH4', '2', 'MC S/S Y/D & PRINT SHIRT'),
+(73, 'C121  SH5', '2', 'MC OVERSHIRT'),
+(74, 'C121  SH6', '2', 'MC LS REGSHIRT'),
+(75, 'C121  SH7', '2', 'MC SS REGSHIRT'),
+(76, 'C121  SW1', '2', 'MC POLO SWEATSHIRT'),
+(77, 'C121  SW2', '2', 'MC REG. SWEATSHIRT'),
+(78, 'C121  SW3', '2', 'MC FSH SWEATSHIRT'),
+(79, 'C121  SW4', '2', 'MC BTN FRNT SWEATSHIRT'),
+(80, 'C121  SW5', '2', 'MC ZIP FRNT SWEATSHIRT'),
+(81, 'C121  SW7', '2', 'MC FIT TIGHT SWEATSHIRT'),
+(82, 'C121  SW9', '2', 'MC TRAINING TOP SWEATSHIRT'),
+(83, 'C121  TE1', '2', 'MC S/S T-SHIRT'),
+(84, 'C121  TE2', '2', 'MC S/S POLO T-SHIRT'),
+(85, 'C121  TE3', '2', 'MC S/S FITTED T-SHIRT'),
+(86, 'C121  TE4', '2', 'MC TANK TOP T-SHIRT'),
+(87, 'C121  TE5', '2', 'MC L/S T-SHIRT'),
+(88, 'C121  TE6', '2', 'MC L/S POLO T-SHIRT'),
+(89, 'C121  TE7', '2', 'MC L/S FITTED T-SHIRT'),
+(90, 'C121  TE8', '2', 'MEN TRAINING TOP'),
+(91, 'C121  TE9', '2', 'MC SLEEVLESS T-SHIRT'),
+(92, 'C121  VS5', '2', 'MC TRICOTE VEST'),
+(93, 'C122  PT1', '2', 'MC REGULAR CHINO PANT'),
+(94, 'C122  PT2', '2', 'MC PULLONPANT'),
+(95, 'C122  PT3', '2', 'MC FASHION PANT'),
+(96, 'C122  PT4', '2', 'MC 5 POCKET PANT'),
+(97, 'C122  PT5', '2', 'MC REGULAR SEMI CLASSIC PANT'),
+(98, 'C122  PT6', '2', 'MC FASHION SEMI CLASSIC PANT'),
+(99, 'C122  PT9', '2', 'MC TRAINING PANT'),
+(101, 'C122  SM1', '2', 'MC SWIMWEAR'),
+(102, 'C122  SR1', '2', 'MC BASIC SHORT'),
+(103, 'C122  SR2', '2', 'MC PULLONSHORT'),
+(104, 'C122  SR3', '2', 'MC FASHION SHORT'),
+(105, 'C122  SR4', '2', 'MC PERMUDA SHORT'),
+(106, 'C122  SR5', '2', 'MC 5 POCKET SHORT'),
+(107, 'C122  SR9', '2', 'MC TRAINING SHORT'),
+(108, 'C123  HT1', '2', 'HAT'),
+(109, 'C123  JK1', '2', 'MC BASIC JACKET'),
+(110, 'C123  JK2', '2', 'MC FASHION JACKET'),
+(111, 'C123  JK5', '2', 'MC PARKA JACKET'),
+(112, 'C123  JK9', '2', 'MC LEATHER JACKET'),
+(113, 'C123  SM1', '2', 'MC SMWR. 1 Piece'),
+(114, 'C123  SM3', '2', 'KGC SMWR.ONE PCS.SHORT'),
+(115, 'C123  TE1', '2', 'S/S T-SHIRT'),
+(116, 'C123  TE9', '2', 'SLVLES T.SHIRT'),
+(117, 'C123  VS3', '2', 'MC BASIC VEST'),
+(118, 'C123  VS4', '2', 'MC SAFARIVEST'),
+(119, 'C124  BX1', '2', 'MC REGULAR BOXER'),
+(120, 'C124  BX2', '2', 'MC FITTEDBOXER'),
+(121, 'C124  BX6', '2', 'MC Uware'),
+(122, 'C124  SP1', '2', 'MC REGULAR SLIP'),
+(123, 'C124  TE1', '2', 'MC S/S T-SHIRT'),
+(124, 'C124  TE2', '2', 'MC SS POLO T-SHIRT'),
+(125, 'C124  TE4', '2', 'MC TANK TOP T-SHIRT'),
+(126, 'C124  TE5', '2', 'MC LS T-SHIRT'),
+(127, 'C124  TE6', '2', 'MC LS POLO T-SHIRT'),
+(128, 'C124  TE9', '2', 'MC NS T-SHIRT'),
+(129, 'C126  BG1', '2', 'BG1'),
+(130, 'C126  BSK', '2', 'BASKET'),
+(131, 'C126  BT1', '2', 'MC BELT'),
+(132, 'C126  BT2', '2', 'WOVEN BELT'),
+(133, 'C126  BT4', '2', 'MC CasualBELT'),
+(134, 'C126  BT5', '2', 'MC Jeans BELT'),
+(135, 'C126  EW1', '2', 'EW1'),
+(136, 'C126  FL1', '2', 'Flash Memory'),
+(137, 'C126  GV1', '2', 'MEN TRICOT GLOVE'),
+(138, 'C126  GV2', '2', 'MC TRICOTE GLOVE'),
+(139, 'C126  HN1', '2', 'Chandler'),
+(140, 'C126  HT1', '2', 'MEN HAT'),
+(141, 'C126  HT2', '2', 'ITALIAN HAT'),
+(142, 'C126  IC1', '2', 'MC ICE CAP'),
+(143, 'C126  KC1', '2', 'KC1'),
+(144, 'C126  LR1', '2', 'LR1'),
+(145, 'C126  MDL', '2', 'CONCRETE MEDAL'),
+(146, 'C126  MNQ', '2', 'MEN MANNEQUIN'),
+(147, 'C126  OTH', '2', 'MC Others'),
+(148, 'C126  PJ5', '2', 'PAJAMA TOP'),
+(149, 'C126  PJ6', '2', 'PAJAMA BOTTOM'),
+(150, 'C126  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
+(151, 'C126  PJ8', '2', 'PAJAMA 2 PIECES'),
+(152, 'C126  SC1', '2', 'Regular length'),
+(153, 'C126  SC2', '2', 'SOCKS'),
+(154, 'C126  SC3', '2', 'ANKLE'),
+(155, 'C126  SF1', '2', 'MC SCARF'),
+(156, 'C126  SL1', '2', 'SL1'),
+(157, 'C126  SO1', '2', 'SO1'),
+(158, 'C126  WB1', '2', 'MC Wrist Band'),
+(159, 'C126  WL1', '2', 'LEATHER WALLET'),
+(160, 'C126  WT1', '2', 'WT1'),
+(161, 'C211  SH0', '2', 'SHIRT'),
+(162, 'C221  JK2', '2', 'KBC FASHION JACKET'),
+(163, 'C221  PL1', '2', 'JBC BSC LT. PULLOVER'),
+(164, 'C221  PL2', '2', 'JBC FASHION LT. PULLOVER'),
+(165, 'C221  PL3', '2', 'JBC REG HVY. PULLOVER'),
+(166, 'C221  PL4', '2', 'JBC FSH.HVY.PULLOVER'),
+(167, 'C221  PL5', '2', 'JBC BTN FRNT PULLOVER'),
+(168, 'C221  PL6', '2', 'JBC ZIP FRNT PULLOVER'),
+(169, 'C221  PL8', '2', 'JBC FIT TIGHT PULLOVER'),
+(170, 'C221  SH1', '2', 'JBC L/S SLD SAFARI SHIRT'),
+(171, 'C221  SH2', '2', 'JBC L/S Y/D & PRINTSHIRT'),
+(172, 'C221  SH3', '2', 'JBC S/S SLD SAFARI SHIRT'),
+(173, 'C221  SH4', '2', 'JBC S/S Y/D & PRINTSHIRT'),
+(174, 'C221  SH5', '2', 'JBC OVERSHIRT'),
+(175, 'C221  SH7', '2', 'JBC SS REG SHIRT'),
+(176, 'C221  SH8', '2', 'JBC LS FSH SHIRT'),
+(177, 'C221  SW1', '2', 'JBC POLO SWEATSHIRT'),
+(178, 'C221  SW2', '2', 'JBC REG. SWEATSHIRT'),
+(179, 'C221  SW3', '2', 'JBC FSH SWEATSHIRT'),
+(180, 'C221  SW4', '2', 'JBC BTN FRNT SWEATSHIRT'),
+(181, 'C221  SW5', '2', 'JBC ZIP FRNT SWEATSHIRT'),
+(182, 'C221  SW7', '2', 'JBC FIT TIGHT SWEATSHIRT'),
+(183, 'C221  SW9', '2', 'JBC TRAINING TOP SWEATSHIRT'),
+(184, 'C221  TE1', '2', 'JBC S/S T-SHIRT'),
+(185, 'C221  TE2', '2', 'JBC S/S POLO T-SHIRT'),
+(186, 'C221  TE3', '2', 'JBC S/S FITTED T-SHIRT'),
+(187, 'C221  TE4', '2', 'JBC TANK TOP T-SHIRT'),
+(188, 'C221  TE5', '2', 'JBC L/S T-SHIRT'),
+(189, 'C221  TE6', '2', 'JBC L/S POLO T-SHIRT'),
+(190, 'C221  TE7', '2', 'JBC L/S FITTED T-SHIRT'),
+(191, 'C221  TE8', '2', 'JBC TRAINING TOP'),
+(192, 'C221  TE9', '2', 'JBC SLEEVLESS T-SHIRT'),
+(193, 'C221  VS3', '2', 'JBC BASICVEST'),
+(194, 'C221  VS5', '2', 'JBC TRICOTE VEST'),
+(195, 'C222  PT1', '2', 'JBC REGULAR CHINO PANT'),
+(196, 'C222  PT2', '2', 'JBC PULLON PANT'),
+(197, 'C222  PT3', '2', 'JBC FASHION PANT'),
+(198, 'C222  PT4', '2', 'JBC 5 POCKET PANT'),
+(199, 'C222  PT9', '2', 'JBC TRAINING PANT'),
+(200, 'C222  SAM', '2', 'SAMPLE'),
+(201, 'C222  SM1', '2', 'JBC SWIMWEAR'),
+(202, 'C222  SM9', '2', 'JBC Btm'),
+(203, 'C222  SR1', '2', 'JBC BASICSHORT'),
+(204, 'C222  SR2', '2', 'JBC PULLON SHORT'),
+(205, 'C222  SR3', '2', 'JBC FASHION SHORT'),
+(206, 'C222  SR4', '2', 'JBC PERMUDA SHORT'),
+(207, 'C222  SR5', '2', 'JBC 5 POCKET SHORT'),
+(208, 'C222  SR9', '2', 'JBC TRAINING SHORT'),
+(209, 'C222  ST1', '2', 'JBC SALOPPETTE SHORT'),
+(210, 'C222  ST2', '2', 'JBC SALOPPETTE PANT'),
+(211, 'C223  HT1', '2', 'HAT'),
+(212, 'C223  JK1', '2', 'JBC BASICJACKET'),
+(213, 'C223  JK2', '2', 'JBC FASHION JACKET'),
+(214, 'C223  JK5', '2', 'JBC PARKAJACKET'),
+(215, 'C223  JK6', '2', 'JBC JACKET'),
+(216, 'C223  JK9', '2', 'JBC LEATHER JACKET'),
+(217, 'C223  SM1', '2', 'JBC SMWR.1 Piece'),
+(218, 'C223  SW7', '2', 'JBC BODY SWEATSHIRT'),
+(219, 'C223  TE1', '2', 'JBC S/S T-SHIRT'),
+(220, 'C223  TE9', '2', 'MC SLEEVLESS T-SHIRT'),
+(221, 'C223  VS4', '2', 'JBC  SAFARI VEST'),
+(222, 'C224  BX1', '2', 'JBC REGULAR BOXER'),
+(223, 'C224  BX2', '2', 'JBC FITTED BOXER'),
+(224, 'C224  TE1', '2', 'JBC S/S T-SHIRT'),
+(225, 'C224  TE4', '2', 'JBC TANK TOP T-SHIRT'),
+(226, 'C224  TE5', '2', 'JBC L/S UNDERSHIRT'),
+(227, 'C224  TE9', '2', 'JBC NS T-SHIRT'),
+(228, 'C226  BG1', '2', 'JGC BAG'),
+(229, 'C226  BG2', '2', 'JB BAG'),
+(230, 'C226  BT1', '2', 'JBC BELT'),
+(231, 'C226  BT2', '2', 'JBC WOVENBELT'),
+(232, 'C226  BT4', '2', 'JB CasualBELT'),
+(233, 'C226  BT5', '2', 'JB Jeans BELT'),
+(234, 'C226  GV1', '2', 'JBC  TRICOTE GLOVE'),
+(235, 'C226  HN1', '2', 'Chandler'),
+(236, 'C226  HT1', '2', 'JBC HAT'),
+(237, 'C226  HT2', '2', 'ITALIAN HAT'),
+(238, 'C226  IC1', '2', 'JBC ICE CAP'),
+(239, 'C226  OTH', '2', 'JBC Others'),
+(240, 'C226  PJ5', '2', 'PAJAMA TOP'),
+(241, 'C226  PJ6', '2', 'PAJAMA BOTTOM PANNT'),
+(242, 'C226  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
+(243, 'C226  SC1', '2', 'Regular length'),
+(244, 'C226  SC2', '2', 'Medium Length'),
+(245, 'C226  SC3', '2', 'ankle'),
+(246, 'C226  SF1', '2', 'JBC SCARF'),
+(247, 'C226  SL1', '2', 'JBC SLIPPER'),
+(248, 'C226  SO1', '2', 'SHOES'),
+(249, 'C227  SL1', '2', 'JBC SLIPPERS'),
+(250, 'C311  JK0', '2', 'JACKET'),
+(251, 'C311  PT0', '2', 'PANT'),
+(252, 'C311  SH0', '2', 'SHIRT'),
+(253, 'C311  SR0', '2', 'SHORT'),
+(254, 'C311  ST0', '2', 'SALOPPETTE'),
+(255, 'C311  SW0', '2', 'SWEATSHIRT'),
+(256, 'C311  TE0', '2', 'T-SHIRT'),
+(257, 'C321  C32', '2', 'KBC TRICOTE VEST'),
+(258, 'C321  JK2', '2', 'KBC FASHION JACKET'),
+(259, 'C321  PL1', '2', 'KBC BSC LT. PULLOVER'),
+(260, 'C321  PL2', '2', 'KBC FASHION LT. PULLOVER'),
+(261, 'C321  PL3', '2', 'KBC REG HVY. PULLOVER'),
+(262, 'C321  PL4', '2', 'KBC FSH.HVY.PULLOVER'),
+(263, 'C321  PL5', '2', 'KBC BTN FRNT PULLOVER'),
+(264, 'C321  PL6', '2', 'KBC ZIP FRNT PULLOVER'),
+(265, 'C321  PL8', '2', 'KBC FIT TIGHT PULLOVER'),
+(266, 'C321  SH1', '2', 'KBC L/S SLD SAFARI SHIRT'),
+(267, 'C321  SH2', '2', 'KBC L/S Y/D & PRINTSHIRT'),
+(268, 'C321  SH3', '2', 'KBC S/S SLD SAFARI SHIRT'),
+(269, 'C321  SH4', '2', 'KBC S/S Y/D & PRINTSHIRT'),
+(270, 'C321  SH5', '2', 'KBC OVERSHIRT'),
+(271, 'C321  SH7', '2', 'KBC SS REG SHIRT'),
+(272, 'C321  SH8', '2', 'KBC LS FSH SHIRT'),
+(273, 'C321  SW1', '2', 'KBC POLO SWEATSHIRT'),
+(274, 'C321  SW2', '2', 'KBC REG. SWEATSHIRT'),
+(275, 'C321  SW3', '2', 'KBC FSH SWEATSHIRT'),
+(276, 'C321  SW4', '2', 'KBC BTN FRNT SWEATSHIRT'),
+(277, 'C321  SW5', '2', 'KBC ZIP FRNT SWEATSHIRT'),
+(278, 'C321  SW7', '2', 'KBC FIT TIGHT SWEATSHIRT'),
+(279, 'C321  SW9', '2', 'KBC TRAINING TOP SWEATSHIRT'),
+(280, 'C321  TE1', '2', 'KBC S/S T-SHIRT'),
+(281, 'C321  TE2', '2', 'KBC S/S POLO T-SHIRT'),
+(282, 'C321  TE3', '2', 'KBC S/S FITTED T-SHIRT'),
+(283, 'C321  TE4', '2', 'KBC TANK TOP T-SHIRT'),
+(284, 'C321  TE5', '2', 'KBC L/S T-SHIRT'),
+(285, 'C321  TE6', '2', 'KBC L/S POLO T-SHIRT'),
+(286, 'C321  TE7', '2', 'KBC L/S FITTED T-SHIRT'),
+(287, 'C321  TE8', '2', 'KBC TRAINING TOP'),
+(288, 'C321  TE9', '2', 'KBC SLEEVLESS T-SHIRT'),
+(289, 'C321  VS3', '2', 'KBC BASICVEST'),
+(290, 'C321  VS5', '2', 'KBC TRICOTE VEST'),
+(291, 'C322  PT1', '2', 'KBC REGULAR CHINO PANT'),
+(292, 'C322  PT2', '2', 'KBC PULLON PANT'),
+(293, 'C322  PT3', '2', 'KBC FASHION PANT'),
+(294, 'C322  PT4', '2', 'KBC 5 POCKET PANT'),
+(295, 'C322  PT9', '2', 'KBC TRAINING PANT'),
+(296, 'C322  SM1', '2', 'KBC SWIMWEAR'),
+(297, 'C322  SM9', '2', 'KBC SWIMWEAR'),
+(298, 'C322  SR1', '2', 'KBC BASICSHORT'),
+(299, 'C322  SR2', '2', 'KBC PULLON SHORT'),
+(300, 'C322  SR3', '2', 'KBC FASHION SHORT'),
+(301, 'C322  SR4', '2', 'KBC PERMUDA SHORT'),
+(302, 'C322  SR5', '2', 'KBC 5 POCKET SHORT'),
+(303, 'C322  SR9', '2', 'KBC TRAINING SHORT'),
+(304, 'C322  ST1', '2', 'KBC SALOPPETTE SHORT'),
+(305, 'C322  ST2', '2', 'KBC SALOPPETTE PANT'),
+(306, 'C323  HT1', '2', 'HAT'),
+(307, 'C323  JK1', '2', 'KBC BASICJACKET'),
+(308, 'C323  JK2', '2', 'KBC FASHION JACKET'),
+(309, 'C323  JK5', '2', 'KBC PARKAJACKET'),
+(310, 'C323  JK6', '2', 'KBC Jacket'),
+(311, 'C323  JK9', '2', 'KBC LEATHER JACKET'),
+(312, 'C323  SM1', '2', 'KBC SMWR.1 Piece'),
+(313, 'C323  SW7', '2', 'KBC BODY SWEATSHIRT'),
+(314, 'C323  TE1', '2', 'KBC S/S T-SHIRT'),
+(315, 'C323  TE9', '2', 'MC SLEEVLESS T-SHIRT'),
+(316, 'C324  BX1', '2', 'KBC REGULAR BOXER'),
+(317, 'C324  BX2', '2', 'KBC  FITTED BOXER'),
+(318, 'C324  TE1', '2', 'KBC S/S T-SHIRT'),
+(319, 'C324  TE4', '2', 'KBC TANK TOP T-SHIRT'),
+(320, 'C324  TE5', '2', 'KBC L/S T.SHIRT'),
+(321, 'C324  TE9', '2', 'KBC NS T-SHIRT'),
+(322, 'C325  SC5', '2', 'KBC HOME SOCKS'),
+(323, 'C326  BG1', '2', 'JGC BAG'),
+(324, 'C326  BG2', '2', 'JB BAG'),
+(325, 'C326  BT1', '2', 'KBC BELT'),
+(326, 'C326  BT2', '2', 'JBC WOVENBELT'),
+(327, 'C326  BT4', '2', 'KB CasualBELT'),
+(328, 'C326  BT5', '2', 'KB Jeans BELT'),
+(329, 'C326  GV1', '2', 'KBC  TRICOTE GLOVE'),
+(330, 'C326  HN1', '2', 'Chandler'),
+(331, 'C326  HT1', '2', 'KBC HAT'),
+(332, 'C326  HT2', '2', 'ITALIAN HAT'),
+(333, 'C326  IC1', '2', 'KBC ICE CAP'),
+(334, 'C326  MNQ', '2', 'BOYS MANNEQUIN'),
+(335, 'C326  OTH', '2', 'KBC Others'),
+(336, 'C326  PJ5', '2', 'PAJAMA TOP'),
+(337, 'C326  PJ6', '2', 'PAJAMA BOTTOM PANNT'),
+(338, 'C326  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
+(339, 'C326  SC1', '2', 'Regular length'),
+(340, 'C326  SC2', '2', 'Medium Length'),
+(341, 'C326  SC3', '2', 'SOCKS'),
+(342, 'C326  SC5', '2', 'KBC SOCKS'),
+(343, 'C326  SF1', '2', 'KBC SCARF'),
+(344, 'C326  SL1', '2', 'KBC SLIPPER'),
+(345, 'C326  SO1', '2', 'SHOSES'),
+(346, 'C327  SL1', '2', 'KBC SLIPPERS'),
+(347, 'C411  PT0', '2', 'Pant'),
+(348, 'C411  VS0', '2', 'VEST'),
+(349, 'C421  BL1', '2', 'JGC L/S BTN FRNT BLOUSE'),
+(350, 'C421  BL2', '2', 'JGC S/S BTN FRNT BLOUSE'),
+(351, 'C421  BL3', '2', 'JGC N/S BTN FRNT BLOUSE'),
+(352, 'C421  BL4', '2', 'JGC L/S BLOUSE'),
+(353, 'C421  BL5', '2', 'JGC S/S BLOUSE'),
+(354, 'C421  BL6', '2', 'JGC SLEEVELESS BLOUSE'),
+(355, 'C421  BL7', '2', 'JGC TANK TOP BLOUSE'),
+(356, 'C421  BL9', '2', 'JGC JACKET/SET BLOUSE'),
+(357, 'C421  JK2', '2', 'JGC FASHION JACKET'),
+(358, 'C421  JK8', '2', 'RELATED JACKET-OVERSHIRT'),
+(359, 'C421  PL1', '2', 'JGC BSC LT. PULLOVER'),
+(360, 'C421  PL2', '2', 'JGC FASHION LT. PULLOVER'),
+(361, 'C421  PL3', '2', 'JGC REG HVY. PULLOVER'),
+(362, 'C421  PL4', '2', 'JGC FSH.HVY.PULLOVER'),
+(363, 'C421  PL5', '2', 'JGC BTN FRNT PULLOVER'),
+(364, 'C421  PL6', '2', 'JGC ZIP FRNT PULLOVER'),
+(365, 'C421  PL7', '2', 'JGC TWIN SET LT.PULLOVER'),
+(366, 'C421  PL8', '2', 'JGC FIT TIGHT PULLOVER'),
+(367, 'C421  SH5', '2', 'JGC OVERSHIRT'),
+(368, 'C421  SW1', '2', 'JGC POLO SWEATSHIRT'),
+(369, 'C421  SW2', '2', 'JGC REG. SWEATSHIRT'),
+(370, 'C421  SW3', '2', 'JGC FSH SWEATSHIRT'),
+(371, 'C421  SW4', '2', 'JGC BTN FRNT SWEATSHIRT'),
+(372, 'C421  SW5', '2', 'JGC ZIP FRNT SWEATSHIRT'),
+(373, 'C421  SW6', '2', 'JGC TWIN SET SWEATSHIRT'),
+(374, 'C421  SW7', '2', 'JGC FIT TIGHT SWEATSHIRT'),
+(375, 'C421  SW9', '2', 'JGC TRAINING TOP SWEATSHIRT'),
+(376, 'C421  TE1', '2', 'JGC S/S T-SHIRT'),
+(377, 'C421  TE2', '2', 'JGC S/S POLO T-SHIRT'),
+(378, 'C421  TE3', '2', 'JGC S/S FITTED T-SHIRT'),
+(379, 'C421  TE4', '2', 'JGC TANK TOP T-SHIRT'),
+(380, 'C421  TE5', '2', 'JGC L/S T-SHIRT'),
+(381, 'C421  TE6', '2', 'JGC L/S POLO T-SHIRT'),
+(382, 'C421  TE7', '2', 'JGC L/S FITTED T-SHIRT'),
+(383, 'C421  TE8', '2', 'JGC TWIN SET T-SHIRT'),
+(384, 'C421  TE9', '2', 'JGC SLEEVLESS T-SHIRT'),
+(385, 'C421  VS3', '2', 'JGC REGULAR CASUAL VEST'),
+(386, 'C421  VS4', '2', 'JGC  SAFARI VEST'),
+(387, 'C421  VS5', '2', 'JGC TRICOTE VEST'),
+(388, 'C422  DR3', '2', 'JGC  2 PICES DRESS'),
+(389, 'C422  DR4', '2', 'S/S REGULAR  LNGTH DRESS'),
+(390, 'C422  DR7', '2', 'JGC N/S REG DRESS'),
+(391, 'C422  DR8', '2', 'NO SLV LNG DRESS'),
+(392, 'C422  PT1', '2', 'JGC REGULAR CHINO PANT'),
+(393, 'C422  PT2', '2', 'JGC PULLON PANT'),
+(394, 'C422  PT3', '2', 'JGC FASHION PANT'),
+(395, 'C422  PT4', '2', 'JGC 5 POCKET PANT'),
+(396, 'C422  PT9', '2', 'JGC TRAINING PANT'),
+(397, 'C422  SAM', '2', 'SAMPLE'),
+(398, 'C422  SK1', '2', 'JGC REGULAR SKIRT'),
+(399, 'C422  SK2', '2', 'JGC LONG SKIRT'),
+(400, 'C422  SK3', '2', 'JGC SHORTSKIRT'),
+(401, 'C422  SK4', '2', 'JGC SKIRT'),
+(402, 'C422  SK6', '2', 'JGC REGULAR SKORT'),
+(403, 'C422  SK7', '2', 'JGC LONG SKORT'),
+(404, 'C422  SK8', '2', 'JGC SHORTSKORT'),
+(405, 'C422  SR1', '2', 'JGC BASICSHORT'),
+(406, 'C422  SR2', '2', 'JGC PULLON SHORT'),
+(407, 'C422  SR3', '2', 'JGC FASHION SHORT'),
+(408, 'C422  SR4', '2', 'JGC PERMUDA SHORT'),
+(409, 'C422  SR5', '2', 'JGC 5 POCKET SHORT'),
+(410, 'C422  SR9', '2', 'JGC TRAINING SHORT'),
+(411, 'C422  ST1', '2', 'JGC SALOPPETTE SHORT'),
+(412, 'C422  ST2', '2', 'JGC SALOPPETTE PANT'),
+(413, 'C422  ST3', '2', 'JGC SALOPPETTE DRESS'),
+(414, 'C423  CM1', '2', 'JGC CACHEMAILLOT'),
+(415, 'C423  CT1', '2', 'JGC S.BREAST REG COAT'),
+(416, 'C423  DR1', '2', 'JGC L/S REG DRESS'),
+(417, 'C423  DR2', '2', 'JGC L/S LONG DRESS'),
+(418, 'C423  DR3', '2', 'JGC L/S SHORT DRESS'),
+(419, 'C423  DR4', '2', 'JGC S/S REG DRESS'),
+(420, 'C423  DR5', '2', 'JGC S/S LONG DRESS'),
+(421, 'C423  DR6', '2', 'JGC S/S SHORT DRESS'),
+(422, 'C423  DR7', '2', 'JGC N/S REG DRESS'),
+(423, 'C423  DR8', '2', 'JGC N/S LONG DRESS'),
+(424, 'C423  DR9', '2', 'JGC N/S SHORT DRESS'),
+(425, 'C423  HT1', '2', 'JGC HAT'),
+(426, 'C423  JK1', '2', 'JGC BASICJACKET'),
+(427, 'C423  JK2', '2', 'JGC FASHION JACKET'),
+(428, 'C423  JK5', '2', 'JGC PARKAJACKET'),
+(429, 'C423  JK9', '2', 'JGC LEATHER JACKET'),
+(430, 'C423  SM1', '2', 'JGC SMWR.1 Piece'),
+(431, 'C423  SM2', '2', 'JGC SMWR.2 Pieces'),
+(432, 'C423  SW3', '2', 'JGC BODY SWEATSHIRT'),
+(433, 'C423  SW7', '2', 'JGC BODY SWEATSHIRT'),
+(434, 'C423  TE1', '2', 'JGC S/S T-SHIRT'),
+(435, 'C423  TE4', '2', 'TANK TOP SEPARATE T-SHIRT'),
+(436, 'C423  TE9', '2', 'KGC BASICSUSPENDER'),
+(437, 'C423  VS2', '2', 'JGC S.BREAST'),
+(438, 'C423  VS3', '2', 'JGC BASICVEST'),
+(439, 'C424  PY1', '2', 'JGC REGULAR PANTY'),
+(440, 'C424  PY2', '2', 'JGC BIKINI PANTY'),
+(441, 'C424  PY9', '2', 'JGC Uware'),
+(442, 'C424  TE1', '2', 'JGC S/S T-SHIRT'),
+(443, 'C424  TE2', '2', 'JGC SS POLO T-SHIRT'),
+(444, 'C424  TE4', '2', 'JGC TANK TOP T-SHIRT'),
+(445, 'C424  TE9', '2', 'JGC SLEEVLESS T-SHIRT'),
+(446, 'C426  BD1', '2', 'SQUARED BANDANA'),
+(447, 'C426  BD2', '2', 'SQUARED BANDANA'),
+(448, 'C426  BG1', '2', 'JGC BAG'),
+(449, 'C426  BG2', '2', 'JB BAG'),
+(450, 'C426  BT1', '2', 'JGC BELT'),
+(451, 'C426  BT2', '2', 'JGC NO BUCKLE BELT'),
+(452, 'C426  BT4', '2', 'JG CasualBELT'),
+(453, 'C426  BT5', '2', 'JG Jeans BELT'),
+(454, 'C426  GV1', '2', 'KIDS TRICOT GLOVE'),
+(455, 'C426  HA1', '2', 'HAIR HOOP'),
+(456, 'C426  HA2', '2', 'HAIR CHOUCHOU'),
+(457, 'C426  HN1', '2', 'Chandler'),
+(458, 'C426  HT1', '2', 'JGC HAT'),
+(459, 'C426  HT3', '2', 'JGC Sun HAT'),
+(460, 'C426  HT5', '2', 'JGC Sun HAT'),
+(461, 'C426  IC1', '2', 'JGC ICE CAP'),
+(462, 'C426  OTH', '2', 'JGC Others'),
+(463, 'C426  PJ5', '2', 'PAJAMA TOP'),
+(464, 'C426  PJ6', '2', 'PAJAMA BOTTOM PANNT'),
+(465, 'C426  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
+(466, 'C426  PN1', '2', 'JGC PONCHES'),
+(467, 'C426  SF1', '2', 'JGC SCARF'),
+(468, 'C426  SO1', '2', 'SHOSES'),
+(469, 'C426  WB1', '2', 'JGC WRISTBANDS'),
+(470, 'C427  SO1', '2', 'JGC SHOES'),
+(471, 'C511  BL0', '2', 'BLOUSE'),
+(472, 'C511  DR0', '2', 'C511  DR0'),
+(473, 'C511  JK0', '2', 'JACKET'),
+(474, 'C511  PT0', '2', 'PANT'),
+(475, 'C511  SK0', '2', 'SKIRT'),
+(476, 'C511  SR0', '2', 'Short'),
+(477, 'C511  ST0', '2', 'SALOPETTE'),
+(478, 'C521  BL1', '2', 'KGC L/S BTN FRNT BLOUSE'),
+(479, 'C521  BL2', '2', 'KGC S/S BTN FRNT BLOUSE'),
+(480, 'C521  BL3', '2', 'KGC N/S BTN FRNT BLOUSE'),
+(481, 'C521  BL4', '2', 'KGC L/S BLOUSE'),
+(482, 'C521  BL5', '2', 'KGC S/S BLOUSE'),
+(483, 'C521  BL6', '2', 'KGC SLEEVELESS BLOUSE'),
+(484, 'C521  BL7', '2', 'KGC TANK TOP BLOUSE'),
+(485, 'C521  BL9', '2', 'KGC JACKET/SET BLOUSE'),
+(486, 'C521  JK8', '2', 'RELATED JACKET-OVERSHIRT'),
+(487, 'C521  PL1', '2', 'KGC BSC LT. PULLOVER'),
+(488, 'C521  PL2', '2', 'KGC FASHION LT. PULLOVER'),
+(489, 'C521  PL3', '2', 'KGC REG HVY. PULLOVER'),
+(490, 'C521  PL4', '2', 'KGC FSH.HVY.PULLOVER'),
+(491, 'C521  PL5', '2', 'KGC BTN FRNT PULLOVER'),
+(492, 'C521  PL6', '2', 'KGC ZIP FRNT PULLOVER'),
+(493, 'C521  PL7', '2', 'KGC TWIN SET LT.PULLOVER'),
+(494, 'C521  PL8', '2', 'KGC FIT TIGHT PULLOVER'),
+(495, 'C521  SH5', '2', 'KGC OVERSHIRT'),
+(496, 'C521  SW1', '2', 'KGC POLO SWEATSHIRT'),
+(497, 'C521  SW2', '2', 'KGC REG. SWEATSHIRT'),
+(498, 'C521  SW3', '2', 'KGC FSH SWEATSHIRT'),
+(499, 'C521  SW4', '2', 'KGC BTN FRNT SWEATSHIRT'),
+(500, 'C521  SW5', '2', 'KGC ZIP FRNT SWEATSHIRT'),
+(501, 'C521  SW6', '2', 'KGC TWIN SET SWEATSHIRT'),
+(502, 'C521  SW7', '2', 'KGC FIT TIGHT SWEATSHIRT'),
+(503, 'C521  SW9', '2', 'KGC TRAINING TOP SWEATSHIRT'),
+(504, 'C521  TE1', '2', 'KGC S/S T-SHIRT'),
+(505, 'C521  TE2', '2', 'KGC S/S POLO T-SHIRT'),
+(506, 'C521  TE3', '2', 'KGC S/S FITTED T-SHIRT'),
+(507, 'C521  TE4', '2', 'KGC TANK TOP T-SHIRT'),
+(508, 'C521  TE5', '2', 'KGC L/S T-SHIRT'),
+(509, 'C521  TE6', '2', 'KGC L/S POLO T-SHIRT'),
+(510, 'C521  TE7', '2', 'KGC L/S FITTED T-SHIRT'),
+(511, 'C521  TE8', '2', 'KGC TWIN SET T-SHIRT'),
+(512, 'C521  TE9', '2', 'KGC SLEEVLESS T-SHIRT'),
+(513, 'C521  VS3', '2', 'KGC REGULAR CASUAL VEST'),
+(514, 'C521  VS5', '2', 'KGC TRICOTE VEST'),
+(515, 'C522  DR3', '2', 'KGC 2 PICES DRESS'),
+(516, 'C522  DR7', '2', 'KGC NS REG DRESS'),
+(517, 'C522  DR8', '2', 'KGC NS LNG DRESS'),
+(518, 'C522  PT1', '2', 'KGC REGULAR CHINO PANT'),
+(519, 'C522  PT2', '2', 'KGC PULLON PANT'),
+(520, 'C522  PT3', '2', 'KGC FASHION PANT'),
+(521, 'C522  PT4', '2', 'KGC 5 POCKET PANT'),
+(522, 'C522  PT9', '2', 'KGC TRAINING PANT'),
+(523, 'C522  SK1', '2', 'KGC REGULAR SKIRT'),
+(524, 'C522  SK2', '2', 'KGC LONG SKIRT'),
+(525, 'C522  SK3', '2', 'KGC SHORTSKIRT'),
+(526, 'C522  SK4', '2', 'KGC Btm'),
+(527, 'C522  SK6', '2', 'KGC REGULAR SKORT'),
+(528, 'C522  SK7', '2', 'KGC LONG SKORT'),
+(529, 'C522  SK8', '2', 'KGC SHORTSKORT'),
+(530, 'C522  SR1', '2', 'KGC BASICSHORT'),
+(531, 'C522  SR2', '2', 'KGC PULLON SHORT'),
+(532, 'C522  SR3', '2', 'KGC FASHION SHORT'),
+(533, 'C522  SR4', '2', 'KGC PERMUDA SHORT'),
+(534, 'C522  SR5', '2', 'KGC 5 POCKET SHORT'),
+(535, 'C522  SR9', '2', 'KGC TRAINING SHORT'),
+(536, 'C522  ST1', '2', 'KGC SALOPPETTE SHORT'),
+(537, 'C522  ST2', '2', 'KGC SALOPPETTE PANT'),
+(538, 'C522  ST3', '2', 'KGC SALOPPETTE DRESS'),
+(539, 'C522  TE3', '2', 'KGC TANK TOP T-SHIRT'),
+(540, 'C523  CM1', '2', 'KGC CACHEMAILLOT'),
+(541, 'C523  CT1', '2', 'KGC S.BREAST REG COAT'),
+(542, 'C523  DR1', '2', 'KGC L/S REG DRESS'),
+(543, 'C523  DR2', '2', 'KGC L/S LONG DRESS'),
+(544, 'C523  DR3', '2', 'KGC L/S SHORT DRESS'),
+(545, 'C523  DR4', '2', 'KGC S/S REG DRESS'),
+(546, 'C523  DR5', '2', 'KGC S/S LONG DRESS'),
+(547, 'C523  DR6', '2', 'KGC S/S SHORT DRESS'),
+(548, 'C523  DR7', '2', 'KGC N/S REG DRESS'),
+(549, 'C523  DR8', '2', 'KGC N/S LONG DRESS'),
+(550, 'C523  DR9', '2', 'KGC N/S SHORT DRESS'),
+(551, 'C523  HT1', '2', 'KGC HAT'),
+(552, 'C523  JK1', '2', 'KGC BASICJACKET'),
+(553, 'C523  JK2', '2', 'KGC FASHION JACKET'),
+(554, 'C523  JK5', '2', 'KGC PARKAJACKET'),
+(555, 'C523  JK9', '2', 'KGC LEATHER JACKET'),
+(556, 'C523  PT2', '2', 'KGC FASHION PANT'),
+(557, 'C523  SM1', '2', 'KGC SMWR.1 Piece'),
+(558, 'C523  SM2', '2', 'KGC SMWR.2 Pieces'),
+(559, 'C523  ST1', '2', 'KGC SALOPETTE SHORT'),
+(560, 'C523  SW3', '2', 'KGC BODY SWEATSHIRT'),
+(561, 'C523  SW7', '2', 'KGC BODY SWEATSHIRT'),
+(562, 'C523  TE1', '2', 'KGC S/S T-SHIRT'),
+(563, 'C523  TE4', '2', 'TANK TOP SEPARATE T-SHIRT'),
+(564, 'C523  TE9', '2', 'KGC BASICSUSPENDER'),
+(565, 'C523  VS2', '2', 'KGC S.BREAST'),
+(566, 'C523  VS3', '2', 'KGC BASICVEST'),
+(567, 'C523  VS4', '2', 'KGC  SAFARI VEST'),
+(568, 'C524  PY1', '2', 'KGC REGULAR PANTY'),
+(569, 'C524  PY2', '2', 'KGC BIKINI PANTY'),
+(570, 'C524  PY9', '2', 'KGC Uware'),
+(571, 'C524  TE1', '2', 'KGC S/S T-SHIRT'),
+(572, 'C524  TE2', '2', 'KGC SS POLO T-SHIRT'),
+(573, 'C524  TE4', '2', 'KGC TANK TOP T-SHIRT'),
+(574, 'C524  TE9', '2', 'KGC SLEEVLESS T-SHIRT'),
+(575, 'C526  BD1', '2', 'SQUARED BANDANA'),
+(576, 'C526  BD2', '2', 'SQUARED BANDANA'),
+(577, 'C526  BG1', '2', 'KGC BAG'),
+(578, 'C526  BG2', '2', 'JB BAG'),
+(579, 'C526  BT1', '2', 'KGC BELT'),
+(580, 'C526  BT2', '2', 'KGC NO BUCKLE BELT'),
+(581, 'C526  BT4', '2', 'KG CasualBELT'),
+(582, 'C526  BT5', '2', 'KG Jeans BELT'),
+(583, 'C526  GV1', '2', 'KIDS TRICOT GLOVE'),
+(584, 'C526  HA1', '2', 'HAIR HOOP'),
+(585, 'C526  HA2', '2', 'HAIR CHOUCHOU'),
+(586, 'C526  HN1', '2', 'Chandler'),
+(587, 'C526  HT1', '2', 'KGC HAT'),
+(588, 'C526  HT3', '2', 'KGC HAT'),
+(589, 'C526  HT5', '2', 'KGC Sun HAT'),
+(590, 'C526  IC1', '2', 'KGC ICE CAP'),
+(591, 'C526  MNQ', '2', 'GIRLS MANNEQUIN'),
+(592, 'C526  NL1', '2', 'NL1'),
+(593, 'C526  OTH', '2', 'KGC Others'),
+(594, 'C526  PJ5', '2', 'PAJAMA TOP'),
+(595, 'C526  PJ6', '2', 'PAJAMA BOTTOM PANNT'),
+(596, 'C526  PJ7', '2', 'PAJAMA BOTTOM SHORT'),
+(597, 'C526  PN1', '2', 'KGC PONCHES'),
+(598, 'C526  SC1', '2', 'REGULAR LENGTH'),
+(599, 'C526  SC2', '2', 'MEDIUIM LENGTH'),
+(600, 'C526  SC5', '2', 'KGC HOME SOCKS'),
+(601, 'C526  SC6', '2', 'WGC SOCKS'),
+(602, 'C526  SF1', '2', 'KGC SCARF'),
+(603, 'C526  SO1', '2', 'SHOSES'),
+(604, 'C526  WT1', '2', 'WT1'),
+(605, 'C527  SO1', '2', 'KGC SHOES'),
+(606, 'C626  SC6', '2', 'WGC SOCKS'),
+(607, 'C626  SC7', '2', 'SOCKS'),
+(608, 'C711  BL0', '2', 'BLOUSE'),
+(609, 'C711  PT0', '2', 'C711  PT0'),
+(610, 'C711  SH0', '2', 'SHIRT'),
+(611, 'C711  SK0', '2', 'SKIRT'),
+(612, 'C821  JK2', '2', 'JACKET'),
+(613, 'C821  PL5', '2', 'PULLOVER'),
+(614, 'C821  PL6', '2', 'BBC ZIP FRNT PULLOVER'),
+(615, 'C821  SH1', '2', 'SHIRT'),
+(616, 'C821  SH2', '2', 'BBC L/S SHIRT'),
+(617, 'C821  SH3', '2', 'BBC S/S SLD SAFARI SHIRT'),
+(618, 'C821  SH4', '2', 'BBC S/S SHIRT'),
+(619, 'C821  SW3', '2', 'BBC FSH SWEATSHIRT'),
+(620, 'C821  TE1', '2', 'T-SHIRT'),
+(621, 'C822  PT3', '2', 'BBC (FASHION PANT)'),
+(622, 'C822  SR3', '2', 'BBC (FASHION SHORT)'),
+(623, 'C822  ST1', '2', 'BBC (SALLOPPETTE SHORT)'),
+(624, 'C822  ST2', '2', 'SALLOPPETTE'),
+(625, 'C823  JK2', '2', 'BBC FSH JACKET'),
+(626, 'C826  BK1', '2', 'BLANKET'),
+(627, 'C921  BL1', '2', 'BLOUSE'),
+(628, 'C921  BL3', '2', 'BGC (N/S BTN FRNT BLOUSE)'),
+(629, 'C921  BL5', '2', 'BGC (S/S BLOUSE)'),
+(630, 'C921  BL6', '2', 'BGC ( SLEEVELESS BLOUSE )'),
+(631, 'C921  PL5', '2', 'PULLOVER'),
+(632, 'C921  PL6', '2', 'BBC ZIP FRNT PULLOVER'),
+(633, 'C921  SW3', '2', 'BGC FSH SWEATSHIRT'),
+(634, 'C921  TE1', '2', 'T-SHIRT'),
+(635, 'C922  PT3', '2', 'BGC (FASHION PANT)'),
+(636, 'C922  SR3', '2', 'BGC (FASHION SHORT)'),
+(637, 'C922  ST1', '2', 'BGC (SALOPETTE SHORT)'),
+(638, 'C922  ST3', '2', 'SALOPETTE'),
+(639, 'C923  DR1', '2', 'DRESS'),
+(640, 'C923  DR6', '2', 'BGC S/S SHORT DRESS'),
+(641, 'C923  DR7', '2', 'BGC (N/S REG DRESS)'),
+(642, 'C923  JK2', '2', 'BGC FSH JACKET'),
+(643, 'C926  BK1', '2', 'BLANKET'),
+(644, 'CDSP  TLS', '2', 'STORES DISPLAY TOOLS'),
+(645, 'CDWN  CDW', '2', 'DOWN PAYMENT'),
+(646, 'CFAB  MTM', '2', 'FABRIC MADE TO MEASURE'),
+(647, 'CGFT  BOX', '2', 'CGFT BOX = Gift Box'),
+(648, 'CGFT  CRD', '2', 'GIFT CARD'),
+(649, 'CMIX  BZ3', '2', 'MIX'),
+(650, 'CMIX  SU3', '2', 'MIX'),
+(651, 'CMIX  SU4', '2', 'MIX'),
+(652, 'CMIX  TR2', '2', 'MIX'),
+(653, 'CMIX  TR3', '2', 'MIX'),
+(654, 'CMTM  CT1', '2', 'COAT'),
+(655, 'CMTM  SU3', '2', 'MADE TO MEASURE'),
+(656, 'CMTM  SU4', '2', 'MADE TO MEASURE'),
+(657, 'CMTM  SU8', '2', 'MTM ceremonial suit'),
+(658, 'CMTM  TR3', '2', 'MADE TO MEASURE'),
+(659, 'CMTM  VS1', '2', 'MF D.BREAST VEST'),
+(660, 'MTMM  BZ3', '2', 'M TO MSURE SNGL BRST BLZ'),
+(661, 'MTMM  JK2', '2', 'MADE TO MEASURE JACKET'),
+(662, 'MTMM  TR2', '2', 'M TO MSURE 1PLT TROUSER'),
+(663, 'PROMOTI', '2', 'PROMOTION'),
+(664, 'Q111  BZ1', '2', 'MF 2 BTN DOUBLE BREAST'),
+(665, 'Q111  BZ2', '2', 'MF 3 B S.REAST BLAZER'),
+(666, 'Q111  BZ3', '2', 'MF 2 B S.REAST BLAZER'),
+(667, 'Q111  BZ4', '2', 'MF 4 B S.REAST BLAZER'),
+(668, 'Q111  SH1', '2', 'L/S SOLIDSHIRT'),
+(669, 'Q111  SH2', '2', 'L/S  PRINT SHIRT'),
+(670, 'Q111  SH3', '2', 'S/S SOLIDSHIRT'),
+(671, 'Q111  SH4', '2', 'S/S  PRINT SHIRT'),
+(672, 'Q111  SH5', '2', 'L/S SOLIDSHIRT CUFFLINKS'),
+(673, 'Q111  SH6', '2', 'L/S PRINTSHIRT CUFFLINKS'),
+(674, 'Q111  SH8', '2', 'L/S CEREMONIAL SHIRT CUFFLINKS'),
+(675, 'Q111  SH9', '2', 'HIGH QUALITY SHIRT'),
+(676, 'Q111  SU1', '2', 'MF 2 BTN DOUBLE BREAST F.FRONT'),
+(677, 'Q111  SU2', '2', 'MF 3 B S .BREAST -1PLEAT'),
+(678, 'Q111  SU3', '2', 'MF 2 B S .BREAST -1PLEAT'),
+(679, 'Q111  SU4', '2', 'MF 2 B S .BREAST -F.FRONT'),
+(680, 'Q111  SU8', '2', 'SUIT'),
+(681, 'Q112  TR2', '2', 'MF 1PLEATTROUSER'),
+(682, 'Q112  TR3', '2', 'TROUSER FLAT FRONT'),
+(683, 'Q113  CT2', '2', 'MF S.BREAST LNG COAT'),
+(684, 'Q116  BW1', '2', 'MC BOW TIE'),
+(685, 'Q116  CB1', '2', 'MC CUMMERBAND'),
+(686, 'Q116  CL1', '2', 'METAL CUFFLINK'),
+(687, 'Q116  SO2', '2', 'MC CLASSIC LEATHER SHOES'),
+(688, 'Q116  SO8', '2', 'MC CEREMONIAL LEATHER SHOES'),
+(689, 'Q116  TY1', '2', 'MC TIE'),
+(690, 'Q121  PL1', '2', 'MC BASIC LT.PULLOVER'),
+(691, 'Q121  VS3', '2', 'MC BASIC VEST'),
+(692, 'Q123  JK1', '2', 'MC BASIC JACKET'),
+(693, 'Q123  JK9', '2', 'MC LEATHER JACKET'),
+(694, 'Q126  GV1', '2', 'MC LEATHER GLOVE'),
+(695, 'Q126  SF1', '2', 'MC SCARF'),
+(696, 'QMIX  SU3', '2', 'QMIXSU3'),
+(697, 'QMIX  SU4', '2', 'QMIXSU4'),
+(698, 'T111  BZ5', '2', 'MIX & MATCH CLASSICBLAZER'),
+(699, 'T111  BZ8', '2', 'FASHION BLAZER M F'),
+(700, 'T111  SH0', '2', 'SHIRT'),
+(701, 'T111  SH1', '2', 'L/S SOLIDSHIRT'),
+(702, 'T111  SH2', '2', 'L/S PRINTSHIRT'),
+(703, 'T111  SH3', '2', 'S/S SOLIDSHIRT'),
+(704, 'T111  SH4', '2', 'S/S PRINTSHIRT'),
+(705, 'T111  SH5', '2', 'L/S SOLIDSHIRT CUFF'),
+(706, 'T111  SH6', '2', 'L/S PRINTSHIRT CUFF'),
+(707, 'T111  SH8', '2', 'L/S CEREMONIAL SHIRT CUFFLINKS'),
+(708, 'T111  SU4', '2', '2BTN S.BREAST FLAT FRONT'),
+(709, 'T111  SU8', '2', 'SUIT'),
+(710, 'T111  VS0', '2', 'VEST'),
+(711, 'T112  TR3', '2', 'FLAT FRONT TROUSER'),
+(712, 'T112  TR5', '2', 'MIX & MATCH CLASSICTROUSER'),
+(713, 'T113  CT1', '2', 'M/F S.BREAST REG COAT'),
+(714, 'T116  BT1', '2', 'MC CLASSIC BELT'),
+(715, 'T116  TY1', '2', 'MC TIE'),
+(716, 'T121  PL4', '2', 'MC FSH. HVY. PULLOVER'),
+(717, 'T121  TE1', '2', 'MC S/S  T.SHIRT'),
+(718, 'T121  TE5', '2', 'MC L/S T.SHIRT'),
+(719, 'T121  TE7', '2', 'MC L/S FITTED T.SHIRT'),
+(720, 'T122  PT4', '2', 'MC 5 PANTPOCKET'),
+(721, 'T122  PT5', '2', 'MC REGULAR SEMI CLASSIC'),
+(722, 'T122  PT6', '2', 'MC FASHION SEMI CLASSIC'),
+(723, 'T123  JK5', '2', 'MC PARKA JACKET'),
+(724, 'T123  JK9', '2', 'MC LEATHER JACKET'),
+(725, 'T126  BT1', '2', 'MC BELT'),
+(726, 'T126  SF1', '2', 'MC SCARF'),
+(2190, 'C111  BZ1', '2', 'MF D.BREAST BLAZER'),
+(2193, 'C122  SAM', '2', 'SAMPLE'),
+(2194, 'C111  BZ3', '2', '2BT S.BRST BLAZER');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_group`
+-- Table structure for table `DCS_size_scale`
 --
 
-CREATE TABLE `user_group` (
-  `group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_name` char(20) NOT NULL,
-  PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user_group`
---
-
-INSERT INTO `user_group` (`group_id`, `group_name`) VALUES
-(1, 'Administrators');
-
+CREATE TABLE IF NOT EXISTS `DCS_size_scale` (
+  `DCS_size_id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `size_scale` char(5) NOT NULL,
+  `size_fulldept` char(9) NOT NULL,
+  `size_country_id` char(5) NOT NULL DEFAULT '2',
+  PRIMARY KEY (`DCS_size_id`),
+  KEY `fk_DCS_size_scale_dept_idx` (`size_fulldept`),
+  KEY `fk_DCS_size_scale_country_idx` (`size_country_id`),
+  KEY `fk_DCS_size_scale_size_idx` (`size_scale`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `DCS_size_scale`
 --
 
 INSERT INTO `DCS_size_scale` (`DCS_size_id`, `size_scale`, `size_fulldept`, `size_country_id`) VALUES
-(0000000010, '10', 'C111  BZ1', '2'),
-(0000000012, '100', 'C111  BZ1', '2');
+(0000000001, '10', 'c111  BZ1', '2'),
+(0000000002, '100', 'C111  BZ1', '2');
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `marker`
+--
+
+CREATE TABLE IF NOT EXISTS `marker` (
+  `marker_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ss_id` int(11) NOT NULL,
+  `width` float NOT NULL,
+  `length` float NOT NULL,
+  `utilization` float NOT NULL,
+  `t_size` float NOT NULL,
+  `ratio` char(40) CHARACTER SET utf8 NOT NULL,
+  `marker_name` char(40) CHARACTER SET utf8 NOT NULL,
+  `owner` int(11) NOT NULL,
+  PRIMARY KEY (`marker_id`),
+  KEY `fk_marker_ss_idx` (`ss_id`),
+  KEY `owner` (`owner`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+
+--
+-- Dumping data for table `marker`
+--
+
+INSERT INTO `marker` (`marker_id`, `ss_id`, `width`, `length`, `utilization`, `t_size`, `ratio`, `marker_name`, `owner`) VALUES
+(15, 34, 147, 162.28, 80.48, 32, '3M--9M--18M', 'T-BSH-04-147-1', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `marker_log`
+--
+
+CREATE TABLE IF NOT EXISTS `marker_log` (
+  `marker_log_id` int(11) NOT NULL AUTO_INCREMENT,
+  `marker_id` int(11) NOT NULL,
+  `action_time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `action_type` char(10) NOT NULL,
+  `action_comment` text CHARACTER SET utf8 NOT NULL,
+  `user` int(11) NOT NULL,
+  PRIMARY KEY (`marker_log_id`),
+  KEY `marker_id` (`marker_id`),
+  KEY `user` (`user`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `marker_log`
+--
+
+INSERT INTO `marker_log` (`marker_log_id`, `marker_id`, `action_time_stamp`, `action_type`, `action_comment`, `user`) VALUES
+(7, 15, '2014-10-22 14:35:59', 'create', 'Creating a new marker for stylesheet GPJ/T-03', 3),
+(8, 15, '2014-10-22 14:36:36', 'update', 'Changing T size', 3);
+
+-- --------------------------------------------------------
 --
 -- Constraints for dumped tables
 --
@@ -2356,32 +2438,33 @@ ALTER TABLE `DCS_size_scale`
   ADD CONSTRAINT `fk_DCS_size_scale_size` FOREIGN KEY (`size_scale`) REFERENCES `size` (`scale_number`) ON DELETE CASCADE;
 
 --
--- Constraints for table `group_privileges`
+-- Constraints for table `group_operations`
 --
-ALTER TABLE `group_privileges`
-  ADD CONSTRAINT `fk_group_privileges_grp` FOREIGN KEY (`group_id`) REFERENCES `user_group` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_group_privileges_priv` FOREIGN KEY (`privilege_id`) REFERENCES `privileges` (`priv_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `group_operations`
+  ADD CONSTRAINT `fk_grp_op_op` FOREIGN KEY (`op_name`) REFERENCES `operation` (`op_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_group_privileges_grp` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `marker`
 --
 ALTER TABLE `marker`
+  ADD CONSTRAINT `fk_marker_owner` FOREIGN KEY (`owner`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_marker_ss` FOREIGN KEY (`ss_id`) REFERENCES `stylesheet` (`ss_id`) ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `marker_log`
 --
 ALTER TABLE `marker_log`
-  ADD CONSTRAINT `fk_marker_log_marker` FOREIGN KEY (`marker_id`) REFERENCES `marker` (`marker_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_marker_log` FOREIGN KEY (`marker_id`) REFERENCES `marker` (`marker_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_marker_user` FOREIGN KEY (`user`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `stylesheet`
 --
 ALTER TABLE `stylesheet`
-  ADD CONSTRAINT `fk_stylesheet_brand` FOREIGN KEY (`brand_dept_name`) REFERENCES `dept_name` (`dept_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_stylesheet_category` FOREIGN KEY (`category_subc_name`) REFERENCES `subclass_name` (`subclassid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_stylesheet_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_stylesheet_dept` FOREIGN KEY (`dept_id`, `class_id`, `subclass_id`) REFERENCES `departments` (`deptid`, `classid`, `subclassid`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_ss_scale_sizes` FOREIGN KEY (`scale`) REFERENCES `size` (`scale_number`),
+  ADD CONSTRAINT `fk_stylesheet_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `stylesheet_bom`
@@ -2409,7 +2492,7 @@ ALTER TABLE `stylesheet_images`
 -- Constraints for table `stylesheet_log`
 --
 ALTER TABLE `stylesheet_log`
-  ADD CONSTRAINT `fk_stylesheet_log_ss` FOREIGN KEY (`stylesheet_id`) REFERENCES `stylesheet` (`ss_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_stylesheet_log_ss` FOREIGN KEY (`ss_id`) REFERENCES `stylesheet` (`ss_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_stylesheet_log_user` FOREIGN KEY (`user`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -2422,7 +2505,7 @@ ALTER TABLE `stylesheet_size`
 -- Constraints for table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `fk_users_group` FOREIGN KEY (`user_group`) REFERENCES `user_group` (`group_id`) ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_users_group` FOREIGN KEY (`user_group`) REFERENCES `group` (`group_id`) ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

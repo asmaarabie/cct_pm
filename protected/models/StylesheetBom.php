@@ -20,12 +20,10 @@
  * @property Stylesheet $ss
  * @property ColorCode $itemColor
  * @property Countries $country
- * @property Departments $dept
- * @property Departments $class
- * @property Departments $subclass
  */
 class StylesheetBom extends CActiveRecord
 {
+	public $code;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -42,12 +40,13 @@ class StylesheetBom extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ss_id, dcs_name, dept_id, class_id, subclass_id, item_color_id, countryid', 'required'),
+			array('ss_id, dept_id, class_id, subclass_id, item_color_id, countryid', 'required'),
 			array('ss_id', 'numerical', 'integerOnly'=>true),
 			array('dcs_name, item_color_id, item_desc, item_placement', 'length', 'max'=>40),
 			array('dept_id, class_id, subclass_id', 'length', 'max'=>3),
 			array('item_cons', 'length', 'max'=>20),
 			array('countryid', 'length', 'max'=>5),
+			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ss_bom_id, ss_id, dcs_name, dept_id, class_id, subclass_id, item_color_id, item_desc, item_cons, item_placement, countryid', 'safe', 'on'=>'search'),
@@ -65,9 +64,6 @@ class StylesheetBom extends CActiveRecord
 			'ss' => array(self::BELONGS_TO, 'Stylesheet', 'ss_id'),
 			'itemColor' => array(self::BELONGS_TO, 'ColorCode', 'item_color_id'),
 			'country' => array(self::BELONGS_TO, 'Countries', 'countryid'),
-			'dept' => array(self::BELONGS_TO, 'Departments', 'dept_id'),
-			'class' => array(self::BELONGS_TO, 'Departments', 'class_id'),
-			'subclass' => array(self::BELONGS_TO, 'Departments', 'subclass_id'),
 		);
 	}
 
@@ -77,17 +73,18 @@ class StylesheetBom extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ss_bom_id' => 'Ss Bom',
-			'ss_id' => 'Ss',
-			'dcs_name' => 'Dcs Name',
-			'dept_id' => 'Dept',
-			'class_id' => 'Class',
-			'subclass_id' => 'Subclass',
+			'ss_bom_id' => 'Styylesheet bom id',
+			'ss_id' => 'Stylesheet id',
+			'dcs_name' => 'Item',
+			'dept_id' => 'Department id',
+			'class_id' => 'Class id',
+			'subclass_id' => 'Subclass id',
 			'item_color_id' => 'Item Color',
-			'item_desc' => 'Item Desc',
+			'item_desc' => 'Item Description',
 			'item_cons' => 'Item Cons',
 			'item_placement' => 'Item Placement',
-			'countryid' => 'Countryid',
+			'countryid' => 'Country id',
+			'code' => "Code", 
 		);
 	}
 
@@ -120,6 +117,7 @@ class StylesheetBom extends CActiveRecord
 		$criteria->compare('item_cons',$this->item_cons,true);
 		$criteria->compare('item_placement',$this->item_placement,true);
 		$criteria->compare('countryid',$this->countryid,true);
+		$criteria->compare('item',$this->item,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -135,5 +133,41 @@ class StylesheetBom extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	protected function beforeSave () {
+		$this->code = $this->dept_id.str_pad($this->class_id, 3, " ", STR_PAD_RIGHT).$this->subclass_id;
+		$dept = Departments::model()->findByAttributes(array('fulldept'=>$this->code, 'countryid'=>$this->countryid), array('distinct'=>true));
+		if (!is_null($dept))
+			$this->dcs_name = $dept["deptname"].$dept["classname"].$dept["subclassname"];
+		else
+			$this->dcs_name = "";
+		return parent::beforeSave();
+	}
+	
+	protected function afterFind() {
+		$this->code = $this->dept_id.str_pad($this->class_id, 3, " ", STR_PAD_RIGHT).$this->subclass_id;
+		return parent::afterFind();
+	}
+	
+	protected function afterSave () { 
+		// Add a log entry to the stylesheet log 
+		$log_entry = new StylesheetLog();
+		$log_entry->action_type = $this->isNewRecord? 'create':'update';
+		$log_entry->ss_id = $this->ss_id;
+		$log_entry->user = Yii::app()->user->id;
+		$log_entry->action_comment = "$log_entry->action_type stylesheet bom item #$this->ss_bom_id";
+		$log_entry->save();
+		return parent::afterSave();
+	}
+	
+	protected function afterDelete () {
+		$log_entry = new StylesheetLog();
+		$log_entry->action_type = 'delete';
+		$log_entry->ss_id = $this->ss_id;
+		$log_entry->user = Yii::app()->user->id;
+		$log_entry->action_comment = "$log_entry->action_type stylesheet bom item #$this->ss_bom_id";
+		$log_entry->save();
+		return parent::afterDelete();
 	}
 }
