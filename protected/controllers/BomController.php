@@ -32,7 +32,7 @@ class BomController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'modifySizeQty'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -54,6 +54,10 @@ class BomController extends Controller
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+	}
+	
+	public function actionPopulate($ss_id) {
+		$ss_bom = StylesheetBom::model()->findByAttributes(array(''));
 	}
 
 	/**
@@ -122,18 +126,28 @@ class BomController extends Controller
 	 */
 	public function actionIndex($ss_id)
 	{
-		$dataProvider=new CActiveDataProvider('Bom', array(
-				'criteria'=>array(
-						'condition'=>"ss_id={$ss_id}",
+		
+		$ssBomItems = StylesheetBom::model()->findAllByAttributes(array('ss_id'=>$ss_id));
+		$ssBomItemsDataProvider=new CActiveDataProvider('StylesheetBom', array('criteria'=>array(
+				'condition'=>"ss_id={$ss_id}",
 		)));
+
+		$bomItems = array();
+		
+		foreach ($ssBomItems as $i => $ssBomItem) {
+			$bomItems[$ssBomItem['code']]= new CActiveDataProvider('Bom', (array('criteria'=>array(
+				'condition'=>"ss_id='{$ss_id}' and fulldept='{$ssBomItem->code}' and countryid={$ssBomItem->countryid}"))));
+		}
 		
 		$ss_model = Stylesheet::model()->findByPk($ss_id);
 		if($ss_model===null)
 			throw new CHttpException(404,'The requested stylesheet page does not exist.');
 		
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
 			'ss_model' => $ss_model,
+			'ssBomItems' => $ssBomItems,
+			'ssBomItemsDataProvider' => $ssBomItemsDataProvider,
+			'bomItems'=>$bomItems,
 		));
 	}
 
@@ -179,4 +193,48 @@ class BomController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+
+	public function actionModifySizeQty ($ss_id) {
+		$ss_size_qty = SsSizeQty::model()->findAllByAttributes(array('ss_id'=>$ss_id));
+		$ss_model = Stylesheet::model()->findByPk($ss_id);
+		
+		// if the quantity is zero, auto fill, then display the form
+		if (count($ss_size_qty) == 0) {
+			
+			$sizes = Size::model()->getScaleSizes($ss_model->scale);
+			$model_sizes = $ss_model->sizes;
+			
+			foreach ($sizes as $i=>$size) {
+				if (substr($model_sizes,$i,1)=="1") {
+					$s_model = new SsSizeQty();
+					$s_model->ss_id = $ss_id;
+					$s_model->size = $size;
+					$s_model->size_qty = 0;
+					$s_model->save();	
+				}
+			}
+			
+			$ss_size_qty = SsSizeQty::model()->findAllByAttributes(array('ss_id'=>$ss_id));
+		}
+		
+		if(isset($_POST['SsSizeQty']))
+		{
+			$allSaved = true;
+			foreach ($ss_size_qty as $i=>$s_model) {
+				$s_model->size_qty = $_POST['SsSizeQty'][$i]["size_qty"];
+				if (!$s_model->save())
+					$allSaved = false;
+			}
+			if ($allSaved) {
+					$this->redirect(array('index','ss_id'=>$ss_id));
+			}
+		}
+		
+		$this->render('modifySizes',array(
+				'ss_model' => $ss_model,
+				'model'=> $ss_size_qty,
+		));
+	}
+	
 }

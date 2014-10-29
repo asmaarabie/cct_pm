@@ -32,8 +32,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'bom_dcs_code'); ?>
-		<?php echo $form->textField($model,'bom_dcs_code',array('size'=>10,'maxlength'=>10)); ?>
+		<?php echo $form->label($model,'fulldept'); ?>
+		<?php echo $form->textField($model,'fulldept',array('size'=>9,'maxlength'=>9)); ?>
 	</div>
 
 	<div class="row">

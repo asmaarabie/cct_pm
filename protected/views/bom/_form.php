@@ -38,9 +38,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'bom_dcs_code'); ?>
-		<?php echo $form->textField($model,'bom_dcs_code',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'bom_dcs_code'); ?>
+		<?php echo $form->labelEx($model,'fulldept'); ?>
+		<?php echo $form->textField($model,'fulldept',array('size'=>9,'maxlength'=>9)); ?>
+		<?php echo $form->error($model,'fulldept'); ?>
 	</div>
 
 	<div class="row">

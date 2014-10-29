@@ -8,7 +8,7 @@
  * @property integer $ss_id
  * @property string $item_desc
  * @property string $item_placement
- * @property string $bom_dcs_code
+ * @property string $fulldept
  * @property integer $item_qty
  * @property string $item_consumption
  * @property integer $item_increase
@@ -42,14 +42,15 @@ class Bom extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ss_id, bom_dcs_code, item_qty, item_consumption, pono, countryid, itemno', 'required'),
+			array('ss_id, fulldept, item_qty, item_consumption, pono, countryid, itemno', 'required'),
 			array('ss_id, item_qty, item_increase, pono, itemno', 'numerical', 'integerOnly'=>true),
 			array('item_desc, item_placement', 'length', 'max'=>40),
-			array('bom_dcs_code, item_consumption', 'length', 'max'=>10),
+			array('fulldept', 'length', 'max'=>9),
+			array('item_consumption', 'length', 'max'=>10),
 			array('countryid', 'length', 'max'=>5),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('bom_id, ss_id, item_desc, item_placement, bom_dcs_code, item_qty, item_consumption, item_increase, pono, countryid, itemno', 'safe', 'on'=>'search'),
+			array('bom_id, ss_id, item_desc, item_placement, fulldept, item_qty, item_consumption, item_increase, pono, countryid, itemno', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,17 +77,17 @@ class Bom extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'bom_id' => 'Bom',
-			'ss_id' => 'Ss',
-			'item_desc' => 'Item Desc',
+			'bom_id' => 'Bom item id',
+			'ss_id' => 'Stylesheet id',
+			'item_desc' => 'Item Description',
 			'item_placement' => 'Item Placement',
-			'bom_dcs_code' => 'Bom Dcs Code',
-			'item_qty' => 'Item Qty',
+			'fulldept' => 'Full Department id',
+			'item_qty' => 'Item Quantity',
 			'item_consumption' => 'Item Consumption',
 			'item_increase' => 'Item Increase',
 			'pono' => 'Pono',
-			'countryid' => 'Countryid',
-			'itemno' => 'Itemno',
+			'countryid' => 'Country id',
+			'itemno' => 'Item No',
 		);
 	}
 
@@ -112,7 +113,7 @@ class Bom extends CActiveRecord
 		$criteria->compare('ss_id',$this->ss_id);
 		$criteria->compare('item_desc',$this->item_desc,true);
 		$criteria->compare('item_placement',$this->item_placement,true);
-		$criteria->compare('bom_dcs_code',$this->bom_dcs_code,true);
+		$criteria->compare('fulldept',$this->fulldept,true);
 		$criteria->compare('item_qty',$this->item_qty);
 		$criteria->compare('item_consumption',$this->item_consumption,true);
 		$criteria->compare('item_increase',$this->item_increase);

@@ -21,8 +21,8 @@
 	<?php echo CHtml::encode($data->item_placement); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('bom_dcs_code')); ?>:</b>
-	<?php echo CHtml::encode($data->bom_dcs_code); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('fulldept')); ?>:</b>
+	<?php echo CHtml::encode($data->fulldept); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('item_qty')); ?>:</b>

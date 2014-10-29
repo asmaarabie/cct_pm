@@ -25,7 +25,7 @@ $this->menu=array(
 		'ss_id',
 		'item_desc',
 		'item_placement',
-		'bom_dcs_code',
+		'fulldept',
 		'item_qty',
 		'item_consumption',
 		'item_increase',

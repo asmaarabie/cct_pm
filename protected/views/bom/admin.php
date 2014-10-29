@@ -49,7 +49,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'ss_id',
 		'item_desc',
 		'item_placement',
-		'bom_dcs_code',
+		'fulldept',
 		'item_qty',
 		/*
 		'item_consumption',
