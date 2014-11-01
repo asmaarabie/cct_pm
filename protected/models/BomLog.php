@@ -9,8 +9,10 @@
  * @property string $action_time_stamp
  * @property string $action_type
  * @property string $action_comment
+ * @property integer $user
  *
  * The followings are the available model relations:
+ * @property User $user0
  * @property Bom $bom
  */
 class BomLog extends CActiveRecord
@@ -31,13 +33,13 @@ class BomLog extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('bom_log_id, bom_id, action_time_stamp', 'required'),
-			array('bom_log_id, bom_id', 'numerical', 'integerOnly'=>true),
+			array('bom_id, action_time_stamp, action_type, action_comment, user', 'required'),
+			array('bom_id, user', 'numerical', 'integerOnly'=>true),
 			array('action_type', 'length', 'max'=>10),
 			array('action_comment', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('bom_log_id, bom_id, action_time_stamp, action_type, action_comment', 'safe', 'on'=>'search'),
+			array('bom_log_id, bom_id, action_time_stamp, action_type, action_comment, user', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,6 +51,7 @@ class BomLog extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'user0' => array(self::BELONGS_TO, 'User', 'user'),
 			'bom' => array(self::BELONGS_TO, 'Bom', 'bom_id'),
 		);
 	}
@@ -64,6 +67,7 @@ class BomLog extends CActiveRecord
 			'action_time_stamp' => 'Action Time Stamp',
 			'action_type' => 'Action Type',
 			'action_comment' => 'Action Comment',
+			'user' => 'User',
 		);
 	}
 
@@ -90,6 +94,7 @@ class BomLog extends CActiveRecord
 		$criteria->compare('action_time_stamp',$this->action_time_stamp,true);
 		$criteria->compare('action_type',$this->action_type,true);
 		$criteria->compare('action_comment',$this->action_comment,true);
+		$criteria->compare('user',$this->user);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

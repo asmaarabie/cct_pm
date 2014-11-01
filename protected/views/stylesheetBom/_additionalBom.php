@@ -5,8 +5,17 @@
  * $i index of the $model in the whole array
  * $cc_model ColorCode
  */
-Yii::app()->clientScript->registerScript ("removeItem", 
+$url = $this->createUrl('getCountryDepts');
+Yii::app()->clientScript->registerScript ("removeItem",
 "jQuery(document).on('click', '.remove_field', (function () { $(this).parent('div').remove(); } ));");
+
+Yii::app()->clientScript->registerScript ("updateFullDept", "
+		jQuery(document).on('change', '#StylesheetBom_".$i."_countryid',function() {
+	//$.ajax({url:'".$url."',success:function(result){
+		$('#test".$i."').text('ffffff');
+	//}});
+});
+");
 Yii::import('application.controllers.CountryController');
 Yii::import('application.controllers.DepartmentController');
 $countries = CountryController::getCountries();
@@ -16,10 +25,24 @@ $depts = DepartmentController::getDepartments();
 <div class="row" style="float:left; margin-right: 20px">
 	
 	<?php echo CHtml::activeLabelEx($model,"[$i]countryid"); ?>
-	<?php echo CHtml::activeDropDownList($model, "[$i]countryid", $countries, array('empty' => "select country", "class"=>"miniform-dd"));?>
+	<?php echo CHtml::activeDropDownList($model, "[$i]countryid", $countries, array(
+			//'liveEvents'=> true, 
+			'empty' => "select country", 
+			'class'=>"miniform-dd",
+			//'id' => "StylesheetBom_{$i}_countryid",
+			/*'ajax' => array(
+					'type'=>'POST',
+					'url'=>CController::createUrl('getCountryDepts'),
+					//'update'=>"#StylesheetBom_{$i}_dept_id",
+					'update' => "#test{$i}",
+					//'data'=>'js:$(this).serialize()',
+			
+			        )
+			        */
+	));?>
 	
 </div>
-
+<div id = "<?php echo "test{$i}"?>" ></div>
 <div class="row" style="float:left; margin-right: 20px">
 	<?php echo CHtml::activeLabelEx($model,"[$i]dept_id"); ?>
 	<?php echo CHtml::activeDropDownList($model, "[$i]dept_id", $depts["dept"], array('empty' => "select department", "class"=>"miniform-dd"));?>

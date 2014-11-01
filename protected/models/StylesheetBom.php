@@ -15,15 +15,18 @@
  * @property string $item_cons
  * @property string $item_placement
  * @property string $countryid
+ * @property string $fulldept
  *
  * The followings are the available model relations:
  * @property Stylesheet $ss
  * @property ColorCode $itemColor
  * @property Countries $country
+ * @property Departments $department
+ * @property Bom[] $boms
  */
 class StylesheetBom extends CActiveRecord
 {
-	public $code;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -40,16 +43,17 @@ class StylesheetBom extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ss_id, dept_id, class_id, subclass_id, item_color_id, countryid', 'required'),
+			array('ss_id, fulldept, item_color_id, countryid', 'required'),
 			array('ss_id', 'numerical', 'integerOnly'=>true),
 			array('dcs_name, item_color_id, item_desc, item_placement', 'length', 'max'=>40),
 			array('dept_id, class_id, subclass_id', 'length', 'max'=>3),
+			array('fulldept', 'length', 'max'=>9),
 			array('item_cons', 'length', 'max'=>20),
 			array('countryid', 'length', 'max'=>5),
 			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ss_bom_id, ss_id, dcs_name, dept_id, class_id, subclass_id, item_color_id, item_desc, item_cons, item_placement, countryid', 'safe', 'on'=>'search'),
+			array('ss_bom_id, ss_id, dcs_name, fulldept, item_color_id, item_desc, item_cons, item_placement, countryid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,6 +68,8 @@ class StylesheetBom extends CActiveRecord
 			'ss' => array(self::BELONGS_TO, 'Stylesheet', 'ss_id'),
 			'itemColor' => array(self::BELONGS_TO, 'ColorCode', 'item_color_id'),
 			'country' => array(self::BELONGS_TO, 'Countries', 'countryid'),
+			'department' => array(self::BELONGS_TO, 'Departments', 'fulldept'),
+			'boms' => array(self::HAS_MANY, 'Bom', 'ss_id'),
 		);
 	}
 
@@ -79,12 +85,12 @@ class StylesheetBom extends CActiveRecord
 			'dept_id' => 'Department id',
 			'class_id' => 'Class id',
 			'subclass_id' => 'Subclass id',
+			'fulldept' => 'Code',
 			'item_color_id' => 'Item Color',
 			'item_desc' => 'Item Description',
 			'item_cons' => 'Item Consumption',
 			'item_placement' => 'Item Placement',
 			'countryid' => 'Country id',
-			'code' => "Code", 
 		);
 	}
 
@@ -109,9 +115,11 @@ class StylesheetBom extends CActiveRecord
 		$criteria->compare('ss_bom_id',$this->ss_bom_id);
 		$criteria->compare('ss_id',$this->ss_id);
 		$criteria->compare('dcs_name',$this->dcs_name,true);
-		$criteria->compare('dept_id',$this->dept_id,true);
+		/*$criteria->compare('dept_id',$this->dept_id,true);
 		$criteria->compare('class_id',$this->class_id,true);
 		$criteria->compare('subclass_id',$this->subclass_id,true);
+		*/
+		$criteria->compare('fulldept',$this->fulldept,true);
 		$criteria->compare('item_color_id',$this->item_color_id,true);
 		$criteria->compare('item_desc',$this->item_desc,true);
 		$criteria->compare('item_cons',$this->item_cons,true);
@@ -136,17 +144,13 @@ class StylesheetBom extends CActiveRecord
 	}
 	
 	protected function beforeSave () {
-		$this->code = $this->dept_id.str_pad($this->class_id, 3, " ", STR_PAD_RIGHT).$this->subclass_id;
-		$dept = Departments::model()->findByAttributes(array('fulldept'=>$this->code, 'countryid'=>$this->countryid), array('distinct'=>true));
-		if (!is_null($dept))
-			$this->dcs_name = $dept["deptname"].$dept["classname"].$dept["subclassname"];
-		else
-			$this->dcs_name = "";
+		$dept = Departments::model()->findByAttributes(array('fulldept'=>$this->fulldept));
+		$this->dcs_name =$dept->deptname. " ". $dept->classname. " ". $dept->subclassname;
 		return parent::beforeSave();
 	}
 	
 	protected function afterFind() {
-		$this->code = $this->dept_id.str_pad($this->class_id, 3, " ", STR_PAD_RIGHT).$this->subclass_id;
+		//$this->code = $this->dept_id.str_pad($this->class_id, 3, " ", STR_PAD_RIGHT).$this->subclass_id;
 		return parent::afterFind();
 	}
 	
@@ -159,6 +163,13 @@ class StylesheetBom extends CActiveRecord
 		$log_entry->action_comment = "$log_entry->action_type stylesheet bom item #$this->ss_bom_id";
 		$log_entry->save();
 		return parent::afterSave();
+	}
+	
+	protected function beforeDelete () {
+		$bom_items = Bom::model()->findAllByAttributes(array('ss_id'=>$this->ss_bom_id));
+		foreach ($bom_items as $model)
+			$model->delete();
+		return parent::beforeDelete();
 	}
 	
 	protected function afterDelete () {

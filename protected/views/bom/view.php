@@ -3,17 +3,12 @@
 /* @var $model Bom */
 
 $this->breadcrumbs=array(
-	'Boms'=>array('index'),
+	'Stylesheets'=>array('stylesheet/index'),
+	$model->ss->ss->style_code=>array('stylesheet/view','id'=>$model->ss->ss_id),
+	'Bom'=>array('index', 'ss_id'=>$model->ss->ss_id),
 	$model->bom_id,
 );
 
-$this->menu=array(
-	array('label'=>'List Bom', 'url'=>array('index')),
-	array('label'=>'Create Bom', 'url'=>array('create')),
-	array('label'=>'Update Bom', 'url'=>array('update', 'id'=>$model->bom_id)),
-	array('label'=>'Delete Bom', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->bom_id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Bom', 'url'=>array('admin')),
-);
 ?>
 
 <h1>View Bom #<?php echo $model->bom_id; ?></h1>
@@ -22,7 +17,10 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'bom_id',
-		'ss_id',
+		array (
+			'label'=> $model->attributeLabels()['ss_id'],
+			'type'=>'raw',
+			'value'=>CHtml::link($model->ss->ss->style_code, array('stylesheet/view', 'id'=>$model->ss->ss->ss_id))),
 		'item_desc',
 		'item_placement',
 		'fulldept',

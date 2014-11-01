@@ -20,7 +20,7 @@ $this->menu=array(
 	'dataProvider'=>$dataProvider,
 	'columns'=>array(
 		'dcs_name',
-		'code',
+		'fulldept',
 		'item_color_id',
 		'item_desc',
 		'item_cons',

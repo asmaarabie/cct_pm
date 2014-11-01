@@ -18,7 +18,7 @@
 				
 				<b><?php //echo CHtml::encode($data->getAttributeLabel('code')); 
 						echo 'DCS Code'?>:</b>
-				<?php echo CHtml::encode($data->code); ?>
+				<?php echo CHtml::encode($data->fulldept); ?>
 				<br />
 			
 				<b><?php //echo CHtml::encode($data->getAttributeLabel('dcs_name')); 

@@ -13,4 +13,5 @@ $this->breadcrumbs=array(
 
 <h1>Create StylesheetBom</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model, 'cc_model'=> $cc_model)); ?>
+<?php //$this->renderPartial('_form', array('model'=>$model, 'cc_model'=> $cc_model)); ?>
+<?php $this->renderPartial('_updateForm', array('model'=>$model, 'cc_model'=> $cc_model)); ?>

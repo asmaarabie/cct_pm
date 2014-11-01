@@ -137,7 +137,6 @@ echo CHtml::ajaxLink(
     array(
         'update'=>'#ss_log',
 		'complete' => 'function() {
-         // $("#ss_log").addClass("stylesheet-galleryView");
 			$("#ss_log").show();
         }',
     )

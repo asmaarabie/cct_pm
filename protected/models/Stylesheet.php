@@ -216,6 +216,8 @@ class Stylesheet extends CActiveRecord
 		$delete["colors"] = StylesheetColor::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
 		$delete["images"] = StylesheetImages::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
 		$delete["logs"] = StylesheetLog::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
+		$delete["sizes"] = SsSizeQty::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
+		
 		$errorMsg = "";
 		
 		foreach ($delete as $table) 
@@ -226,4 +228,36 @@ class Stylesheet extends CActiveRecord
 		return parent::beforeDelete();
 		
 	}
+	
+	protected function afterFind () {
+		// Get brand name: brand name is the deptid name from the dept_name table
+		$dept_tbl = DepartmentName::model()->tableName();
+		$sql = "SELECT dept_name FROM {$dept_tbl} where dept_id='{$this->dept_id}'";
+		$department["brand"] =  Yii::app()->db->createCommand($sql)->queryRow()["dept_name"];
+		$department["brand"] = ($department["brand"] == "")? "No name for the following department {$this->dept_id}" : $department["brand"];
+		
+		// Get category name: category name is the subclassid name from the subclass_name table
+		$subclass_tbl = SubclassName::model()->tableName();
+		$sql = "SELECT subclass_name FROM {$subclass_tbl} where subclassid='{$this->subclass_id}'";
+		$department["category"] =  Yii::app()->db->createCommand($sql)->queryRow()["subclass_name"];
+		$department["category"] = ($department["category"] == "")? "No name for the following subclass {$this->subclass_id}" : $department["category"];
+		
+		// Get department, class, subclass names
+		$sql = "SELECT deptname FROM departments where deptid='{$this->dept_id}'";
+		$department["deptname"] =  Yii::app()->db->createCommand($sql)->queryRow()["deptname"];
+		$sql = "SELECT subclassname FROM departments where subclassid='{$this->subclass_id}'";
+		$department["subclassname"] =  Yii::app()->db->createCommand($sql)->queryRow()["subclassname"];
+		$sql = "SELECT classname FROM departments where classid='{$this->class_id}'";
+		$department["classname"] =  Yii::app()->db->createCommand($sql)->queryRow()["classname"];
+		
+		$this->brand = $department["brand"];
+		$this->category = $department["category"];
+		$this->dcs = $department["deptname"]. " " . $department["classname"]. " " . $department["subclassname"] . " " . $this->dcs_notes;
+		$this->formatSeasons = $this->season . substr($this->year, 2, 2);
+		$this->desc1 = $this->dept_id . " " . $this->class_id . " " . $this->subclass_id . " - ". $this->formatSeasons;
+		$this->countryName = $this->country_id . " - " . $this->country->countrydesc;
+		$this->owner = $this->user->user_name;
+		return parent::afterFind();
+	}
+	
 }

@@ -61,13 +61,11 @@ class DepartmentController extends Controller
 	
 	}
 	
-	public function getDepartments () {
-		$models = Departments::model()->findAll();
-		$depts = array(); $depts["class"] = array(); $depts["dept"] = array(); $depts["subclass"] = array();
+	public function getDepartments ($countryid) {
+		$models = Departments::model()->findAllByAttributes(array('countryid'=>$countryid));
+		$depts = array();
 		foreach ($models as $model) {
-			$depts["dept"][$model->deptid] = $model->deptid. " - ".$model->deptname;
-			$depts["class"][$model->classid] = $model->classid. " - ".$model->classname;
-			$depts["subclass"][$model->subclassid] = $model->subclassid. " - ".$model->subclassname;
+			$depts["{$model->fulldept}"] = $model->fulldept . ' - ' . $model->deptname. " " .$model->classname . " " . $model->subclassname;
 		}
 		return $depts;
 	}

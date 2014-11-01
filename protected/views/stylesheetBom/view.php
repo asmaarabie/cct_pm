@@ -32,7 +32,7 @@ $this->menu=array(
 				'value'=>CHtml::encode($model->country->countrydesc)
 		),
 		'dcs_name',
-		'code',
+		'fulldept',
 		array (
 				'label'=> $model->attributeLabels()['item_color_id'],
 				'type'=>'raw',

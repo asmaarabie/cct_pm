@@ -9,8 +9,8 @@
 	<?php echo CHtml::link(CHtml::encode($data->ss_bom_id), array('view', 'id'=>$data->ss_bom_id)); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('code')); ?>:</b>
-	<?php echo CHtml::encode($data->code); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('fulldept')); ?>:</b>
+	<?php echo CHtml::encode($data->fulldept); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('dcs_name')); ?>:</b>

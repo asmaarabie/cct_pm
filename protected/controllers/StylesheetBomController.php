@@ -32,7 +32,7 @@ class StylesheetBomController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'addRecord', 'delete', 'admin'),
+				'actions'=>array('create','update', 'addRecord', 'delete', 'admin', 'getCountryDepts'),
 				'users'=>array('@'),
 			),
 		/*	array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -61,6 +61,7 @@ class StylesheetBomController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
+	/*
 	public function actionCreate($ss_id)
 	{
 		$model=array();
@@ -119,7 +120,57 @@ class StylesheetBomController extends Controller
 			'ss_model' => $ss_model,
 		));
 	}
-
+	*/
+	
+	public function actionCreate($ss_id)
+	{
+		$model = new StylesheetBom;
+		$cc_model = new ColorCode;
+		$model->ss_id = $ss_id;
+		$cc_model->color_code = "dummy";
+		
+		$ss_model = Stylesheet::model()->findByPk($ss_id);
+	
+		$this->performAjaxValidation($model,$cc_model);
+	
+		if(isset($_POST['StylesheetBom'], $_POST['ColorCode'])) {
+				// Set color values
+				var_dump($_POST);
+				$cc_model->attributes = $_POST['ColorCode'];
+				
+	
+				// Set stylesheet bom values
+				
+				$model->attributes = $_POST['StylesheetBom'];
+				
+	
+				if ($cc_model->validate()) {
+					Yii::import('application.controllers.ColorCodeController');
+					$cc_model_properties = ColorCodeController::setModelProperties($cc_model, false, false);
+						
+					// If there is a record for this color code, use its color code
+					if (!is_null($cc_model_properties["lastModel"])) {
+						$model->item_color_id = $cc_model_properties["lastModel"]->color_code;
+					} else {
+						$cc_model = $cc_model_properties["model"];
+						$cc_model->save(false);
+						$model->item_color_id = $cc_model->color_code;
+							
+					}
+				}
+		
+			if ($model->save())
+				$this->redirect(array('index', 'ss_id'=>$ss_id));
+				
+		}
+	
+		$this->render('create',array(
+				'model'=>$model,
+				'cc_model'=> $cc_model,
+				'ss_model' => $ss_model,
+		));
+	}
+	
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -269,4 +320,16 @@ class StylesheetBomController extends Controller
 		));
 		return $dataProvider;
 	}
+	
+	public function actionGetCountryDepts() {
+		if (isset($_POST["StylesheetBom"]["countryid"])) {
+			$models = Departments::model()->findAllByAttributes(array('countryid'=>$_POST["StylesheetBom"]["countryid"]));
+			foreach ($models as $model) {
+				$name = $model->fulldept. " - ".$model->deptname.' '. $model->classname.' '.$model->subclassname;
+				echo "<option value='{$model->fulldept}'>{$name}</option>";
+				
+			}
+		}
+	}
+	
 }

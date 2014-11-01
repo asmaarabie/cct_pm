@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 01, 2014 at 02:25 PM
+-- Generation Time: Nov 01, 2014 at 11:44 PM
 -- Server version: 5.5.40-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -44,15 +44,16 @@ CREATE TABLE IF NOT EXISTS `bom` (
   KEY `fk_bom_country_idx` (`countryid`),
   KEY `fk_bom_item_idx` (`itemno`),
   KEY `pono` (`pono`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `bom`
 --
 
 INSERT INTO `bom` (`bom_id`, `ss_id`, `item_desc`, `item_placement`, `fulldept`, `item_qty`, `item_consumption`, `item_increase`, `pono`, `countryid`, `itemno`) VALUES
-(4, 1, 'الجسم', 'مثل العينة المطلوبة', 'C111  BZ1', 660, '1.23', 0, 20, '2', 4175),
-(6, 1, 'الجسم', 'ON', 'C111  BZ1', 660, '12', 0, 20, '2', 4174);
+(8, 9, 'Badge', 'مثل العينة المقدمة', 'ABD3  PLS', 660, '1.23', 10, 20, '1', 4173),
+(12, 10, 'الجسم', 'مثل العينة المقدمة', 'ABD3  PLS', 660, '1.23', 0, 20, '1', 4177),
+(13, 9, 'Badge', 'مثل العينة المقدمة', 'ABD3  PLS', 660, '1.23', 0, 20, '1', 4175);
 
 -- --------------------------------------------------------
 
@@ -61,15 +62,19 @@ INSERT INTO `bom` (`bom_id`, `ss_id`, `item_desc`, `item_placement`, `fulldept`,
 --
 
 CREATE TABLE IF NOT EXISTS `bom_log` (
-  `bom_log_id` int(11) NOT NULL,
+  `bom_log_id` int(11) NOT NULL AUTO_INCREMENT,
   `bom_id` int(11) NOT NULL,
   `action_time_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `action_type` char(10) DEFAULT NULL,
   `action_comment` text CHARACTER SET utf8,
+  `user` int(11) NOT NULL,
+  `ss_id` int(11) NOT NULL,
   PRIMARY KEY (`bom_log_id`),
   KEY `bom_log_id` (`bom_log_id`),
-  KEY `bom_id` (`bom_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `bom_id` (`bom_id`),
+  KEY `user` (`user`),
+  KEY `ss_id` (`ss_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -126,11 +131,14 @@ INSERT INTO `color_code` (`color`, `shadow`, `pattern`, `length`, `shape`, `colo
 ('BL', 'L', 'E', 'S', 'S', '03', 'BLLESS03'),
 ('BL', 'L', 'E', 'S', 'S', '04', 'BLLESS04'),
 ('BL', 'L', 'T', 'S', 'S', '00', 'BLLTSS00'),
+('OR', 'L', '-', '-', '-', '00', 'ORL---00'),
 ('OR', 'L', 'E', 'S', 'S', '00', 'ORLESS00'),
 ('OR', 'L', 'E', 'S', 'S', '01', 'ORLESS01'),
 ('OR', 'L', 'E', 'S', 'S', '02', 'ORLESS02'),
 ('OR', 'L', 'T', 'S', 'S', '00', 'ORLTSS00'),
 ('OR', 'L', 'T', 'S', 'S', '01', 'ORLTSS01'),
+('W', 'L', '-', '-', '-', '00', 'W-L---00'),
+('W', 'L', 'E', 'S', '-', '00', 'W-LES-00'),
 ('W', 'L', 'E', 'S', 'S', '00', 'W-LESS00'),
 ('W', 'L', 'E', 'S', 'S', '01', 'W-LESS01'),
 ('W', 'L', 'E', 'S', 'S', '02', 'W-LESS02'),
@@ -155,6 +163,7 @@ CREATE TABLE IF NOT EXISTS `color_length` (
 --
 
 INSERT INTO `color_length` (`color_length`, `length_desc_e`, `length_desc_a`) VALUES
+('-', 'None', 'لانمطي'),
 ('S', 'Suit Drop Small', 'تخطيط البدلة ضيق');
 
 -- --------------------------------------------------------
@@ -175,6 +184,7 @@ CREATE TABLE IF NOT EXISTS `color_pattern` (
 --
 
 INSERT INTO `color_pattern` (`color_pattern`, `pattern_desc_e`, `pattern_desc_a`) VALUES
+('-', 'None', 'لانمطي'),
 ('E', 'Embroidered', 'مطرز'),
 ('T', 'Tapestry', 'نسيج مزدان بالرسوم والصور');
 
@@ -216,6 +226,7 @@ CREATE TABLE IF NOT EXISTS `color_shape` (
 --
 
 INSERT INTO `color_shape` (`color_shape`, `shape_desc_e`, `shape_desc_a`) VALUES
+('-', 'None', 'لانمطي'),
 ('S', 'Small', 'صغير');
 
 -- --------------------------------------------------------
@@ -2364,17 +2375,31 @@ CREATE TABLE IF NOT EXISTS `ss_size_qty` (
   `size_qty` int(11) NOT NULL,
   PRIMARY KEY (`ss_size_qty_id`),
   KEY `ss_id` (`ss_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `ss_size_qty`
 --
 
 INSERT INTO `ss_size_qty` (`ss_size_qty_id`, `ss_id`, `size`, `size_qty`) VALUES
-(1, 26, '36', 37),
-(2, 26, '38', 169),
-(3, 26, '40', 169),
-(4, 26, '42', 156);
+(1, 26, '36', 500),
+(2, 26, '38', 170),
+(3, 26, '40', 171),
+(4, 26, '42', 156),
+(5, 27, '36', 100),
+(6, 27, '38', 210),
+(7, 31, '38', 2),
+(8, 31, '40', 10),
+(9, 31, '42', 3),
+(10, 31, '52', 0),
+(11, 32, '56', 100),
+(12, 32, '58', 200),
+(13, 34, '36', 10),
+(14, 34, '38', 90),
+(15, 34, '40', 0),
+(16, 34, '42', 0),
+(17, 35, '36', 100),
+(18, 35, '38', 30);
 
 -- --------------------------------------------------------
 
@@ -2410,8 +2435,8 @@ CREATE TABLE IF NOT EXISTS `stylesheet` (
 --
 
 INSERT INTO `stylesheet` (`ss_id`, `country_id`, `dept_id`, `class_id`, `subclass_id`, `season`, `year`, `pono`, `dcs_notes`, `style_code`, `stylesheet_note`, `fabric`, `scale`, `sizes`, `user_id`) VALUES
-(26, '2', 'C12', '1', 'PJ0', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000', 3),
-(27, '2', 'C11', '1', 'BZ2', 'A', '2015', NULL, '', 'ASSUM/15', '', 'Cotton', '10', '110000000', 3),
+(26, '2', 'C12', '1', 'PJ0', 'S', '2015', '20', '', 'GPJ/T-03', '', 'Cotton', '10', '111100000', 3),
+(27, '2', 'C11', '1', 'BZ2', 'A', '2015', '20', '', 'ASSUM/15', '', 'Cotton', '10', '110000000', 3),
 (31, '2', 'C11', '1', 'BZ1', 'S', '2017', NULL, 'NOTHING', 'GPJ/T-03', 'كالعينة', 'Cotton', '10', '011100001', 3),
 (32, '2', 'C12', '1', 'BZ1', 'S', '2016', NULL, 'NOTHING', 'GPJ/T-03', '', 'Cotton', '100', '0000000110000', 3),
 (33, '2', 'C12', '1', 'BZ1', 'S', '2015', NULL, '', 'GPJ/T-03', '', 'Cotton', '10', '111100000000001110111100000', 3),
@@ -2427,6 +2452,7 @@ INSERT INTO `stylesheet` (`ss_id`, `country_id`, `dept_id`, `class_id`, `subclas
 CREATE TABLE IF NOT EXISTS `stylesheet_bom` (
   `ss_bom_id` int(11) NOT NULL AUTO_INCREMENT,
   `ss_id` int(11) NOT NULL,
+  `fulldept` char(9) NOT NULL,
   `dcs_name` char(40) NOT NULL,
   `dept_id` char(3) NOT NULL,
   `class_id` char(3) NOT NULL,
@@ -2439,17 +2465,18 @@ CREATE TABLE IF NOT EXISTS `stylesheet_bom` (
   PRIMARY KEY (`ss_bom_id`),
   KEY `fk_stylesheet_bom_country_idx` (`countryid`),
   KEY `fk_stylesheet_bom_color_idx` (`item_color_id`),
-  KEY `fk_ss_bom_ss` (`ss_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  KEY `fk_ss_bom_ss` (`ss_id`),
+  KEY `fulldept` (`fulldept`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `stylesheet_bom`
 --
 
-INSERT INTO `stylesheet_bom` (`ss_bom_id`, `ss_id`, `dcs_name`, `dept_id`, `class_id`, `subclass_id`, `item_color_id`, `item_desc`, `item_cons`, `item_placement`, `countryid`) VALUES
-(1, 26, 'MF D.BREAST BLAZER', 'C11', '1', 'BZ1', 'ORLESS00', 'الجسم', '', 'ON', '2'),
-(7, 26, 'MC SCARF', 'T12', '6', 'SF1', 'BLLTSS00', '-', NULL, NULL, '2'),
-(8, 27, 'MEN TRAINING TOP', 'C12', '1', 'TE8', 'BLLTSS00', '', '', '', '2');
+INSERT INTO `stylesheet_bom` (`ss_bom_id`, `ss_id`, `fulldept`, `dcs_name`, `dept_id`, `class_id`, `subclass_id`, `item_color_id`, `item_desc`, `item_cons`, `item_placement`, `countryid`) VALUES
+(9, 26, 'ABD3  PLS', 'BADGE ALL PLASTIC', '', '', '', 'BLLTSS00', 'Badge', '1.23', 'مثل العينة المقدمة', '1'),
+(10, 27, 'ABD3  PLS', 'BADGE ALL PLASTIC', '', '', '', 'W-L---00', '', '', '', '1'),
+(11, 27, 'ABG2  PLS', 'PLAYBAG BOTTOM PLASTIC', '', '', '', 'ORL---00', '', '', '', '1');
 
 -- --------------------------------------------------------
 
@@ -2469,14 +2496,15 @@ CREATE TABLE IF NOT EXISTS `stylesheet_color` (
   PRIMARY KEY (`ss_color_id`),
   KEY `fk_stylesheet_color_color_idx` (`color_code`),
   KEY `fk_stylesheet_color_ss` (`ss_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `stylesheet_color`
 --
 
 INSERT INTO `stylesheet_color` (`ss_color_id`, `ss_id`, `color_code`, `print`, `emb`, `place`, `code`, `ss_color_desc`) VALUES
-(1, 26, 'W-LESS03', 1, 1, 'IN FRONT', 'GS 11', 'AS REFERENCE');
+(1, 26, 'W-LESS03', 1, 1, 'IN FRONT', 'GS 11', 'AS REFERENCE'),
+(2, 27, 'W-LES-00', 1, 1, 'IN FRONT', 'GS 11', 'AS REFERENCE');
 
 -- --------------------------------------------------------
 
@@ -2519,7 +2547,7 @@ CREATE TABLE IF NOT EXISTS `stylesheet_log` (
   PRIMARY KEY (`ss_log_id`),
   KEY `fk_stylesheet_log_user_idx` (`user`),
   KEY `fk_stylesheet_log_ss` (`ss_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=68 ;
 
 --
 -- Dumping data for table `stylesheet_log`
@@ -2549,7 +2577,30 @@ INSERT INTO `stylesheet_log` (`ss_log_id`, `ss_id`, `action_time_stamp`, `action
 (24, 27, '2014-10-28 09:28:03', 'update', 'update stylesheet bom item #8', 3),
 (25, 35, '2014-10-28 09:29:36', 'create', 'create stylesheet', 3),
 (26, 35, '2014-10-28 09:29:43', 'create', 'Uploaded image slide1.png for stylesheet NEWs', 3),
-(27, 26, '2014-10-28 09:31:19', 'delete', 'delete stylesheet bom item #5', 3);
+(27, 26, '2014-10-28 09:31:19', 'delete', 'delete stylesheet bom item #5', 3),
+(28, 26, '2014-11-01 16:51:29', 'delete', 'delete stylesheet bom item #7', 3),
+(29, 26, '2014-11-01 17:00:38', 'delete', 'delete stylesheet bom item #1', 3),
+(30, 26, '2014-11-01 17:04:09', 'create', 'create stylesheet bom item #9', 3),
+(31, 26, '2014-11-01 17:54:38', 'bom', 'Trying the comment thing', 3),
+(32, 26, '2014-11-01 17:57:36', 'bom', 'Created bom item ', 3),
+(33, 26, '2014-11-01 17:58:33', 'bom', 'Created bom item 11', 3),
+(34, 26, '2014-11-01 18:00:49', 'bom', 'Deleted bom item 11', 3),
+(35, 27, '2014-11-01 19:07:13', 'delete', 'delete stylesheet bom item #8', 3),
+(36, 27, '2014-11-01 19:47:32', 'create', 'create stylesheet bom item #10', 3),
+(37, 27, '2014-11-01 19:48:03', 'create', 'create stylesheet bom item #11', 3),
+(38, 27, '2014-11-01 20:00:03', 'bom', 'Created bom item 12', 3),
+(39, 27, '2014-11-01 20:00:54', 'create', 'Add a new Color: W-LES-00', 3),
+(40, 27, '2014-11-01 20:02:28', 'bom', 'lll', 3),
+(41, 31, '2014-11-01 20:18:54', 'bom', 'Updated size quantity. 38 : 2', 3),
+(42, 31, '2014-11-01 20:18:54', 'bom', 'Updated size quantity. 40 : 0', 3),
+(43, 31, '2014-11-01 20:18:54', 'bom', 'Updated size quantity. 42 : 0', 3),
+(44, 31, '2014-11-01 20:18:54', 'bom', 'Updated size quantity. 52 : 0', 3),
+(45, 31, '2014-11-01 20:21:22', 'bom', 'Updated size quantity. 38 : 2', 3),
+(46, 31, '2014-11-01 20:21:22', 'bom', 'Updated size quantity. 40 : 0', 3),
+(47, 31, '2014-11-01 20:21:22', 'bom', 'Updated size quantity. 42 : 0', 3),
+(48, 31, '2014-11-01 20:21:22', 'bom', 'Updated size quantity. 52 : 0', 3),
+(49, 31, '2014-11-01 20:28:34', 'bom', 'Updated 38: 240: 042: 352: 0', 3),
+(50, 31, '2014-11-01 20:28:34', 'bom', 'Updated 38: 240: 042: 352: 0', 3);
 
 -- --------------------------------------------------------
 
@@ -2687,7 +2738,8 @@ ALTER TABLE `bom`
 -- Constraints for table `bom_log`
 --
 ALTER TABLE `bom_log`
-  ADD CONSTRAINT `fk_bom_log_bom` FOREIGN KEY (`bom_id`) REFERENCES `bom` (`bom_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_bom_log_bom` FOREIGN KEY (`bom_id`) REFERENCES `bom` (`bom_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_bom_user` FOREIGN KEY (`user`) REFERENCES `user` (`user_id`) ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `color_code`

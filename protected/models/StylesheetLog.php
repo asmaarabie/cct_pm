@@ -34,6 +34,7 @@ class StylesheetLog extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('ss_id, action_type, action_comment, user', 'required'),
+			array('action_time_stamp', 'unique'),
 			array('ss_id, user', 'numerical', 'integerOnly'=>true),
 			array('action_type', 'length', 'max'=>10),
 			// The following rule is used by search().

@@ -237,38 +237,8 @@ class StylesheetController extends Controller
 	public function loadModel($id)
 	{
 		$model=Stylesheet::model()->findByPk($id);
-		
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
-		
-
-		// Get brand name: brand name is the deptid name from the dept_name table
-		$dept_tbl = DepartmentName::model()->tableName();
-		$sql = "SELECT dept_name FROM {$dept_tbl} where dept_id='{$model->dept_id}'";
-		$department["brand"] =  Yii::app()->db->createCommand($sql)->queryRow()["dept_name"];
-		$department["brand"] = ($department["brand"] == "")? "No name for the following department {$model->dept_id}" : $department["brand"];
-		
-		// Get category name: category name is the subclassid name from the subclass_name table
-		$subclass_tbl = SubclassName::model()->tableName();
-		$sql = "SELECT subclass_name FROM {$subclass_tbl} where subclassid='{$model->subclass_id}'";
-		$department["category"] =  Yii::app()->db->createCommand($sql)->queryRow()["subclass_name"];
-		$department["category"] = ($department["category"] == "")? "No name for the following subclass {$model->subclass_id}" : $department["category"];
-		
-		// Get department, class, subclass names
-		$sql = "SELECT deptname FROM departments where deptid='{$model->dept_id}'";
-		$department["deptname"] =  Yii::app()->db->createCommand($sql)->queryRow()["deptname"];
-		$sql = "SELECT subclassname FROM departments where subclassid='{$model->subclass_id}'";
-		$department["subclassname"] =  Yii::app()->db->createCommand($sql)->queryRow()["subclassname"];
-		$sql = "SELECT classname FROM departments where classid='{$model->class_id}'";
-		$department["classname"] =  Yii::app()->db->createCommand($sql)->queryRow()["classname"];
-		
-		$model->brand = $department["brand"];
-		$model->category = $department["category"];
-		$model->dcs = $department["deptname"]. " " . $department["classname"]. " " . $department["subclassname"] . " " . $model->dcs_notes;
-		$model->formatSeasons = $model->season . substr($model->year, 2, 2);
-		$model->desc1 = $model->dept_id . " " . $model->class_id . " " . $model->subclass_id . " - ". $model->formatSeasons;
-		$model->countryName = $model->country_id . " - " . $model->country->countrydesc;
-		$model->owner = $model->user->user_name;
 		return $model;
 	}
 
@@ -309,11 +279,13 @@ class StylesheetController extends Controller
 		$logsDataProvider=new CActiveDataProvider('StylesheetLog',
 				array(
 						'criteria'=>array('condition'=>"ss_id={$ss_id}")));
+		if (Yii::app()->request->isAjaxRequest) {
+			$done =$this->renderPartial('viewLog', array('logsDataProvider' =>
+					$logsDataProvider), false, true);
+			echo $done;
+			Yii::app()->end();
+		}
 		
-		$this->widget('zii.widgets.CListView', array(
-				'dataProvider'=>$logsDataProvider,
-				'itemView'=>"_viewLog",
-		));
 	}
 	
 }

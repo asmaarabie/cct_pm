@@ -32,7 +32,7 @@ class BomController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'modifySizeQty', 'getItemInfo', 'delete'),
+				'actions'=>array('create','update', 'modifySizeQty', 'getItemInfo', 'delete', 'getLogEntries'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -75,15 +75,16 @@ class BomController extends Controller
 		$model->item_desc = $ss_bom_model->item_desc;
 		$model->item_placement = $ss_bom_model->item_placement;
 		$model->pono = $ss_model->pono;
+		$model->ss_id = $ss_bom_id;
+		$model->countryid = $ss_bom_model->countryid;
+		$model->fulldept = $ss_bom_model->fulldept;
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Bom']))
 		{
 			$model->attributes=$_POST['Bom'];
-			$model->ss_id = $ss_bom_id;
-			$model->countryid = $ss_bom_model->countryid;
-			$model->fulldept = $ss_bom_model->code;
+			
 			if($model->save()) {
 				if ($ss_model->pono == '') {
 					$ss_model->pono = $model->pono;
@@ -108,24 +109,27 @@ class BomController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$model->log_entry = new StylesheetLog();
 		
 		$ss_bom_model= StylesheetBom::model()->findByPk($model->ss_id);
 		$ss_model = Stylesheet::model()->findByPk($ss_bom_model->ss_id);
 		
 		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
+		$this->performAjaxValidation($model, $model->log_entry);
 
-		if(isset($_POST['Bom']))
+		if(isset($_POST['Bom'], $_POST['StylesheetLog']))
 		{
 			$model->attributes=$_POST['Bom'];
-			if($model->save())
+			$model->log_entry->attributes = $_POST['StylesheetLog'];
+			if($model->save() && $model->log_entry->save()) 
 				$this->redirect(array('index','ss_id'=>$ss_model->ss_id));
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
 			'ss_bom_model' => $ss_bom_model,
-			'ss_model' => $ss_model
+			'ss_model' => $ss_model,
+			'log' => $model->log_entry
 		));
 	}
 
@@ -245,11 +249,12 @@ class BomController extends Controller
 			$allSaved = true;
 			foreach ($ss_size_qty as $i=>$s_model) {
 				$s_model->size_qty = $_POST['SsSizeQty'][$i]["size_qty"];
-				if (!$s_model->save())
+				if (!$s_model->save()) 
 					$allSaved = false;
 			}
+			
 			if ($allSaved) {
-					$this->redirect(array('index','ss_id'=>$ss_id));
+				$this->redirect(array('index','ss_id'=>$ss_id));
 			}
 		}
 		
@@ -286,4 +291,15 @@ class BomController extends Controller
 		}
 	}
 	
+	public function actionGetLogEntries ($ss_id) {
+		$logsDataProvider=new CActiveDataProvider('StylesheetLog',
+				array(
+						'criteria'=>array('condition'=>"ss_id={$ss_id} and action_type='bom'")));
+		if (Yii::app()->request->isAjaxRequest) {
+			$done =$this->renderPartial('viewLog', array('logsDataProvider' =>
+					$logsDataProvider), false, true);
+			echo $done;
+			Yii::app()->end();
+		}
+	}
 }

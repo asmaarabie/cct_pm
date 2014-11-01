@@ -26,7 +26,8 @@
  */
 class Bom extends CActiveRecord
 {
-	public $itemColor, $itemCode, $itemSize, $itemRequired;
+
+	public $itemColor, $itemCode, $itemSize, $itemRequired, $log_entry;
 	 
 	/**
 	 * @return string the associated database table name
@@ -87,10 +88,10 @@ class Bom extends CActiveRecord
 	{
 		return array(
 			'bom_id' => 'Bom item id',
-			'ss_id' => 'Stylesheet id',
+			'ss_id' => 'Stylesheet',
 			'item_desc' => 'Item Description - توصى في',
 			'item_placement' => 'Item Placement - مكان التركيب',
-			'fulldept' => 'Full Department id',
+			'fulldept' => 'Full Department',
 			'item_qty' => 'Item Quantity - الكمية بالقطعة',
 			'item_consumption' => 'Item Consumption - الاستهلاك',
 			'item_increase' => 'Remarks - نسبة الزيادة ٪',
@@ -158,4 +159,37 @@ class Bom extends CActiveRecord
 		$this-> itemRequired = floor(((1+ $this->item_increase/100 ) * $this->item_qty) * $this->item_consumption);
 		return parent::afterFind(); 
 	}
+	
+	protected function beforeSave () {
+		// In create we instantiate the log entry here
+		// In the update it's instantiated in the controller
+		if ($this->isNewRecord)
+			$this->log_entry = new StylesheetLog();
+		
+		$this->log_entry->action_type = 'bom';
+		$this->log_entry->ss_id = $this->ss->ss_id; // Mother stylesheet id
+		$action = ($this->isNewRecord)? "Created":"Updated";
+		$this->log_entry->user = Yii::app()->user->id;
+		
+		return parent::beforeSave();
+	}
+	
+	protected function afterSave () {
+		if ($this->isNewRecord) {
+			$this->log_entry->action_comment = "Created bom item {$this->bom_id}";
+			$this->log_entry->save();
+		}
+		return parent::afterSave();
+	}
+	
+	protected function afterDelete () {
+		$this->log_entry = new StylesheetLog();
+		$this->log_entry->action_type = 'bom';
+		$this->log_entry->ss_id = $this->ss->ss_id; // Mother stylesheet id
+		$this->log_entry->action_comment = "Deleted bom item {$this->bom_id}";
+		$this->log_entry->user = Yii::app()->user->id;
+		$this->log_entry->save();
+		return parent::afterDelete();
+	}
+	
 }
