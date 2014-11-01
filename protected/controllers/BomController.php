@@ -32,11 +32,11 @@ class BomController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'modifySizeQty'),
+				'actions'=>array('create','update', 'modifySizeQty', 'getItemInfo', 'delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -64,22 +64,39 @@ class BomController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+	public function actionCreate($ss_bom_id)
 	{
 		$model=new Bom;
-
+		
+		$ss_bom_model= StylesheetBom::model()->findByPk($ss_bom_id);
+		$ss_model = Stylesheet::model()->findByPk($ss_bom_model->ss_id);
+		
+		$model->item_consumption = $ss_bom_model->item_cons;
+		$model->item_desc = $ss_bom_model->item_desc;
+		$model->item_placement = $ss_bom_model->item_placement;
+		$model->pono = $ss_model->pono;
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Bom']))
 		{
 			$model->attributes=$_POST['Bom'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->bom_id));
+			$model->ss_id = $ss_bom_id;
+			$model->countryid = $ss_bom_model->countryid;
+			$model->fulldept = $ss_bom_model->code;
+			if($model->save()) {
+				if ($ss_model->pono == '') {
+					$ss_model->pono = $model->pono;
+					$ss_model->save();
+				}
+				$this->redirect(array('index','ss_id'=>$ss_model->ss_id));
+			}
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
+			'ss_model' => $ss_model,
+			'ss_bom_model' => $ss_bom_model,
 		));
 	}
 
@@ -91,19 +108,24 @@ class BomController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+		
+		$ss_bom_model= StylesheetBom::model()->findByPk($model->ss_id);
+		$ss_model = Stylesheet::model()->findByPk($ss_bom_model->ss_id);
+		
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Bom']))
 		{
 			$model->attributes=$_POST['Bom'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->bom_id));
+				$this->redirect(array('index','ss_id'=>$ss_model->ss_id));
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
+			'ss_bom_model' => $ss_bom_model,
+			'ss_model' => $ss_model
 		));
 	}
 
@@ -135,8 +157,8 @@ class BomController extends Controller
 		$bomItems = array();
 		
 		foreach ($ssBomItems as $i => $ssBomItem) {
-			$bomItems[$ssBomItem['code']]= new CActiveDataProvider('Bom', (array('criteria'=>array(
-				'condition'=>"ss_id='{$ss_id}' and fulldept='{$ssBomItem->code}' and countryid={$ssBomItem->countryid}"))));
+			$bomItems[$ssBomItem['ss_bom_id']]= new CActiveDataProvider('Bom', (array('criteria'=>array(
+				'condition'=>"ss_id='{$ssBomItem->ss_bom_id}'"))));
 		}
 		
 		$ss_model = Stylesheet::model()->findByPk($ss_id);
@@ -235,6 +257,33 @@ class BomController extends Controller
 				'ss_model' => $ss_model,
 				'model'=> $ss_size_qty,
 		));
+	}
+	
+	public function actionGetItemInfo () {
+		//var_dump();
+		$itemno =$_POST['Bom']['itemno'];
+		if ($itemno!='') {
+			$item_model = Items::model()->findByAttributes(array('itemno'=> $itemno));
+		
+			echo "
+			<table>
+				<tr>
+					<th> Color </th>
+					<th> Code </th>
+					<th> Size </th>
+					<th> Cost </th>
+					<th> Price </th>
+				</tr>
+				<tr>
+					<td> {$item_model->itemattr} </td>
+					<td> {$item_model->desc1} - {$item_model->desc2} </td>
+					<td> {$item_model->itemsize} </td>
+					<td> {$item_model->unitcost} </td>
+					<td> {$item_model->unitprice} </td>
+				</tr>
+			</table>
+			";
+		}
 	}
 	
 }

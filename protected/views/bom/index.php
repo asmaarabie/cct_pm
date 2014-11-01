@@ -8,10 +8,8 @@ $this->breadcrumbs=array(
 	'Bom',
 );
 
-$this->menu=array(
-	array('label'=>'Create Bom', 'url'=>array('create')),
-	array('label'=>'Manage Bom', 'url'=>array('admin')),
-);
+$this->layout = '//layouts/column1';
+
 ?>
 
 <h1>Bom</h1>
@@ -31,7 +29,7 @@ for ($i = 0 ; $i < count ($sizes); $i++) {
 	if (substr($model_sizes,$i,1)=="1")
 		echo "<th>".CHtml::label ($sizes[$i], 'label_box'.$i)."</th>";
 }
-
+echo "<th> Total </th>";
 ?>
 </tr>
 </thead>
@@ -45,6 +43,7 @@ for ($i = 0 ; $i < count ($sizes); $i++) {
 		
 	}
 }
+echo "<td style= 'text-align:center'>".array_sum($sizes)."</td>";
 ?>
 </tr>
 </tbody>

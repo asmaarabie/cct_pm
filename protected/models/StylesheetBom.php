@@ -81,7 +81,7 @@ class StylesheetBom extends CActiveRecord
 			'subclass_id' => 'Subclass id',
 			'item_color_id' => 'Item Color',
 			'item_desc' => 'Item Description',
-			'item_cons' => 'Item Cons',
+			'item_cons' => 'Item Consumption',
 			'item_placement' => 'Item Placement',
 			'countryid' => 'Country id',
 			'code' => "Code", 

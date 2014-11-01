@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 29, 2014 at 06:52 PM
+-- Generation Time: Nov 01, 2014 at 02:25 PM
 -- Server version: 5.5.40-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.4
 
@@ -35,15 +35,24 @@ CREATE TABLE IF NOT EXISTS `bom` (
   `item_qty` int(11) NOT NULL,
   `item_consumption` char(10) CHARACTER SET utf8 NOT NULL,
   `item_increase` int(11) NOT NULL DEFAULT '0',
-  `pono` int(11) NOT NULL,
+  `pono` int(11) DEFAULT NULL,
   `countryid` char(5) NOT NULL,
   `itemno` int(11) NOT NULL,
   PRIMARY KEY (`bom_id`),
   KEY `fk_bom_ss` (`ss_id`),
   KEY `fk_bom_pono_idx` (`pono`),
   KEY `fk_bom_country_idx` (`countryid`),
-  KEY `fk_bom_item_idx` (`itemno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `fk_bom_item_idx` (`itemno`),
+  KEY `pono` (`pono`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `bom`
+--
+
+INSERT INTO `bom` (`bom_id`, `ss_id`, `item_desc`, `item_placement`, `fulldept`, `item_qty`, `item_consumption`, `item_increase`, `pono`, `countryid`, `itemno`) VALUES
+(4, 1, 'الجسم', 'مثل العينة المطلوبة', 'C111  BZ1', 660, '1.23', 0, 20, '2', 4175),
+(6, 1, 'الجسم', 'ON', 'C111  BZ1', 660, '12', 0, 20, '2', 4174);
 
 -- --------------------------------------------------------
 
@@ -287,7 +296,10 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `aux11` char(20) DEFAULT NULL,
   `aux12` char(20) DEFAULT NULL,
   PRIMARY KEY (`countryid`,`custsid`),
-  KEY `BOM` (`custid`)
+  KEY `BOM` (`custid`),
+  KEY `custid` (`custid`),
+  KEY `custid_2` (`custid`),
+  KEY `countryid` (`countryid`,`custsid`,`custid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -2359,9 +2371,9 @@ CREATE TABLE IF NOT EXISTS `ss_size_qty` (
 --
 
 INSERT INTO `ss_size_qty` (`ss_size_qty_id`, `ss_id`, `size`, `size_qty`) VALUES
-(1, 26, '36', 168),
+(1, 26, '36', 37),
 (2, 26, '38', 169),
-(3, 26, '40', 168),
+(3, 26, '40', 169),
 (4, 26, '42', 156);
 
 -- --------------------------------------------------------
@@ -2669,10 +2681,7 @@ INSERT INTO `user` (`user_id`, `user_name`, `password`, `user_group`) VALUES
 -- Constraints for table `bom`
 --
 ALTER TABLE `bom`
-  ADD CONSTRAINT `fk_bom_country` FOREIGN KEY (`countryid`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_bom_item` FOREIGN KEY (`itemno`) REFERENCES `items` (`itemno`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_bom_pono` FOREIGN KEY (`pono`) REFERENCES `customers` (`custid`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_bom_ss` FOREIGN KEY (`ss_id`) REFERENCES `stylesheet` (`ss_id`) ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_bom_ss` FOREIGN KEY (`ss_id`) REFERENCES `stylesheet_bom` (`ss_bom_id`) ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `bom_log`
@@ -2691,16 +2700,9 @@ ALTER TABLE `color_code`
   ADD CONSTRAINT `fk_color_code_shape` FOREIGN KEY (`shape`) REFERENCES `color_shape` (`color_shape`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `DCS_name`
---
-ALTER TABLE `DCS_name`
-  ADD CONSTRAINT `fk_DCS_name_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION;
-
---
 -- Constraints for table `DCS_size_scale`
 --
 ALTER TABLE `DCS_size_scale`
-  ADD CONSTRAINT `fk_DCS_size_scale_country` FOREIGN KEY (`size_country_id`) REFERENCES `countries` (`countryid`),
   ADD CONSTRAINT `fk_DCS_size_scale_size` FOREIGN KEY (`size_scale`) REFERENCES `size` (`scale_number`) ON DELETE CASCADE;
 
 --
@@ -2735,7 +2737,6 @@ ALTER TABLE `ss_size_qty`
 --
 ALTER TABLE `stylesheet`
   ADD CONSTRAINT `fk_ss_scale_sizes` FOREIGN KEY (`scale`) REFERENCES `size` (`scale_number`),
-  ADD CONSTRAINT `fk_stylesheet_country` FOREIGN KEY (`country_id`) REFERENCES `countries` (`countryid`) ON UPDATE NO ACTION,
   ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -2743,8 +2744,7 @@ ALTER TABLE `stylesheet`
 --
 ALTER TABLE `stylesheet_bom`
   ADD CONSTRAINT `fk_ss_bom_ss` FOREIGN KEY (`ss_id`) REFERENCES `stylesheet` (`ss_id`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_stylesheet_bom_color` FOREIGN KEY (`item_color_id`) REFERENCES `color_code` (`color_code`) ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_stylesheet_bom_country` FOREIGN KEY (`countryid`) REFERENCES `countries` (`countryid`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_stylesheet_bom_color` FOREIGN KEY (`item_color_id`) REFERENCES `color_code` (`color_code`) ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `stylesheet_color`

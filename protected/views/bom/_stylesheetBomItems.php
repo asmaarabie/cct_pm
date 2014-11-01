@@ -16,11 +16,13 @@
 				<?php echo CHtml::encode($data->country->countrydesc); ?>
 				<br />
 				
-				<b><?php echo CHtml::encode($data->getAttributeLabel('code')); ?>:</b>
+				<b><?php //echo CHtml::encode($data->getAttributeLabel('code')); 
+						echo 'DCS Code'?>:</b>
 				<?php echo CHtml::encode($data->code); ?>
 				<br />
 			
-				<b><?php echo CHtml::encode($data->getAttributeLabel('dcs_name')); ?>:</b>
+				<b><?php //echo CHtml::encode($data->getAttributeLabel('dcs_name')); 
+						echo 'DCS Name'?>:</b>
 				<?php echo CHtml::encode($data->dcs_name); ?>
 				
 			</td>
@@ -45,29 +47,28 @@
 	</table>
 	
 	<?php 
+	
 	$this->widget('zii.widgets.grid.CGridView', array(
 			'id'=>'ss-bom-per-record-grid',
-			'dataProvider'=> $widget->items[$data->code],
+			'dataProvider'=> $widget->items[$data->ss_bom_id],
 			'columns'=>array(
 					'itemno',
-					'item_qty',
-					'item_consumption',
-					'item_increase',
+					'itemColor',
 					'item_desc',
+					'itemCode',
+					'itemSize',
+					'item_qty',	
+					'item_consumption',
+					'itemRequired',	
+					'item_increase',
 					'item_placement',
-					/*array(
+					array(
 							'class'=>'CButtonColumn',
-							'template'=>'{view}{update}{delete}',
-							'buttons'=>array (
-									'view' => array ('url'=>'Yii::app()->createUrl("bom/view", array("id"=>$data->ss_bom_id))'),
-									'delete' => array ('url'=>'Yii::app()->createUrl("bom/delete", array("id"=>$data->ss_bom_id))'),
-									'update' => array ('url'=>'Yii::app()->createUrl("bom/update", array("id"=>$data->ss_bom_id))'),
-							),
+							'template'=>'{update}{delete}',
 					),
-					*/
 			),
 	));
 	
 	?>
- 	
+ 	<?php echo CHtml::link('Add items', array('create', 'ss_bom_id'=>$data->ss_bom_id));?>
 </div>

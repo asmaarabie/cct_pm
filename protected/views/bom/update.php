@@ -3,8 +3,11 @@
 /* @var $model Bom */
 
 $this->breadcrumbs=array(
-	'Boms'=>array('index'),
-	$model->bom_id=>array('view','id'=>$model->bom_id),
+	'Stylesheets'=>array('stylesheet/index'),
+	$ss_model->style_code=>array('stylesheet/view','id'=>$ss_model->ss_id),
+	'Bom'=>array('index', 'ss_id'=>$ss_model->ss_id),
+	"Stylesheet item #{$ss_bom_model->ss_bom_id}" => array ('stylesheetBom/view', 'id'=> $ss_bom_model->ss_bom_id),
+	'Sub item #' . $model->bom_id=>array('view','id'=>$model->bom_id),
 	'Update',
 );
 
