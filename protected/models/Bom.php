@@ -27,7 +27,7 @@
 class Bom extends CActiveRecord
 {
 
-	public $itemColor, $itemCode, $itemSize, $itemRequired, $log_entry;
+	public $itemColor, $itemCode, $itemSize, $itemRequired, $log_entry, $price, $cost;
 	 
 	/**
 	 * @return string the associated database table name
@@ -102,7 +102,9 @@ class Bom extends CActiveRecord
 			'itemColor' => 'Color - اللون',
 			'itemCode' => 'Code - الكود',
 			'itemSize' => 'Size - المقاس',
-			'itemRequired' => 'Required - الاحتياج'
+			'itemRequired' => 'Required - الاحتياج',
+			'price' => 'Price',
+			'cost' => 'Cost',
 		);
 	}
 
@@ -157,6 +159,8 @@ class Bom extends CActiveRecord
 		$this->itemColor = $item->itemattr;
 		$this->itemSize = $item->itemsize;
 		$this->itemCode = $item->desc1 ; // :TODO: show the arabic desc. " - " . $item->desc2 ; 
+		$this->price = $item->unitprice;
+		$this->cost = $item->unitcost;
 		$this-> itemRequired = floor(((1+ $this->item_increase/100 ) * $this->item_qty) * $this->item_consumption);
 		return parent::afterFind(); 
 	}

@@ -32,7 +32,7 @@ class BomController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'modifySizeQty', 'getItemInfo', 'delete', 'getLogEntries', 'addNote'),
+				'actions'=>array('create','update', 'modifySizeQty', 'getItemInfo', 'delete', 'getLogEntries', 'addNote', 'createExcel'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -329,5 +329,94 @@ class BomController extends Controller
 			'model'=>$model,
 			'ss_model' => $ss_model,
 		));
+	}
+	
+	public function actionCreateExcel($ss_id) {
+		Yii::import('ext.phpexcel.XPHPExcel');
+		$objPHPExcel= XPHPExcel::createPHPExcel();
+		$objPHPExcel->getProperties()->setCreator(Yii::app()->user->name)
+		->setLastModifiedBy(Yii::app()->user->name)
+		->setTitle("Stylesheet_$ss_id\_BOM")
+		->setSubject("Stylesheet_$ss_id\_BOM")
+		->setDescription("Stylesheet_$ss_id\_BOM")
+		->setKeywords("office 2007 openxml php")
+		->setCategory("Stylesheet_$ss_id\_BOM");
+	
+		// fill cell headers
+		$ex_cellHeader= array();
+		$cellHeader = array();
+		$model = new Bom();
+		
+		// Bom attributes
+		$attributes = array (
+				'itemno',
+				'itemColor',
+				'item_desc',
+				'itemCode',
+				'itemSize',
+				'item_qty',	
+				'item_consumption',
+				'itemRequired',	
+				'item_increase',
+				'item_placement',
+				'price', 
+				'cost'
+		);
+		
+		$letter = 'A';
+		foreach ($attributes as $att) {
+			$cellHeader[$att] = $model->attributeLabels()[$att];
+			$ex_cellHeader[$att] = $letter++;
+			
+			// Fill in header values
+			$objPHPExcel->setActiveSheetIndex(0)
+			->setCellValue("{$ex_cellHeader[$att]}1", "{$cellHeader[$att]}");
+		}
+		
+		// Get this stylsheet's design bom items (Style sheet)
+		$ssBomItems = StylesheetBom::model()->findAllByAttributes(array('ss_id'=>$ss_id));
+		
+		// For each design bom item, get all bom items (BOM sheet)
+		$bomItems = array();
+		foreach ($ssBomItems as $model) {
+			$bomItems[] = Bom::model()->findAllByAttributes(array('ss_id'=>$model->ss_bom_id));
+		}
+		
+		// Fill in data 
+		$row = 2;
+		foreach ($bomItems as $models) {
+			foreach ($models as $model) {
+				// Fill bom data
+				foreach ($attributes as $att) {
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValue("{$ex_cellHeader[$att]}$row", "{$model[$att]}");
+				}
+				$row++;
+			}
+		}
+	
+		// Rename worksheet
+		$objPHPExcel->getActiveSheet()->setTitle('Stylesheet_'.$ss_id.'_BOM');
+		
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$objPHPExcel->setActiveSheetIndex(0);
+	
+		$date = new DateTime();
+		
+		// Redirect output to a clientâ€™s web browser (Excel5)
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="Stylesheet_'.$ss_id.'_BOM_'.$date->getTimestamp().'.xls"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+	
+		// If you're serving to IE over SSL, then the following may be needed
+		header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+		header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header ('Pragma: public'); // HTTP/1.0
+	
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
+		Yii::app()->end();
 	}
 }

@@ -37,7 +37,8 @@ $this->layout = '//layouts/column1';
 		<b><?php echo CHtml::encode($ss_model->getAttributeLabel('pono')); ?>:</b>
 		<?php echo isset($ss_model->pono)? CHtml::encode($ss_model->pono):"-"; ?>
 		<br />
-		
+		<br />
+		<?php echo CHtml::button('Export to Excel', array('submit' => array('createExcel', 'ss_id'=>$ss_model->ss_id))); ?>
 	</div>
 	
 	<div style="margin-left:20px; float:right; width:40%">
