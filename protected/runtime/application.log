@@ -5407,3 +5407,28 @@ Stack trace:
 #21 {main}
 REQUEST_URI=/ribom/index.php?r=bom/exportToPDF&ss_id=27
 ---
+2014/11/27 23:00:04 [error] [php] Invalid argument supplied for foreach() (/var/www/yii/framework/web/helpers/CHtml.php:1162)
+Stack trace:
+#0 /var/www/yii/framework/web/CBaseController.php(95): StylesheetController->renderInternal()
+#1 /var/www/yii/framework/web/CController.php(869): StylesheetController->renderFile()
+#2 /var/www/yii/framework/web/CController.php(782): StylesheetController->renderPartial()
+#3 /var/www/ribom/protected/controllers/StylesheetController.php(105): StylesheetController->render()
+#4 unknown(0): StylesheetController->actionExportToPDF()
+#5 /var/www/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#6 /var/www/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#7 /var/www/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#8 /var/www/yii/framework/web/filters/CFilterChain.php(133): StylesheetController->runAction()
+#9 /var/www/yii/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#10 /var/www/yii/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#11 /var/www/yii/framework/web/filters/CInlineFilter.php(58): StylesheetController->filterAccessControl()
+#12 /var/www/yii/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#13 /var/www/yii/framework/web/CController.php(291): CFilterChain->run()
+#14 /var/www/yii/framework/web/CController.php(265): StylesheetController->runActionWithFilters()
+#15 /var/www/yii/framework/web/CWebApplication.php(282): StylesheetController->run()
+#16 /var/www/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#17 /var/www/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#18 /var/www/ribom/index.php(13): CWebApplication->run()
+REQUEST_URI=/ribom/index.php?r=stylesheet/exportToPDF&id=27
+in /var/www/ribom/protected/views/stylesheet/pickImage.php (29)
+in /var/www/ribom/protected/controllers/StylesheetController.php (105)
+in /var/www/ribom/index.php (13)
