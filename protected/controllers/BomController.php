@@ -32,7 +32,7 @@ class BomController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'modifySizeQty', 'getItemInfo', 'delete', 'getLogEntries', 'addNote', 'createExcel'),
+				'actions'=>array('create','update', 'modifySizeQty', 'getItemInfo', 'delete', 'getLogEntries', 'addNote', 'createExcel', 'exportToPDF'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -418,5 +418,25 @@ class BomController extends Controller
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 		$objWriter->save('php://output');
 		Yii::app()->end();
+	}
+	
+	public function actionExportToPDF($ss_id) {
+		// Get this stylsheet's design bom items (Style sheet)
+		$ssBomItems = StylesheetBom::model()->findAllByAttributes(array('ss_id'=>$ss_id));
+		$ss_model = Stylesheet::model()->findByPk($ss_id);
+		
+		// For each design bom item, get all bom items (BOM sheet)
+		$bomItems = array();
+		foreach ($ssBomItems as $model) {
+			$bomItems[] = Bom::model()->findAllByAttributes(array('ss_id'=>$model->ss_bom_id));
+		}
+		
+		$html2pdf = Yii::app()->ePdf->mPDF('','', 10, 'Tahoma', 7, 7, 7, 7, 0, 0, 'L');
+		
+		$html2pdf->WriteHTML($this->renderPartial('bomPrintView', array(
+				'bomItems'=>$bomItems,
+				'model' => $ss_model
+		), true));
+		$html2pdf->Output();
 	}
 }

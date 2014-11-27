@@ -15,6 +15,7 @@ $this->menu=array(
 ?>
 
 <h1>Markers</h1>
+<?php echo CHtml::button('Export Markers to PDF', array('submit' => array('exportToPDF', 'ss_id'=>$ss_model->ss_id))); ?>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'stylesheet-markers-grid',
 	'dataProvider'=>$dataProvider,

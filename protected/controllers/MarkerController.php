@@ -32,7 +32,7 @@ class MarkerController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','delete', 'getLogEntries', 'manage', 'index', 'copy'),
+				'actions'=>array('create','update','delete', 'getLogEntries', 'manage', 'index', 'copy', 'exportToPDF'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -248,4 +248,18 @@ class MarkerController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function actionExportToPDF($ss_id) {
+		// Get this stylsheet's design bom items (Style sheet)
+		$markers = Marker::model()->findAllByAttributes(array('ss_id'=>$ss_id));
+		$ss_model = Stylesheet::model()->findByPk($ss_id);
+		$html2pdf = Yii::app()->ePdf->mPDF('','', 10, 'Tahoma', 7, 7, 7, 7, 0, 0, 'L');
+	
+		$html2pdf->WriteHTML($this->renderPartial('markerPrintView', array(
+				'markers'=>$markers,
+				'model' => $ss_model
+		), true));
+		$html2pdf->Output();
+	}
+	
 }

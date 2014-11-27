@@ -31,6 +31,7 @@ $this->menu=array(
 
 <h1>View Stylesheet #<?php echo $model->style_code." - ".$model->formatSeasons ?></h1>
 
+<?php echo CHtml::button ("Export to PDF", array('submit'=> array('exportToPDF', 'id'=> $model->ss_id)));?>
 <div class = "stylesheet-galleryView">
 <h2>Basic Info</h2>
 <?php $this->widget('zii.widgets.CDetailView', array(
@@ -112,7 +113,7 @@ $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$accessories,
 	'columns'=>array(
 		'dcs_name',
-		'code',
+		'fulldept',
 		'item_color_id',
 		'item_desc',
 		'item_cons',

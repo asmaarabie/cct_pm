@@ -19,7 +19,7 @@ return array(
 		'ext.giix-components.*', // giix components
 		'ext.ECompositeUniqueValidator',
 		// date picker EJuiDateTimePicker, and autocomplete CJuiAutoComplete
-		'ext.jui.*', 
+		'ext.jui.*'
 	),
 
 	'modules'=>array(
@@ -90,6 +90,18 @@ return array(
 					'class'=>'CWebLogRoute',
 				),
 				*/
+			),
+		),
+		'ePdf' => array(
+			'class'         => 'ext.yii-pdf.EYiiPdf',
+			'params'        => array(
+				'mpdf'     => array(
+					'librarySourcePath' => 'application.vendor.mpdf.*',
+					'constants'         => array(
+							'_MPDF_TEMP_PATH' => Yii::getPathOfAlias('application.runtime'),
+					),
+					'class'=>'mpdf', // the literal class filename to be loaded from the
+				),
 			),
 		),
 		

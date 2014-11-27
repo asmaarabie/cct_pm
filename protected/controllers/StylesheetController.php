@@ -32,7 +32,7 @@ class StylesheetController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'copy', 'getLogEntries', 'delete', 'admin', 'getDCSScale'),
+				'actions'=>array('create','update', 'copy', 'getLogEntries', 'delete', 'admin', 'getDCSScale', 'exportToPDF'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -72,10 +72,39 @@ class StylesheetController extends Controller
 			'model'=>$model,
 			'images' => $images,
 			'colors' => $colors,
-			'accessories'=> $accessories
+			'accessories'=> $accessories,
 		));
 	}
-
+	
+	public function actionExportToPDF($id) {
+		$model= $this->loadModel($id);
+		$images= StylesheetImages::model()->findAllByAttributes(array('ss_id'=>$id));
+		
+		if(isset($_POST['selected_pic']) || count ($images)==0)
+		{
+				$selected = isset ($_POST['selected_pic'])? $_POST['selected_pic']: "";
+				$image = StylesheetImages::model()->findByPk($selected);
+				$accessories = StylesheetBom::model()->findAllByAttributes(array('ss_id'=>$id));
+				Yii::import('application.controllers.StylesheetColorController');
+				$colors = StylesheetColorController::getStylesheetColors($id);
+				
+				$html2pdf = Yii::app()->ePdf->mPDF('','', 10, 'Tahoma', 7, 7, 7, 7, 0, 0, '');
+				
+				$html2pdf->WriteHTML($this->renderPartial('stylesheetPrintView', array(
+						'model'=>$model,
+						'image' => $image,
+						'colors' => $colors,
+						'accessories'=> $accessories
+				), true));
+				$html2pdf->Output();
+		}
+		
+		$this->render('pickImage',array(
+				'images'=>$images,
+				'model' => $model,
+		));
+	}
+	
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
