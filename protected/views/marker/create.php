@@ -7,10 +7,6 @@ $this->breadcrumbs=array(
 	'Create',
 );
 
-$this->menu=array(
-	array('label'=>'List Marker', 'url'=>array('index')),
-	array('label'=>'Manage Marker', 'url'=>array('admin')),
-);
 ?>
 
 <h1>Create Marker</h1>

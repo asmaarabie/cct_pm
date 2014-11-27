@@ -5,10 +5,12 @@
 $this->breadcrumbs=array(
 	'Stylesheets' => array('stylesheet/index'),
 	$model->ss->style_code=>array('stylesheet/view', "id"=> $model->ss_id),
+	'Markers' => array('Marker/index', 'ss_id'=> $model->ss_id),
 	$model->marker_name,
 );
 
 $this->menu=array(
+	array('label'=>'Copy Marker', 'url'=>array('copy', 'id'=>$model->marker_id)),
 	array('label'=>'Update Marker', 'url'=>array('update', 'id'=>$model->marker_id)),
 	array('label'=>'Delete Marker', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->marker_id),'confirm'=>'Are you sure you want to delete this item?')),
 );
@@ -40,17 +42,13 @@ $this->menu=array(
 	),
 )); ?>
 
+<div class="stylesheet-galleryView" id="marker_log">
 <?php 
-echo CHtml::ajaxLink(
-    'View Log',          // the link body (it will NOT be HTML-encoded.)
+echo CHtml::ajaxSubmitButton('View Marker Log',          // the link body (it will NOT be HTML-encoded.)
     array("marker/getLogEntries&marker_id={$model->marker_id}"), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
     array(
         'update'=>'#marker_log',
-		'complete' => 'function() {
-          $("#marker_log").addClass("stylesheet-galleryView");
-			$("#marker_log").show();
-        }',
     )
 );
 ?>
-<div id="marker_log" style="display: none;"> </div>
+</div>

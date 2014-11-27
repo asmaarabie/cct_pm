@@ -32,7 +32,7 @@ class BomController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'modifySizeQty', 'getItemInfo', 'delete', 'getLogEntries'),
+				'actions'=>array('create','update', 'modifySizeQty', 'getItemInfo', 'delete', 'getLogEntries', 'addNote'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -268,8 +268,10 @@ class BomController extends Controller
 		//var_dump();
 		$itemno =$_POST['Bom']['itemno'];
 		if ($itemno!='') {
-			$item_model = Items::model()->findByAttributes(array('itemno'=> $itemno));
-		
+			$item_model = Items::model()->findByAttributes(array('itemno'=> $itemno, 'countryid'=> 1)); // countryid =1 is fixed for bom
+			
+			// :TODO: when the arabic item description is ready replace the the 2nd td with the following line
+			// <td> {$item_model->desc1} - {$item_model->desc2} </td>
 			echo "
 			<table>
 				<tr>
@@ -281,7 +283,7 @@ class BomController extends Controller
 				</tr>
 				<tr>
 					<td> {$item_model->itemattr} </td>
-					<td> {$item_model->desc1} - {$item_model->desc2} </td>
+					<td> {$item_model->desc1} </td>
 					<td> {$item_model->itemsize} </td>
 					<td> {$item_model->unitcost} </td>
 					<td> {$item_model->unitprice} </td>
@@ -301,5 +303,31 @@ class BomController extends Controller
 			echo $done;
 			Yii::app()->end();
 		}
+	}
+	
+	public function actionAddNote ($ss_id) {
+		$model = new StylesheetLog();
+		$model->action_type = 'bom';
+		$model->ss_id = $ss_id; // Mother stylesheet id
+		$model->user = Yii::app()->user->id;
+		
+		$ss_model = Stylesheet::model()->findByPk($ss_id);
+		
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['StylesheetLog']))
+		{
+			$model->attributes=$_POST['StylesheetLog'];
+			if($model->save()) 	{
+				Yii::app()->user->setFlash('success', "Note has been added, click the 'View Bom Log' link below to see it");
+				$this->redirect(array('index','ss_id'=>$ss_id));
+			}
+			
+		}
+
+		$this->render('addNote',array(
+			'model'=>$model,
+			'ss_model' => $ss_model,
+		));
 	}
 }

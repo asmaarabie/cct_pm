@@ -13,5 +13,7 @@
 	<?php echo CHtml::encode($data->subclass_name); ?>
 	<br />
 
-
+	<b><?php echo CHtml::encode($data->getAttributeLabel('countryid')); ?>:</b>
+	<?php echo CHtml::encode($data->countryid); ?>
+	<br />
 </div>

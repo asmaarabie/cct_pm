@@ -29,15 +29,15 @@ class StylesheetController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
-				'users'=>array('*'),
+				'users'=>array('@'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'copy', 'getLogEntries', 'delete'),
+				'actions'=>array('create','update', 'copy', 'getLogEntries', 'delete', 'admin', 'getDCSScale'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'expression' => array('adminStylesheet'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -45,6 +45,14 @@ class StylesheetController extends Controller
 		);
 	}
 
+	/*
+	public function init()
+	{
+		$auth=Yii::app()->authManager;
+		$auth->clearAll();
+		print_r($auth);
+	}
+	*/
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -102,7 +110,12 @@ class StylesheetController extends Controller
 		if(isset($_POST['Stylesheet'])) {
 		
 			$model->attributes=$_POST['Stylesheet'];
-			 
+			$dept = Departments::model()->findByAttributes(array('countryid'=>2, 'fulldept'=>$model->fulldept));
+			$model->country_id = 2; 
+			$model->dept_id = $dept->deptid; 
+			$model->class_id = $dept->classid; 
+			$model->subclass_id = $dept->subclassid;
+			
 			if ($model->scale != "") {
 				$sizes= Size::model()->getScaleSizes($model->scale);
 				 
@@ -196,20 +209,19 @@ class StylesheetController extends Controller
 	 */
 	public function actionIndex()
 	{
-		
-		$models=Stylesheet::model()->findAll();
-		//var_dump($models);
-		$provider = array();
-		// or using: $rawData=User::model()->findAll(); <--this better represents your question
-		foreach ($models as $model)
-			$provider[] = $this->loadModel($model->ss_id);
-		
-		$dataProvider=new CActiveDataProvider('Stylesheet', array(
-            'data'=>$provider));
-		
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+			$models=Stylesheet::model()->findAll();
+			//var_dump($models);
+			$provider = array();
+			// or using: $rawData=User::model()->findAll(); <--this better represents your question
+			foreach ($models as $model)
+				$provider[] = $this->loadModel($model->ss_id);
+			
+			$dataProvider=new CActiveDataProvider('Stylesheet', array(
+	            'data'=>$provider));
+			
+			$this->render('index',array(
+				'dataProvider'=>$dataProvider,
+			));
 	}
 	
 	/**
@@ -217,14 +229,18 @@ class StylesheetController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Stylesheet('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Stylesheet']))
-			$model->attributes=$_GET['Stylesheet'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		if (Yii::app()->authManager->checkAccess('adminStylesheet', Yii::app()->user->id)) {
+		    $model=new Stylesheet('search');
+			$model->unsetAttributes();  // clear any default values
+			if(isset($_GET['Stylesheet']))
+				$model->attributes=$_GET['Stylesheet'];
+	
+			$this->render('admin',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -286,6 +302,17 @@ class StylesheetController extends Controller
 			Yii::app()->end();
 		}
 		
+	}
+	
+	public function actionGetDCSScale () {
+		if (isset($_POST["Stylesheet"]["fulldept"])) {
+			$options = DCSSizeScale::model()->findAllByAttributes(array('size_fulldept'=> $_POST["Stylesheet"]["fulldept"]));
+			echo "<option value>Select a scale</option>";
+			foreach($options as $opt) {
+				echo "<option value='{$opt['size_scale']}'>{$opt['sizeScale']->scale_name}</option>";
+				
+			}
+		}
 	}
 	
 }

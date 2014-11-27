@@ -12,6 +12,9 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('dept_name')); ?>:</b>
 	<?php echo CHtml::encode($data->dept_name); ?>
 	<br />
-
+	
+	<b><?php echo CHtml::encode($data->getAttributeLabel('countryid')); ?>:</b>
+	<?php echo CHtml::encode($data->countryid); ?>
+	<br />
 
 </div>

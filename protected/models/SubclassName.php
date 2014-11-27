@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'subclass_name':
  * @property string $subclassid
  * @property string $subclass_name
+ * @property string $countryid
  */
 class SubclassName extends CActiveRecord
 {
@@ -27,16 +28,17 @@ class SubclassName extends CActiveRecord
 		return array(
 			array('subclassid, subclass_name', 'required'),
 			array('subclassid', 'length', 'max'=>3),
-			array ('subclassid', 'unique'),
+			array('countryid', 'length', 'max'=>5),
 			array('subclass_name', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('subclassid, subclass_name', 'safe', 'on'=>'search'),
-			array('subclassid', 'exist',
-					'attributeName'=>'subclassid',
-					'className'=>'Departments',
-					//'skipOnError',
-					'message'=>'Subclass id should exist in the departments table!'),
+			array('subclassid, subclass_name, countryid', 'safe', 'on'=>'search'),
+			array('subclassid, countryid', 'ECompositeUniqueValidator',
+					'attributesToAddError'=>'subclassid',
+					'message'=>'A record already exists for the following:
+				{attr_subclassid} {value_subclassid}
+				{attr_countryid} {value_countryid}
+			'),
 		);
 	}
 
@@ -59,6 +61,7 @@ class SubclassName extends CActiveRecord
 		return array(
 			'subclassid' => 'Subclass id',
 			'subclass_name' => 'Subclass Name',
+			'countryid' => 'Country',
 		);
 	}
 
@@ -82,7 +85,8 @@ class SubclassName extends CActiveRecord
 
 		$criteria->compare('subclassid',$this->subclassid,true);
 		$criteria->compare('subclass_name',$this->subclass_name,true);
-
+		$criteria->compare('countryid',$this->countryid,true);
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

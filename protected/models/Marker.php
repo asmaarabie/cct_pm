@@ -39,9 +39,21 @@ class Marker extends CActiveRecord
 		return array(
 			array('width, length, utilization, t_size, ratio, marker_name, owner', 'required'),
 			array('ss_id', 'numerical', 'integerOnly'=>true),
-			array('ss_id', 'unique'),
+			//array('ss_id', 'unique'),
 			array('width, length, utilization, t_size, owner', 'numerical'),
 			array('ratio, marker_name', 'length', 'max'=>40),
+			array('width, length, utilization, t_size, ratio, marker_name, ss_id', 'ECompositeUniqueValidator',
+					'attributesToAddError'=>'marker_name',
+					'message'=>'A record already exists for the following:
+					{attr_ss_id} {value_ss_id}
+					{attr_width} {value_width}
+					{attr_length} {value_length}
+					{attr_utilization} {value_utilization}
+					{attr_t_size} {value_t_size}
+					{attr_year} {value_year}
+					{attr_ratio} {value_ratio}
+					{attr_marker_name} {value_marker_name}
+			'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('marker_id, ss_id, width, length, utilization, t_size, ratio, marker_name', 'safe', 'on'=>'search'),
@@ -56,7 +68,7 @@ class Marker extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-				'owner0' => array(self::BELONGS_TO, 'User', 'owner'),
+			'owner0' => array(self::BELONGS_TO, 'User', 'owner'),
 			'ss' => array(self::BELONGS_TO, 'Stylesheet', 'ss_id'),
 			'markerLogs' => array(self::HAS_MANY, 'MarkerLog', 'marker_id'),				
 		);

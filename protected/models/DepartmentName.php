@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'dept_name':
  * @property string $dept_id
+ * @property string $countryid
  * @property string $dept_name
  */
 class DepartmentName extends CActiveRecord
@@ -25,19 +26,17 @@ class DepartmentName extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('dept_id, dept_name', 'required'),
+			array('dept_id, dept_name, countryid', 'required'),
 			array('dept_id', 'length', 'max'=>3),
-			array('dept_id', 'unique'),
+			array('countryid', 'length', 'max'=>5),
 			array('dept_name', 'length', 'max'=>40),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('dept_id, dept_name', 'safe', 'on'=>'search'),
-				
-			array('dept_id', 'exist',
-					'attributeName'=>'deptid',
-					'className'=>'Departments',
-					//'skipOnError',
-					'message'=>'Department id should exist in the departments table!'),
+			array('dept_id, dept_name, countryid', 'safe', 'on'=>'search'),
+			array('dept_id, countryid', 'ECompositeUniqueValidator',
+					'attributesToAddError'=>'dept_id',
+					'message'=>'A record already exists for the following:
+				{attr_dept_id} {value_dept_id}
+				{attr_countryid} {value_countryid}
+			'),
 		);
 	}
 
@@ -60,6 +59,7 @@ class DepartmentName extends CActiveRecord
 		return array(
 			'dept_id' => 'Department id',
 			'dept_name' => 'Department Name',
+			'countryid' => 'Country',
 		);
 	}
 
@@ -83,7 +83,8 @@ class DepartmentName extends CActiveRecord
 
 		$criteria->compare('dept_id',$this->dept_id,true);
 		$criteria->compare('dept_name',$this->dept_name,true);
-
+		$criteria->compare('countryid',$this->countryid,true);
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

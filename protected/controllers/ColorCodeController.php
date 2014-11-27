@@ -63,13 +63,11 @@ class ColorCodeController extends Controller
 	public function actionCreate()
 	{
 		$model=new ColorCode;
-
+		$model->length = " "; // Omitted feature
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 		
 		// Create the color code
-		//:TODO: 
-		
 		if(isset($_POST['ColorCode']))
 		{
 			$model->attributes=$_POST['ColorCode'];
@@ -87,6 +85,10 @@ class ColorCodeController extends Controller
 	
 	public function setModelProperties ($model, $increment, $last=true) {
 		$model->color_serial = "00";
+		$model->shadow = ($model->shadow == '-' || $model->shadow == '')? " ": $model->shadow;
+		$model->pattern = ($model->pattern == '-' || $model->pattern == '')? " ": $model->pattern;
+		$model->shape = ($model->shape == '-' || $model->shape == '')? " ": $model->shape;
+		
 		$lastModel = NULL;
 		
 		// if last = true => sort DESC, else ASC
@@ -96,7 +98,6 @@ class ColorCodeController extends Controller
 			shadow='{$model->shadow}' AND
 			color='{$model->color}' AND
 			shape='{$model->shape}' AND
-			length='{$model->length}' AND
 			pattern='{$model->pattern}'
 			ORDER BY color_serial $sort")
 			->queryAll();
@@ -104,7 +105,6 @@ class ColorCodeController extends Controller
 
 		if (count($data)!=0) {
 			$lastModel=ColorCode::model()->findByPk($data[0]['color_code']);
-		
 			if ($increment) {
 				$newSerial = intval($data[0]['color_serial']) +1;
 				// padding number 1-> 01, 2 -> 02
@@ -112,13 +112,9 @@ class ColorCodeController extends Controller
 					
 			}
 		}
-		
-		// Pad color with extra '-' if the color's length is less than 2
+
 		$color = $model->color;
-		if (strlen($model->color)<2)
-			$color .= '-';
-			$model->color_code = $color.$model->shadow.$model->pattern.$model->length.$model->shape.$model->color_serial;
-		//var_dump($lastModel);
+		$model->color_code = $color.$model->shadow.$model->pattern." ".$model->shape.$model->color_serial;
 		return array ('model'=> $model, 'lastModel' =>$lastModel);
 	}
 	/**

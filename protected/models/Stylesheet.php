@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'stylesheet':
  * @property integer $ss_id
+ * @property string $fulldept
  * @property string $country_id
  * @property string $dept_id
  * @property string $class_id
@@ -34,9 +35,9 @@
  */
 class Stylesheet extends CActiveRecord
 {
-	public $brand, $category, $dcs, $desc1, $countryName, $formatSeasons, $owner ;
+	public $brand, $category, $dcs, $desc1, $countryName, $formatSeasons, $owner, $fulldept ;
 	
-	public $seasons = array ("S"=> "Summer", "A"=> "Autumn", "W"=> "Winter", "G" => "General");
+	public $seasons = array ("S"=> "Summer", "W"=> "Winter", "G" => "General");
 	
 	/**
 	 * @return string the associated database table name
@@ -54,15 +55,25 @@ class Stylesheet extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('country_id, dept_id, class_id, subclass_id, season, year, style_code, fabric, scale', 'required'),
+			array('fulldept, season, year, style_code, fabric, scale', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
-			array('country_id, scale', 'length', 'max'=>5),
-			array('dept_id, class_id, subclass_id', 'length', 'max'=>3),
 			array('season', 'length', 'max'=>1),
 			array('year', 'length', 'max'=>4),
 			array('pono', 'length', 'max'=>20),
 			array('dcs_notes, style_code, fabric, sizes', 'length', 'max'=>40),
 			array('stylesheet_note', 'safe'),
+			array('fulldept, style_code, season, year', 'ECompositeUniqueValidator',
+					'attributesToAddError'=>'fulldept',
+					'message'=>'A record already exists for the following:
+					{attr_fulldept} {value_fulldept}
+					{attr_year} {value_year}
+					{attr_season} {value_season}
+			'),
+			
+			/*
+			 * 
+			array('country_id, scale', 'length', 'max'=>5),
+			array('dept_id, class_id, subclass_id', 'length', 'max'=>3),
 			array('country_id', 'exist',
 				'attributeName'=>'countryid',
 				'className'=>'Countries',
@@ -90,9 +101,10 @@ class Stylesheet extends CActiveRecord
 				{attr_year} {value_year}
 				{attr_season} {value_season}
 						'),
+			*/
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ss_id, country_id, dept_id, class_id, subclass_id, season, year, pono, dcs_notes, style_code, stylesheet_note, fabric, scale', 'safe', 'on'=>'search'),
+			array('ss_id, fulldept, country_id, dept_id, class_id, subclass_id, season, year, pono, dcs_notes, style_code, stylesheet_note, fabric, scale', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -126,6 +138,7 @@ class Stylesheet extends CActiveRecord
 			'ss_id' => 'Stylesheet id',
 			'country_id' => 'Country id',
 			'dept_id' => 'Department id',
+			'fulldept' => 'Full Department id',
 			'class_id' => 'Class id',
 			'subclass_id' => 'Subclass id',
 			'season' => 'Season',
@@ -138,7 +151,7 @@ class Stylesheet extends CActiveRecord
 			'scale' => 'Scale',
 			'sizes' => 'sizes',
 			'desc1' => "DESC1",
-			'dcs' => 'DCS',
+			'dcs' => 'DCS Name',
 			'brand' => 'Brand',
 			'category' => 'Category',
 			'user_id' => 'User id',
@@ -165,6 +178,7 @@ class Stylesheet extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('ss_id',$this->ss_id);
+		$criteria->compare('fulldept',$this->fulldept,true);
 		$criteria->compare('country_id',$this->country_id,true);
 		$criteria->compare('dept_id',$this->dept_id,true);
 		$criteria->compare('class_id',$this->class_id,true);
@@ -204,7 +218,7 @@ class Stylesheet extends CActiveRecord
 	}
 	
 	public function getSeasonOptions() {
-		return array ("S"=> "Summer", "A"=> "Autumn", "W"=> "Winter", "G" => "General");
+		return array ("S"=> "Summer", "W"=> "Winter", "G" => "General");
 	}
 	
 	protected function beforeDelete() {
@@ -232,27 +246,26 @@ class Stylesheet extends CActiveRecord
 	protected function afterFind () {
 		// Get brand name: brand name is the deptid name from the dept_name table
 		$dept_tbl = DepartmentName::model()->tableName();
-		$sql = "SELECT dept_name FROM {$dept_tbl} where dept_id='{$this->dept_id}'";
+		$sql = "SELECT dept_name FROM {$dept_tbl} where dept_id='{$this->dept_id}' and countryid='{$this->country_id}'";
 		$department["brand"] =  Yii::app()->db->createCommand($sql)->queryRow()["dept_name"];
 		$department["brand"] = ($department["brand"] == "")? "No name for the following department {$this->dept_id}" : $department["brand"];
 		
 		// Get category name: category name is the subclassid name from the subclass_name table
 		$subclass_tbl = SubclassName::model()->tableName();
-		$sql = "SELECT subclass_name FROM {$subclass_tbl} where subclassid='{$this->subclass_id}'";
+		$sql = "SELECT subclass_name FROM {$subclass_tbl} where subclassid='{$this->subclass_id}' and countryid='{$this->country_id}'";
 		$department["category"] =  Yii::app()->db->createCommand($sql)->queryRow()["subclass_name"];
 		$department["category"] = ($department["category"] == "")? "No name for the following subclass {$this->subclass_id}" : $department["category"];
 		
 		// Get department, class, subclass names
-		$sql = "SELECT deptname FROM departments where deptid='{$this->dept_id}'";
-		$department["deptname"] =  Yii::app()->db->createCommand($sql)->queryRow()["deptname"];
-		$sql = "SELECT subclassname FROM departments where subclassid='{$this->subclass_id}'";
-		$department["subclassname"] =  Yii::app()->db->createCommand($sql)->queryRow()["subclassname"];
-		$sql = "SELECT classname FROM departments where classid='{$this->class_id}'";
-		$department["classname"] =  Yii::app()->db->createCommand($sql)->queryRow()["classname"];
+		$dept = Departments::model()->findByAttributes(array('countryid'=>$this->country_id, 'fulldept'=>$this->fulldept));
+		$department["deptname"] =  $dept->deptname;
+		$department["subclassname"] =  $dept->classname;
+		$department["classname"] =  $dept->subclassname;
 		
 		$this->brand = $department["brand"];
 		$this->category = $department["category"];
-		$this->dcs = $department["deptname"]. " " . $department["classname"]. " " . $department["subclassname"] . " " . $this->dcs_notes;
+		$this->dcs = $department["deptname"]. " " . $department["classname"]. " " . $department["subclassname"];
+		
 		$this->formatSeasons = $this->season . substr($this->year, 2, 2);
 		$this->desc1 = $this->dept_id . " " . $this->class_id . " " . $this->subclass_id . " - ". $this->formatSeasons;
 		$this->countryName = $this->country_id . " - " . $this->country->countrydesc;

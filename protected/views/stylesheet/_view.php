@@ -28,7 +28,11 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('dcs')); ?>:</b>
 	<?php echo CHtml::encode($data->dcs); ?>
 	<br />
-
+	
+	<b><?php echo CHtml::encode($data->getAttributeLabel('dcs_notes')); ?>:</b>
+	<?php echo CHtml::encode($data->dcs_notes); ?>
+	<br />
+	
 	<b><?php echo CHtml::encode($data->getAttributeLabel('desc1')); ?>:</b>
 	<?php echo CHtml::encode($data->desc1); ?>
 	<br />

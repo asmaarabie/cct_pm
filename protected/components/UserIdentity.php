@@ -25,11 +25,27 @@ class UserIdentity extends CUserIdentity
         else
         {
             $this->setState('id', $record->user_id);
-            $this->setState('group', $record->user_group);
+            $this->setState('group', $record->userGroup->group_name);
             $this->setState('title', $record->user_name);
+            $auth=Yii::app()->authManager;
+
+      
+            if ($record->user_id == 3) {
+            	
+	            if(!$auth->isAssigned('adminStylesheet',$record->user_id))
+	            {
+	            	if($auth->assign('adminStylesheet',$record->user_id))
+	            	{
+	            		Yii::app()->authManager->save();
+	            		//var_dump($auth->isAssigned('adminStylesheet',$record->user_id));
+	            		//die();
+	            	}
+	            }
+            }
             $this->errorCode=self::ERROR_NONE;
         }
         return !$this->errorCode;
         
 	}
+	
 }

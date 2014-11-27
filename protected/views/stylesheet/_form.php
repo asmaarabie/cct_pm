@@ -2,6 +2,8 @@
 /* @var $this StylesheetController */
 /* @var $model Stylesheet */
 /* @var $form CActiveForm */
+Yii::import('application.controllers.DepartmentController');
+$depts = DepartmentController::getDepartments(2); // 2 for concrete 
 ?>
 
 <div class="form">
@@ -27,93 +29,28 @@
 	?>
 	
 	<div class="row" style="border-radius: 5px; background: #EFEFEF; padding: 10px">
-	
-		<div class="row" style="float:left; margin-right: 20px">
-			<?php echo $form->labelEx($model,'country_id'); ?>
-			<?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-			        'attribute' => 'country_id',
-					'model'=>$model,
-			        'sourceUrl'=> '?r=country/getCountryAjax',
-			        'htmlOptions'=>array(
-						'placeholder'=>'BOM',
-						'minLength'=>'1',
-						'maxlength'=>5,
-						'size'=>10),
-					
-					'options'=>array(
-						'showAnim'=>'fold'),
-			         ));
-			?>
-		</div>
-	
-		<div class="row" style="float:left; margin-right: 20px">
-			<?php echo $form->labelEx($model,'dept_id'); ?>
-			<?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-			        'attribute' => 'dept_id',
-					'model'=>$model,
-			        'sourceUrl'=> '?r=department/getDCSAjax&param=deptid',
-			        'htmlOptions'=>array(
-						'placeholder'=>'C52',
-						'minLength'=>'1',
-						'maxlength'=>5,
-						'size'=>10),
-					
-					'options'=>array(
-						'showAnim'=>'fold'),
-			         ));
-			?>
-		</div>
-	
-		<div class="row" style="float:left; margin-right: 20px">
-			<?php echo $form->labelEx($model,'class_id'); ?>
-			<?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-			        'attribute' => 'class_id',
-					'model'=>$model,
-			        'sourceUrl'=> '?r=department/getDCSAjax&param=classid',
-			        'htmlOptions'=>array(
-						'placeholder'=>'5',
-						'minLength'=>'1',
-						'maxlength'=>5,
-						'size'=>10),
-					
-					'options'=>array(
-						'showAnim'=>'fold'),
-			         ));
-			?>
-			
-		</div>
 		
 		<div class="row" style="float:left; margin-right: 20px">
-			<?php echo $form->labelEx($model,'subclass_id'); ?>
-			<?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-			        'attribute' => 'subclass_id',
-					'model'=>$model,
-			        'sourceUrl'=> '?r=department/getDCSAjax&param=subclassid',
-			        'htmlOptions'=>array(
-						'placeholder'=>'PJ',
-						'minLength'=>'1',
-						'maxlength'=>5,
-						'size'=>10),
-					
-					'options'=>array(
-						'showAnim'=>'fold'),
-			         ));
-			?>
-			
-		</div>
-		
-		<div class="row" style="float:left; margin-right: 20px">
+        <?php echo $form->labelEx($model,'fulldept'); ?>
+        <?php echo $form->dropDownList($model, 'fulldept', $depts, array(
+        		'empty' => "Select DCS", 
+        		"width"=> "45px",
+        		'ajax' => array(
+					'type'=>'POST',
+					'url'=>CController::createUrl('getDCSScale'),
+					'update'=>"#Stylesheet_scale",
+			        )
+        ));?>
+        </div>
+        
+        <div class="row" style="float:left; margin-right: 20px">
 		<?php echo $form->labelEx($model,'dcs_notes'); ?>
 		<?php echo $form->textField($model,'dcs_notes',array('size'=>20,'maxlength'=>40)); ?>
-		
-	
-	
 		</div>
-		<div style="clear: both;" ></div>
-		<?php echo $form->error($model,'country_id'); ?>
-		<?php echo $form->error($model,'dept_id'); ?>
-		<?php echo $form->error($model,'class_id'); ?>
-		<?php echo $form->error($model,'subclass_id'); ?>
+		
+        <div style ="clear: both" ></div> 
+         
+		<?php echo $form->error($model,'fulldept'); ?>
 		<?php echo $form->error($model,'dcs_notes'); ?>
 	</div>
 	

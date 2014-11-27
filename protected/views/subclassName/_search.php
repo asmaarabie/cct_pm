@@ -20,7 +20,12 @@
 		<?php echo $form->label($model,'subclass_name'); ?>
 		<?php echo $form->textField($model,'subclass_name',array('size'=>40,'maxlength'=>40)); ?>
 	</div>
-
+	
+	<div class="row">
+		<?php echo $form->label($model,'countryid'); ?>
+		<?php echo $form->textField($model,'countryid',array('size'=>40,'maxlength'=>40)); ?>
+	</div>
+	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>
 	</div>

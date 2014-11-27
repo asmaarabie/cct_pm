@@ -70,5 +70,5 @@
 	));
 	
 	?>
- 	<?php echo CHtml::link('Add items', array('create', 'ss_bom_id'=>$data->ss_bom_id));?>
+ 	<?php echo CHtml::button('Add items', array('submit' => array('create', 'ss_bom_id'=>$data->ss_bom_id)));?>
 </div>

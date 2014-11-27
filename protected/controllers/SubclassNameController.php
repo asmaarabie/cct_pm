@@ -32,7 +32,7 @@ class SubclassNameController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'getCountrySubclasses', 'admin','delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -103,6 +103,7 @@ class SubclassNameController extends Controller
 		));
 	}
 	
+	/*
 	public function actionGetSubclassesAjax(){
 		
 		$request=trim($_GET['term']);
@@ -129,6 +130,7 @@ class SubclassNameController extends Controller
 		
 	}
 	
+	*/
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -195,5 +197,35 @@ class SubclassNameController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	
+	public function actionGetCountrySubclasses($cond = -1) {
+		if (isset($_POST["SubclassName"]["countryid"])) {
+			$cond = $_POST["SubclassName"]["countryid"];
+			$data = SubclassNameController::getSubclassesQuery($cond);
+			foreach($data as $sub) {
+				echo "<option value='{$sub['subclassid']}'>{$sub['subclassid']} - {$sub['subclassname']}</option>";
+				
+			}
+		} elseif ($cond != -1) {
+			$data = SubclassNameController::getSubclassesQuery ($cond);
+			$subclasses = array();
+			foreach($data as $sub) {
+				$subclasses[$sub['subclassid']] = $sub['subclassid'] . (($sub['subclassname']!="")? " - " . $sub['subclassname'] : "");
+			}
+				
+			return $subclasses;
+		}
+	}
+	
+	protected function getSubclassesQuery ($cond) {
+	
+		$data = Yii::app()->db->createCommand()
+		->selectDistinct('subclassname, subclassid')
+		->from('departments')
+		->where(array('like', 'countryid', "$cond"))
+		->queryAll();
+		return $data;
 	}
 }

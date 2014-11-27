@@ -2,6 +2,9 @@
 /* @var $this DepartmentNameController */
 /* @var $model DepartmentName */
 /* @var $form CActiveForm */
+Yii::import('application.controllers.CountryController');
+$countries = CountryController::getCountries();
+$depts = DepartmentNameController::actionGetCountryDepts($model->countryid);
 ?>
 
 <div class="form">
@@ -19,30 +22,27 @@
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-
+	
 	<div class="row">
-		<?php echo $form->labelEx($model,'dept_id'); ?>
-		<?php 
-		
-		$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-        'attribute' => 'dept_id',
-		'model'=>$model,
-		'value'=>$model->dept_id,
-        'sourceUrl'=> '?r=departmentName/getdeptAjax',
- 		//'cssFile'=>false,
-        'htmlOptions'=>array(
-			'placeholder'=>'id',
-			'minLength'=>'1',
-			'maxlength'=>3,
-			'size'=>3),
-		
-		'options'=>array(
-			'showAnim'=>'fold'),
-         ));
-		?>
-		<?php echo $form->error($model,'dept_id'); ?>
-	</div>
-
+        <?php echo $form->labelEx($model,'countryid'); ?>
+        <?php echo $form->dropDownList($model, "countryid",$countries, array(
+        		'empty' => "Select Country", 
+        		"class"=>"miniform-dd",
+        		'ajax' => array(
+					'type'=>'POST',
+					'url'=>CController::createUrl('getCountryDepts'),
+					'update'=>"#DepartmentName_dept_id",
+			        )
+        ));?>
+        <?php echo $form->error($model,'countryid'); ?>
+    </div>
+    
+    <div class="row">
+        <?php echo $form->labelEx($model,'dept_id'); ?>
+        <?php echo $form->dropDownList($model, 'dept_id', $depts, array('empty' => "Select Department", "width"=>"100px"));?>
+        <?php echo $form->error($model,'dept_id'); ?>
+    </div>
+   
 	<div class="row">
 		<?php echo $form->labelEx($model,'dept_name'); ?>
 		<?php echo $form->textField($model,'dept_name',array('size'=>40,'maxlength'=>40)); ?>

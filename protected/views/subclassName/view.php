@@ -23,5 +23,6 @@ $this->menu=array(
 	'attributes'=>array(
 		'subclassid',
 		'subclass_name',
+		'countryid'
 	),
 )); ?>

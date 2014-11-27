@@ -19,6 +19,12 @@ $this->layout = '//layouts/column1';
 		<b><?php echo CHtml::encode($ss_model->getAttributeLabel('season')); ?>:</b>
 		<?php echo CHtml::encode($ss_model->seasons[$ss_model->season].' ( '.$ss_model->year.' )'); ?>
 		<br />
+		<b><?php echo CHtml::encode($ss_model->getAttributeLabel('dcs')); ?>:</b>
+		<?php echo CHtml::encode($ss_model->dcs); ?>
+		<br />
+		<b><?php echo CHtml::encode($ss_model->getAttributeLabel('fulldept')); ?>:</b>
+		<?php echo CHtml::encode($ss_model->fulldept); ?>
+		<br />
 		<b><?php echo CHtml::encode($ss_model->getAttributeLabel('category')); ?>:</b>
 		<?php echo CHtml::encode($ss_model->category); ?>
 		<br />
@@ -80,15 +86,13 @@ $this->layout = '//layouts/column1';
 		</div>
 	
 		<div class="row buttons" style="float:right">
-			<?php echo CHtml::link('Modify', array('modifySizeQty', 'ss_id'=>$ss_model->ss_id)); ?>
+			<?php echo CHtml::button('Modify Sizes', array('submit' => array('modifySizeQty', 'ss_id'=>$ss_model->ss_id))); ?>
 		</div>
 		<div style="clear:both;"></div>
 	
 	</div>
 	<div style="clear:both;"></div>
 </div>
-<br/>
-
 
 <div class="stylesheet-galleryView">
 <h2>Bom Items</h2>
@@ -102,20 +106,23 @@ if (count($ssBomItems) != 0) {
 	));
 	
 } else {
-	echo CHtml::link('Fill in the stylesheet bom items first', array('stylesheetBom/create', 'ss_id'=>$ss_model->ss_id));
+	echo CHtml::button('Fill the stylesheet bom items first', array('submit' => array('stylesheetBom/create', 'ss_id'=>$ss_model->ss_id)));
 }
 ?>
 </div>
 
+<div class="row buttons stylesheet-galleryView">
+	<?php echo CHtml::button('Add note', array('submit' => array('bom/addNote', 'ss_id'=>$ss_model->ss_id))); ?>
+</div>
+
+<div class="stylesheet-galleryView" id="bom_log">
 <?php 
-echo CHtml::ajaxLink(
-    'View Bom Log',
-    array("bom/getLogEntries&ss_id={$ss_model->ss_id}"), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
-    array(
-		'type' => 'POST',
-        'update'=>"#bom_log",
-    )
+echo CHtml::ajaxSubmitButton('View Bom Log',
+		array("bom/getLogEntries&ss_id={$ss_model->ss_id}"), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
+		array(
+			'type' => 'POST',
+	        'update'=>"#bom_log",
+	    )
 );
 ?>
-<br/>
-<div id="bom_log"></div>
+</div>

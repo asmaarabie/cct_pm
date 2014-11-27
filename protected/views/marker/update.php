@@ -9,10 +9,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Marker', 'url'=>array('index')),
-	array('label'=>'Create Marker', 'url'=>array('create')),
 	array('label'=>'View Marker', 'url'=>array('view', 'id'=>$model->marker_id)),
-	array('label'=>'Manage Marker', 'url'=>array('admin')),
 );
 ?>
 

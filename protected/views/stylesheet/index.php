@@ -11,6 +11,11 @@ $this->menu=array(
 	array('label'=>'Manage Stylesheet', 'url'=>array('admin')),
 );
 ?>
+<?php 
+if(!Yii::app()->user->isGuest && Yii::app()->authManager->checkAccess('adminStylesheet', Yii::app()->user->id))
+	echo "EHM";
+	
+?>
 
 <h1>Stylesheets</h1>
 
@@ -18,3 +23,4 @@ $this->menu=array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
 )); ?>
+

@@ -167,8 +167,10 @@ class StylesheetBom extends CActiveRecord
 	
 	protected function beforeDelete () {
 		$bom_items = Bom::model()->findAllByAttributes(array('ss_id'=>$this->ss_bom_id));
-		foreach ($bom_items as $model)
-			$model->delete();
+		if (count ($bom_items) > 0) {
+			Yii::app()->user->setFlash("error", "This stylesheet trim/accessory has other bom items associated with it, it cannot be deleted");
+			return false;
+		}
 		return parent::beforeDelete();
 	}
 	

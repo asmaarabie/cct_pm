@@ -14,7 +14,7 @@ $this->menu=array(
 			array('label'=>'Delete Stylesheet', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ss_id),'confirm'=>'Are you sure you want to delete this item?')),
 			array('label'=>'Stylesheet images', 'url'=>array('stylesheetImages/index', 'ss_id'=>$model->ss_id)),
 			array('label'=>'Stylesheet colors', 'url'=>array('stylesheetColor/index', 'ss_id'=>$model->ss_id)),
-			array('label'=>'Stylesheet Marker', 'url'=>array('marker/manage', 'ss_id'=>$model->ss_id)),
+			array('label'=>'Stylesheet Marker', 'url'=>array('marker/index', 'ss_id'=>$model->ss_id)),
 			array('label'=>'Stylesheet Trims & Accessories', 'url'=>array('stylesheetBom/index', 'ss_id'=>$model->ss_id)),
 			array('label'=>'Stylesheet BOM', 'url'=>array('bom/index', 'ss_id'=>$model->ss_id)),
 	)),
@@ -46,6 +46,7 @@ $this->menu=array(
 				'value'=>CHtml::encode($model->seasons["{$model->season}"])),
 		'year',
 		'dcs',
+		'dcs_notes',
 		'desc1',
 		'style_code',
 		'fabric',
@@ -129,6 +130,7 @@ $this->widget('zii.widgets.CListView', array(
 )); ?>
 </div>
 
+<div id="ss_log" class = "stylesheet-galleryView">
 
 <?php 
 echo CHtml::ajaxLink(
@@ -136,11 +138,7 @@ echo CHtml::ajaxLink(
     array("stylesheet/getLogEntries&ss_id={$model->ss_id}"), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
     array(
         'update'=>'#ss_log',
-		'complete' => 'function() {
-			$("#ss_log").show();
-        }',
     )
 );
 ?>
-<div id="ss_log" style="display: none;"></div>
-
+</div>

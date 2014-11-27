@@ -8,7 +8,7 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'bom-form',
-		'enableAjaxValidation'=>true,
+	'enableAjaxValidation'=>true,
 	'enableClientValidation'=>true,
 )); ?>
 

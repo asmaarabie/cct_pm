@@ -32,7 +32,7 @@ class MarkerController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','delete', 'getLogEntries', 'manage'),
+				'actions'=>array('create','update','delete', 'getLogEntries', 'manage', 'index', 'copy'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -56,16 +56,30 @@ class MarkerController extends Controller
 		));
 	}
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
 	public function actionCreate($ss_id)
 	{
 		$model=new Marker;
 		$model->ss_id = $ss_id;
+		MarkerController::insert($model, false);
+	}
+	
+	public function actionCopy ($id) {
+		$model = $this->loadModel($id);
+		unset($model->marker_id);// = "";
+		$model->isNewRecord=true;
+		unset($model->id);
+		MarkerController::insert ($model, true);
+	}
+	
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function insert($model, $copy)
+	{
 		$model->owner = Yii::app()->user->id;
 		
+		// :TODO: move this to the model in after save
 		// Create a log for the marker
 		$log = new MarkerLog();
 		$log->action_type = "create";
@@ -77,7 +91,7 @@ class MarkerController extends Controller
 		$ss_log->action_comment = $log->action_comment;
 		$ss_log->user = Yii::app()->user->id;
 		$ss_log->action_type= 'create';
-		$ss_log->ss_id = $ss_id;
+		$ss_log->ss_id = $model->ss_id;
 		
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -150,21 +164,27 @@ class MarkerController extends Controller
 		
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
-			$this->redirect(array('stylesheet/view', 'id'=> $ss_id));
+			$this->redirect(array('marker/index', 'ss_id'=> $ss_id));
 	}
 
 	/**
 	 * Lists all models.
 	 */
-	/*
-	public function actionIndex()
+	
+	public function actionIndex($ss_id)
 	{
-		$dataProvider=new CActiveDataProvider('Marker');
+		$dataProvider=new CActiveDataProvider('Marker', array(
+				'criteria'=>array(
+						'condition'=>"ss_id={$ss_id}",
+				),
+		));
+		$ss_model = Stylesheet::model()->findByPk($ss_id);
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+			'ss_model' => $ss_model,
 		));
 	}
-	*/
+	
 	public function actionManage ($ss_id) {
 		$model = Marker::model()->findByAttributes (array ('ss_id'=>$ss_id));
 		
@@ -221,9 +241,11 @@ class MarkerController extends Controller
 				array(
 						'criteria'=>array('condition'=>"marker_id={$marker_id}")));
 	
-		$this->widget('zii.widgets.CListView', array(
-				'dataProvider'=>$logsDataProvider,
-				'itemView'=>"_viewLog",
-		));
+		if (Yii::app()->request->isAjaxRequest) {
+			$done =$this->renderPartial('viewLog', array('logsDataProvider' =>
+					$logsDataProvider), false, true);
+			echo $done;
+			Yii::app()->end();
+		}
 	}
 }

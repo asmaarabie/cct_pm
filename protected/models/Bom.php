@@ -58,7 +58,8 @@ class Bom extends CActiveRecord
 			array('pono', 'exist',
 				'attributeName'=>'custid',
 				'className'=>'Customers',
-				'message'=>'Pono should exist in the Customers table'),
+				'message'=>'Pono should exist in the Customers table',
+		),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('bom_id, ss_id, item_desc, item_placement, fulldept, item_qty, item_consumption, item_increase, pono, countryid, itemno', 'safe', 'on'=>'search'),
@@ -155,7 +156,7 @@ class Bom extends CActiveRecord
 		$item = Items::model()->findByAttributes(array('itemno'=>$this->itemno));
 		$this->itemColor = $item->itemattr;
 		$this->itemSize = $item->itemsize;
-		$this->itemCode = $item->desc1 . " - " . $item->desc2 ;
+		$this->itemCode = $item->desc1 ; // :TODO: show the arabic desc. " - " . $item->desc2 ; 
 		$this-> itemRequired = floor(((1+ $this->item_increase/100 ) * $this->item_qty) * $this->item_consumption);
 		return parent::afterFind(); 
 	}

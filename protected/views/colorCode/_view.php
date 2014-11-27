@@ -14,19 +14,24 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('shadow')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->shadow0->shadow_desc_e),  array('colorShadow/view', 'id'=>$data->shadow0->color_shadow)); ?>
+	<?php if ($data->shadow != " ")
+		echo CHtml::link(CHtml::encode($data->shadow0->shadow_desc_e),  array('colorShadow/view', 'id'=>$data->shadow0->color_shadow)); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('pattern')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->pattern0->pattern_desc_e),  array('colorPattern/view', 'id'=>$data->pattern0->color_pattern)); ?>
+	<?php if ($data->pattern != " ")
+			echo CHtml::link(CHtml::encode($data->pattern0->pattern_desc_e),  array('colorPattern/view', 'id'=>$data->pattern0->color_pattern)); ?>
 	<br />
-
+	
+	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('length')); ?>:</b>
 	<?php echo CHtml::link(CHtml::encode($data->length0->length_desc_e),  array('colorLength/view', 'id'=>$data->length0->color_length)); ?>
 	<br />
-
+	*/?>
+	
 	<b><?php echo CHtml::encode($data->getAttributeLabel('shape')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->shape0->shape_desc_e),  array('colorShape/view', 'id'=>$data->shape0->color_shape)); ?>
+	<?php if ($data->shape != " ")
+		echo CHtml::link(CHtml::encode($data->shape0->shape_desc_e),  array('colorShape/view', 'id'=>$data->shape0->color_shape)); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('color_serial')); ?>:</b>

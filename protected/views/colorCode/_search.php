@@ -26,11 +26,13 @@
 		<?php echo $form->textField($model,'pattern',array('size'=>1,'maxlength'=>1)); ?>
 	</div>
 
+	<?php /*
 	<div class="row">
 		<?php echo $form->label($model,'length'); ?>
 		<?php echo $form->textField($model,'length',array('size'=>1,'maxlength'=>1)); ?>
 	</div>
-
+	*/?>
+	
 	<div class="row">
 		<?php echo $form->label($model,'shape'); ?>
 		<?php echo $form->textField($model,'shape',array('size'=>1,'maxlength'=>1)); ?>

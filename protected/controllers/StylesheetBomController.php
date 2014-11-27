@@ -128,6 +128,7 @@ class StylesheetBomController extends Controller
 		$cc_model = new ColorCode;
 		$model->ss_id = $ss_id;
 		$cc_model->color_code = "dummy";
+		$model->countryid =1 ; // Fixed value for BOM items
 		
 		$ss_model = Stylesheet::model()->findByPk($ss_id);
 	
@@ -231,11 +232,13 @@ class StylesheetBomController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model = $this->loadModel($id);
+		$ss_id = $model->ss_id;
+		$model->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index', 'ss_id'=>$ss_id));
 	}
 
 	/**
@@ -319,17 +322,6 @@ class StylesheetBomController extends Controller
 				),
 		));
 		return $dataProvider;
-	}
-	
-	public function actionGetCountryDepts() {
-		if (isset($_POST["StylesheetBom"]["countryid"])) {
-			$models = Departments::model()->findAllByAttributes(array('countryid'=>$_POST["StylesheetBom"]["countryid"]));
-			foreach ($models as $model) {
-				$name = $model->fulldept. " - ".$model->deptname.' '. $model->classname.' '.$model->subclassname;
-				echo "<option value='{$model->fulldept}'>{$name}</option>";
-				
-			}
-		}
 	}
 	
 }

@@ -23,5 +23,6 @@ $this->menu=array(
 	'attributes'=>array(
 		'dept_id',
 		'dept_name',
+		'countryid'
 	),
 )); ?>

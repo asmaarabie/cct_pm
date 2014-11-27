@@ -39,12 +39,12 @@ class ColorCode extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('color, shadow, pattern, length, shape, color_code, color_serial', 'required'),
+			array('color, color_code, color_serial', 'required'),
 			array('color_code', 'unique'),
 			array('color, color_serial', 'length', 'max'=>2),
-			array('shadow, pattern, length, shape', 'length', 'max'=>1),
+			array('shadow, pattern, shape', 'length', 'max'=>1),
 			array('color_code', 'length', 'max'=>8),
-			array('color', 'exist',
+			/*array('color', 'exist',
 					'attributeName'=>'color_id',
 					'className'=>'Color',
 					//'skipOnError',
@@ -64,11 +64,13 @@ class ColorCode extends CActiveRecord
 					'className'=>'ColorLength',
 					//'skipOnError',
 					'message'=>'Color Length id should exist in the Color Length table!'),
+			
 			array('shape', 'exist',
 					'attributeName'=>'color_shape',
 					'className'=>'ColorShape',
 					//'skipOnError',
 					'message'=>'Pattern Shape id should exist in the Color Shape table!'),
+			*/
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('color, shadow, pattern, length, shape, color_serial, color_code', 'safe', 'on'=>'search'),
@@ -84,7 +86,7 @@ class ColorCode extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'color0' => array(self::BELONGS_TO, 'Color', 'color'),
-			'length0' => array(self::BELONGS_TO, 'ColorLength', 'length'),
+			//'length0' => array(self::BELONGS_TO, 'ColorLength', 'length'),
 			'pattern0' => array(self::BELONGS_TO, 'ColorPattern', 'pattern'),
 			'shadow0' => array(self::BELONGS_TO, 'ColorShadow', 'shadow'),
 			'shape0' => array(self::BELONGS_TO, 'ColorShape', 'shape'),
@@ -102,7 +104,7 @@ class ColorCode extends CActiveRecord
 			'color' => 'Color id',
 			'shadow' => 'Shadow',
 			'pattern' => 'Pattern',
-			'length' => 'Length',
+			//'length' => 'Length',
 			'shape' => 'Pattern Shape',
 			'color_serial' => 'Color Serial',
 			'color_code' => 'Color Code',
@@ -130,7 +132,7 @@ class ColorCode extends CActiveRecord
 		$criteria->compare('color',$this->color,true);
 		$criteria->compare('shadow',$this->shadow,true);
 		$criteria->compare('pattern',$this->pattern,true);
-		$criteria->compare('length',$this->length,true);
+		//$criteria->compare('length',$this->length,true);
 		$criteria->compare('shape',$this->shape,true);
 		$criteria->compare('color_serial',$this->color_serial,true);
 		$criteria->compare('color_code',$this->color_code,true);
@@ -167,5 +169,14 @@ class ColorCode extends CActiveRecord
 	protected function afterDelete () {
 		Yii::app()->user->setFlash('success', "Color code is deleted successfully");
 		return parent::afterDelete();
+	}
+	
+	protected function afterFind () {
+		$this->color = (str_replace(' ', '', $this->color) == "")? " ": $this->color0->color_desc_e;
+		$this->shadow = (str_replace(' ', '', $this->shadow) == "")? " " : $this->shadow0->shadow_desc_e;
+		$this->shape = (str_replace(' ', '', $this->shape) == "")? " " : $this->shape0->shape_desc_e;
+		$this->pattern = (str_replace(' ', '', $this->pattern) == "")? " " : $this->pattern0->pattern_desc_e;
+		
+		return parent::afterFind();
 	}
 }

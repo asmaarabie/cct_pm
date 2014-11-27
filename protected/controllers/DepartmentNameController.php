@@ -32,11 +32,11 @@ class DepartmentNameController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'admin', 'delete', 'getCountryDepts'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('delete'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -103,6 +103,7 @@ class DepartmentNameController extends Controller
 		));
 	}
 	
+	/*
 	public function actionGetDeptAjax(){
 	
 		$request=trim($_GET['term']);
@@ -128,6 +129,7 @@ class DepartmentNameController extends Controller
 		}
 	
 	}
+	*/
 	
 	/**
 	 * Deletes a particular model.
@@ -195,5 +197,39 @@ class DepartmentNameController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	
+	public function actionGetCountryDepts( $cond = -1 ) {
+		
+		if (isset($_POST["DepartmentName"]["countryid"])) {
+			$cond = $_POST["DepartmentName"]["countryid"];
+			$data = DepartmentNameController::getDeptsQuery ($cond);
+			
+			foreach($data as $sub) {
+				echo "<option value='{$sub['deptid']}'>{$sub['deptid']} - {$sub['deptname']}</option>";
+			}
+			
+		} elseif ($cond !=-1) {
+			
+			$data = DepartmentNameController::getDeptsQuery ($cond);
+			$depts = array();
+			foreach($data as $sub) {
+				$depts[$sub['deptid']] = $sub['deptid'] . " - " . $sub['deptname'];
+			}
+			
+			return $depts;
+		}
+		
+	}
+	
+	protected function getDeptsQuery ($cond) {
+		
+		$data = Yii::app()->db->createCommand()
+		->selectDistinct('deptname, deptid')
+		->from('departments')
+		->where(array('like', 'countryid', "$cond"))
+		->queryAll();
+		return $data;
 	}
 }
