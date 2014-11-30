@@ -11,7 +11,11 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('user_name')); ?>:</b>
 	<?php echo CHtml::encode($data->user_name); ?>
 	<br />
-
+	
+	<b><?php echo CHtml::encode($data->getAttributeLabel('mail')); ?>:</b>
+	<?php echo CHtml::encode($data->mail); ?>
+	<br />
+	
 	<b><?php echo CHtml::encode($data->getAttributeLabel('user_group')); ?>:</b>
 	<?php echo CHtml::link (CHtml::encode($data->user_group. " - " . $data->userGroup->group_name), array('group/view', "id"=>$data->userGroup->group_id)); ?>
 	<br />

@@ -10,9 +10,10 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Copy Marker', 'url'=>array('copy', 'id'=>$model->marker_id)),
-	array('label'=>'Update Marker', 'url'=>array('update', 'id'=>$model->marker_id)),
-	array('label'=>'Delete Marker', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->marker_id),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Copy Marker', 'url'=>array('copy', 'id'=>$model->marker_id), 'visible'=> $this->can('create')),
+	array('label'=>'Create Marker', 'url'=>array('create', 'ss_id'=>$model->ss_id), 'visible'=> $this->can('create')),
+	array('label'=>'Update Marker', 'url'=>array('update', 'id'=>$model->marker_id), 'visible'=> $this->can('update', $model)),
+	array('label'=>'Delete Marker', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->marker_id),'confirm'=>'Are you sure you want to delete this item?'), 'visible'=> $this->can('delete', $model)),
 );
 ?>
 

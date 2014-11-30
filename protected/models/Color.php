@@ -111,23 +111,14 @@ class Color extends CActiveRecord
 		$this->oldImg = $this->color_img;
 	}
 	
-	/*public function beforeSave() {
-		$uploadPath = Yii::app()->params['colorUploadPath'];
-		
-		$uploadedFile=CUploadedFile::getInstance($this,'color_img');
-		
-		$uploadedFile->saveAs($uploadPath.$model->color_img);
-		
-		if(!empty($this->oldImg)) {
-			$delete = Yii::app()->params['colorUploadPath'].$this->oldImg;
-			if(file_exists($delete)) unlink($delete);
+	protected function beforeDelete() {
+		if (count($this->colorCodes)!=0) {
+			Yii::app()->user->setFlash('error', "There are color codes attached to this color shape and cannot be deleted");
+			return false;
 		}
-		
-		if(empty($this->color_img) && !empty($this->oldImg)) $this->color_img = $this->oldImg;
-		return parent::beforeSave();
-		
+		return parent::beforeDelete();
 	}
-	*/
+	
 	public function afterDelete() {
 		$this->deleteImagem();
 		return parent::afterDelete();

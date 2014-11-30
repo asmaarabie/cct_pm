@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Create Color Shadow', 'url'=>array('create')),
-	array('label'=>'Manage Color Shadow', 'url'=>array('admin')),
+	array('label'=>'Manage Color Shadow', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

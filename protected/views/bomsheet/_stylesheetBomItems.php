@@ -49,7 +49,7 @@
 	<?php 
 	
 	$this->widget('zii.widgets.grid.CGridView', array(
-			'id'=>'ss-bom-per-record-grid',
+			'id'=>'ss-bom-per-record-grid'.$data->ss_bom_id,
 			'dataProvider'=> $widget->items[$data->ss_bom_id],
 			'columns'=>array(
 					'itemno',
@@ -65,10 +65,21 @@
 					array(
 							'class'=>'CButtonColumn',
 							'template'=>'{update}{delete}',
+							'buttons' => array(
+								'update' => array(
+										'url' => 'CHtml::normalizeUrl(array("bom/update", "id" => $data->bom_id))',
+								),
+								'delete' => array(
+										'url' => 'CHtml::normalizeUrl(array("bom/delete", "id" => $data->bom_id))',
+								),
+							),
 					),
 			),
 	));
 	
 	?>
- 	<?php echo CHtml::button('Add items', array('submit' => array('create', 'ss_bom_id'=>$data->ss_bom_id)));?>
+	<?php 
+		if (Yii::app()->authManager->checkAccess('updateBOM', Yii::app()->user->id))
+			echo CHtml::link('Add item', array('bom/create', 'ss_bom_id'=>$data->ss_bom_id, 'bs_id'=>$widget->bs_id), array('class'=> 'link-button')); 
+		?>
 </div>

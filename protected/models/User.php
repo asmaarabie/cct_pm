@@ -7,7 +7,9 @@
  * @property integer $user_id
  * @property string $user_name
  * @property string $password
+ * @property string $mail
  * @property integer $user_group
+ * 
  *
  * The followings are the available model relations:
  * @property Stylesheet[] $stylesheets
@@ -32,13 +34,16 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_name, password, user_group', 'required'),
+			array('user_name, mail, password, user_group', 'required'),
 			array('user_group', 'numerical', 'integerOnly'=>true),
 			array('user_name, password', 'length', 'max'=>100, 'min'=>5),
-			array('user_name', 'unique'),
+			array('user_name, mail', 'unique'),
+			array('mail', 'email'),
+			array('mail', 'length', 'max'=>40),
+			array('password', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, user_name, password, user_group', 'safe', 'on'=>'search'),
+			array('user_id, user_name, mail, password, user_group', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +71,7 @@ class User extends CActiveRecord
 			'user_name' => 'User Name',
 			'password' => 'Password',
 			'user_group' => 'User Group',
+			'mail' => 'Mail'
 		);
 	}
 
@@ -90,6 +96,7 @@ class User extends CActiveRecord
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('user_name',$this->user_name,true);
 		$criteria->compare('password',$this->password,true);
+		$criteria->compare('mail',$this->mail,true);
 		$criteria->compare('user_group',$this->user_group);
 
 		return new CActiveDataProvider($this, array(

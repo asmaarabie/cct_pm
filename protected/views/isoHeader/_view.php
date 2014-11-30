@@ -20,6 +20,9 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('date')); ?>:</b>
 	<?php echo CHtml::encode($data->date); ?>
 	<br />
-
+	
+	<b><?php echo CHtml::encode($data->getAttributeLabel('def')); ?>:</b>
+	<?php echo CHtml::encode(($data->def=='1')? 'Yes': 'No'); ?>
+	<br />
 
 </div>

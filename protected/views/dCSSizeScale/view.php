@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List DCS Size Scale', 'url'=>array('index')),
-	array('label'=>'Create DCS Size Scale', 'url'=>array('create')),
-	array('label'=>'Update DCS Size Scale', 'url'=>array('update', 'id'=>$model->DCS_size_id)),
-	array('label'=>'Delete DCS Size Scale', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->DCS_size_id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage DCS Size Scale', 'url'=>array('admin')),
+	array('label'=>'Create DCS Size Scale', 'url'=>array('create'), 'visible'=> $this->can('create')),
+	array('label'=>'Update DCS Size Scale', 'url'=>array('update', 'id'=>$model->DCS_size_id), 'visible'=> $this->can('update')),
+	array('label'=>'Delete DCS Size Scale', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->DCS_size_id),'confirm'=>'Are you sure you want to delete this item?'), 'visible'=> $this->can('delete')),
+	array('label'=>'Manage DCS Size Scale', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

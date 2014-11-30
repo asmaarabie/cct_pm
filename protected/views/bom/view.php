@@ -18,6 +18,10 @@ $this->breadcrumbs=array(
 	'attributes'=>array(
 		'bom_id',
 		array (
+			'label'=> $model->attributeLabels()['bs_id'],
+			'type'=>'raw',
+			'value'=>CHtml::link($model->bs_id, array('stylesheet/view', 'id'=>$model->bs_id))),
+		array (
 			'label'=> $model->attributeLabels()['ss_id'],
 			'type'=>'raw',
 			'value'=>CHtml::link($model->ss->ss->style_code, array('stylesheet/view', 'id'=>$model->ss->ss->ss_id))),
@@ -27,7 +31,6 @@ $this->breadcrumbs=array(
 		'item_qty',
 		'item_consumption',
 		'item_increase',
-		'pono',
 		'countryid',
 		'itemno',
 	),

@@ -54,7 +54,7 @@ class SizeController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewSizeScale', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$this->render('view',array(
 				'model'=>$this->loadModel($id),
 			));
@@ -69,7 +69,7 @@ class SizeController extends Controller
 	 */
 	public function actionCreate()
 	{
-		if (Yii::app()->authManager->checkAccess('createSizeScale', Yii::app()->user->id)) {
+		if ($this->can('create')) {
 			$model=new Size;
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -97,7 +97,7 @@ class SizeController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		if (Yii::app()->authManager->checkAccess('updateSizeScale', Yii::app()->user->id)) {
+		if ($this->can('update')) {
 			$model=$this->loadModel($id);
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -153,7 +153,7 @@ class SizeController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if (Yii::app()->authManager->checkAccess('deleteSizeScale', Yii::app()->user->id)) {
+		if ($this->can('delete')) {
 			$this->loadModel($id)->delete();
 	
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -169,7 +169,7 @@ class SizeController extends Controller
 	 */
 	public function actionIndex()
 	{
-		if (Yii::app()->authManager->checkAccess('indexSizeScale', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider=new CActiveDataProvider('Size');
 			$this->render('index',array(
 				'dataProvider'=>$dataProvider,
@@ -184,7 +184,7 @@ class SizeController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if (Yii::app()->authManager->checkAccess('adminSizeScale', Yii::app()->user->id)) {
+		if ($this->can('admin')) {
 			$model=new Size('search');
 			$model->unsetAttributes();  // clear any default values
 			if(isset($_GET['Size']))
@@ -243,5 +243,9 @@ class SizeController extends Controller
 				}
 				echo "<div style='clear:both;'></div>";
 			}
+	}
+	
+	public function can ($resp) {
+		return (Yii::app()->authManager->checkAccess("{$resp}SizeScale", Yii::app()->user->id));
 	}
 }

@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Pattern Shape', 'url'=>array('index')),
-	array('label'=>'Create Pattern Shape', 'url'=>array('create')),
-	array('label'=>'Update Pattern Shape', 'url'=>array('update', 'id'=>$model->color_shape)),
-	array('label'=>'Delete Pattern Shape', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->color_shape),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Pattern Shape', 'url'=>array('admin')),
+	array('label'=>'Create Pattern Shape', 'url'=>array('create'), 'visible'=> $this->can('create')),
+	array('label'=>'Update Pattern Shape', 'url'=>array('update', 'id'=>$model->color_shape), 'visible'=> $this->can('update')),
+	array('label'=>'Delete Pattern Shape', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->color_shape),'confirm'=>'Are you sure you want to delete this item?'), 'visible'=> $this->can('delete')),
+	array('label'=>'Manage Pattern Shape', 'url'=>array('admin'),'visible'=> $this->can('admin')),
 );
 ?>
 

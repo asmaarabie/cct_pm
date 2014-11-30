@@ -14,7 +14,6 @@
  * @property string $subclassname
  *
  * The followings are the available model relations:
- * @property DCSName[] $dCSNames
  * @property DCSSizeScale[] $dCSSizeScales
  * @property DCSSizeScale[] $dCSSizeScales1
  * @property DCSSizeScale[] $dCSSizeScales2
@@ -60,7 +59,6 @@ class Departments extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'deptName' => array(self::BELONGS_TO, 'DepartmentName', 'dept_id'),
-			'dCSNames' => array(self::HAS_MANY, 'DCSName', 'fulldept'),
 			'dCSSizeScales' => array(self::HAS_MANY, 'DCSSizeScale', 'dept_id'),
 			'dCSSizeScales1' => array(self::HAS_MANY, 'DCSSizeScale', 'class_id'),
 			'dCSSizeScales2' => array(self::HAS_MANY, 'DCSSizeScale', 'subclass_id'),

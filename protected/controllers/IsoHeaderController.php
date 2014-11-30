@@ -53,7 +53,7 @@ class IsoHeaderController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewIsoHeader', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$this->render('view',array(
 				'model'=>$this->loadModel($id),
 			));
@@ -68,7 +68,7 @@ class IsoHeaderController extends Controller
 	 */
 	public function actionCreate()
 	{
-		if (Yii::app()->authManager->checkAccess('createIsoHeader', Yii::app()->user->id)) {
+		if ($this->can('create')) {
 			$model=new IsoHeader;
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -96,7 +96,7 @@ class IsoHeaderController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		if (Yii::app()->authManager->checkAccess('updateIsoHeader', Yii::app()->user->id)) {
+		if ($this->can('update')) {
 			$model=$this->loadModel($id);
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -104,6 +104,7 @@ class IsoHeaderController extends Controller
 	
 			if(isset($_POST['IsoHeader']))
 			{
+				
 				$model->attributes=$_POST['IsoHeader'];
 				if($model->save())
 					$this->redirect(array('view','id'=>$model->header_id));
@@ -124,7 +125,7 @@ class IsoHeaderController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if (Yii::app()->authManager->checkAccess('deleteIsoHeader', Yii::app()->user->id)) {
+		if ($this->can('delete')) {
 			$this->loadModel($id)->delete();
 	
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -140,7 +141,7 @@ class IsoHeaderController extends Controller
 	 */
 	public function actionIndex()
 	{
-		if (Yii::app()->authManager->checkAccess('viewIsoHeader', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider=new CActiveDataProvider('IsoHeader');
 			$this->render('index',array(
 				'dataProvider'=>$dataProvider,
@@ -155,7 +156,7 @@ class IsoHeaderController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if (Yii::app()->authManager->checkAccess('adminIsoHeader', Yii::app()->user->id)) {
+		if ($this->can('admin')) {
 			$model=new IsoHeader('search');
 			$model->unsetAttributes();  // clear any default values
 			if(isset($_GET['IsoHeader']))
@@ -195,5 +196,8 @@ class IsoHeaderController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	public function can ($resp) {
+		return (Yii::app()->authManager->checkAccess("{$resp}IsoHeader", Yii::app()->user->id));
 	}
 }

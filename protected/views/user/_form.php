@@ -31,7 +31,13 @@
 		<?php echo $form->passwordField($model,'password',array('size'=>20,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'password'); ?>
 	</div>
-
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'mail'); ?>
+		<?php echo $form->emailField($model,'mail',array('size'=>20,'maxlength'=>40)); ?>
+		<?php echo $form->error($model,'mail'); ?>
+	</div>
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'user_group'); ?>
 		<?php $list = CHtml::listData($groups,'group_id', 'group_name');?>

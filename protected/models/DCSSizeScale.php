@@ -70,7 +70,6 @@ class DCSSizeScale extends CActiveRecord
 			'sizeCountry' => array(self::BELONGS_TO, 'Countries', 'size_country_id'),
 			'sizeFulldept' => array(self::BELONGS_TO, 'Departments', 'size_fulldept'),
 			'sizeScale' => array(self::BELONGS_TO, 'Size', 'size_scale'),
-			'sizeDeptName' => array(self::BELONGS_TO, 'DCSName', 'size_fulldept'),
 		);
 	}
 

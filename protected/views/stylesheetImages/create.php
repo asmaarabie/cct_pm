@@ -4,7 +4,7 @@
 
 $this->breadcrumbs=array(
 	'Stylesheets' => array('stylesheet/index'),
-	$ss_code =>array('stylesheet/view', "id"=> $ss_id),
+	$ss_model->style_code =>array('stylesheet/view', "id"=> $ss_model->ss_id),
 	'Create',
 );
 /*
@@ -15,5 +15,5 @@ $this->menu=array(
 */
 ?>
 
-<h1>Upload Image for <?php echo CHtml::link($ss_code, array ('stylesheet/view', "id" => $ss_id)) ?></h1> 
+<h1>Upload Image for <?php echo CHtml::link($ss_model->style_code, array ('stylesheet/view', "id" => $ss_model->ss_id)) ?></h1> 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

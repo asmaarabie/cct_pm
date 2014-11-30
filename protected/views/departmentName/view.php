@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List DepartmentName', 'url'=>array('index')),
-	array('label'=>'Create DepartmentName', 'url'=>array('create')),
-	array('label'=>'Update DepartmentName', 'url'=>array('update', 'id'=>$model->dept_id)),
-	array('label'=>'Delete DepartmentName', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->dept_id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage DepartmentName', 'url'=>array('admin')),
+	array('label'=>'Create DepartmentName', 'url'=>array('create'), 'visible'=> $this->can('create')),
+	array('label'=>'Update DepartmentName', 'url'=>array('update', 'id'=>$model->dept_id), 'visible'=> $this->can('update')),
+	array('label'=>'Delete DepartmentName', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->dept_id),'confirm'=>'Are you sure you want to delete this item?'), 'visible'=> $this->can('delete')),
+	array('label'=>'Manage DepartmentName', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

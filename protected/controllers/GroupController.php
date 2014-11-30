@@ -58,7 +58,7 @@ class GroupController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewGroups', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$_POST['returnUrl'] = array ('view', 'id'=>$id);
 			
 			$usersDataProvider=new CActiveDataProvider('User', 
@@ -94,7 +94,7 @@ class GroupController extends Controller
 	 */
 	public function actionCreate()
 	{
-		if (Yii::app()->authManager->checkAccess('createGroups', Yii::app()->user->id)) {
+		if ($this->can('create')) {
 			$model=new Group;
 			
 			// Get all possible operations
@@ -166,7 +166,7 @@ class GroupController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		if (Yii::app()->authManager->checkAccess('updateGroups', Yii::app()->user->id)) {
+		if ($this->can('update')) {
 			$model=$this->loadModel($id);
 			
 			// Get all group operations
@@ -187,6 +187,7 @@ class GroupController extends Controller
 			$this->performAjaxValidation($model);
 			if(isset($_POST['Group']))
 			{
+				$model->attributes=$_POST['Group'];
 				if($model->save()) {
 					$hasOperation = 0;
 					// Adding permission models to this group
@@ -232,7 +233,7 @@ class GroupController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if (Yii::app()->authManager->checkAccess('deleteGroups', Yii::app()->user->id)) {
+		if ($this->can('delete')) {
 		
 			if (!$this->loadModel($id)->delete()) 
 				$this->redirect(array('view', 'id'=> $id));
@@ -249,7 +250,7 @@ class GroupController extends Controller
 	 */
 	public function actionIndex()
 	{
-		if (Yii::app()->authManager->checkAccess('viewGroups', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider=new CActiveDataProvider('Group');
 			$this->render('index',array(
 				'dataProvider'=>$dataProvider,
@@ -264,7 +265,7 @@ class GroupController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if (Yii::app()->authManager->checkAccess('adminGroups', Yii::app()->user->id)) {
+		if ($this->can('admin')) {
 			$model=new Group('search');
 			$model->unsetAttributes();  // clear any default values
 			if(isset($_GET['Group']))
@@ -304,5 +305,8 @@ class GroupController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	public function can ($resp) {
+		return (Yii::app()->authManager->checkAccess("{$resp}Groups", Yii::app()->user->id));
 	}
 }

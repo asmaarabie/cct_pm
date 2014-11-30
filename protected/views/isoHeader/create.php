@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List IsoHeader', 'url'=>array('index')),
-	array('label'=>'Manage IsoHeader', 'url'=>array('admin')),
+	array('label'=>'Manage IsoHeader', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

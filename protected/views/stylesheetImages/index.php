@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Upload Image', 'url'=>array('create', 'ss_id'=>$ss_model->ss_id, 'ss_code'=>$ss_model->style_code)),
+	array('label'=>'Upload Image', 'url'=>array('create', 'ss_id'=>$ss_model->ss_id), 'visible'=> $this->can('update', $ss_model)),
 	//array('label'=>'Manage StylesheetImages', 'url'=>array('admin')),
 );
 ?>

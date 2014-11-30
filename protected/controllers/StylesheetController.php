@@ -45,7 +45,7 @@ class StylesheetController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$model = $this->loadModel($id);
 			Yii::import('application.controllers.StylesheetImagesController');
 			$images = StylesheetImagesController::getStylesheetImages($id);
@@ -67,7 +67,7 @@ class StylesheetController extends Controller
 	}
 	
 	public function actionExportToPDF($id) {
-		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$model= $this->loadModel($id);
 			$images= StylesheetImages::model()->findAllByAttributes(array('ss_id'=>$id));
 			
@@ -104,75 +104,71 @@ class StylesheetController extends Controller
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{
-		if (Yii::app()->authManager->checkAccess('createStylesheet', Yii::app()->user->id)) {
-			$model=new Stylesheet;
-			StylesheetController::insert($model, false);
-		} else {
-			throw new CHttpException(403,'You are not authorized to perform this action.');
-		}
+	{	
+		$model=new Stylesheet;
+		StylesheetController::insert($model, false);
 	}
 	
 	public function actionCopy ($ss_id) {
-		if (Yii::app()->authManager->checkAccess('createStylesheet', Yii::app()->user->id)) {
-			$model = $this->loadModel($ss_id);
-			$model->isNewRecord=true;
-			unset($model->ss_id);
-			//var_dump($model);
-			StylesheetController::insert ($model, true);
-		} else {
-			throw new CHttpException(403,'You are not authorized to perform this action.');
-		}
+		$model = $this->loadModel($ss_id);
+		$model->isNewRecord=true;
+		unset($model->ss_id);
+		StylesheetController::insert ($model, true);
 	}
 	
 	private function insert ($model, $copy) {
-		$db_scales = Size::model()->findAll();
-		
-		// Create log entry
-		$log_entry = new StylesheetLog();
-		$log_entry->action_comment = "create stylesheet";
-		$log_entry->action_type = 'create';
-		$log_entry->user = Yii::app()->user->id;
-		
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-		
-		if(isset($_POST['Stylesheet'])) {
-		
-			$model->attributes=$_POST['Stylesheet'];
-			$dept = Departments::model()->findByAttributes(array('countryid'=>2, 'fulldept'=>$model->fulldept));
-			$model->country_id = 2; 
-			$model->dept_id = $dept->deptid; 
-			$model->class_id = $dept->classid; 
-			$model->subclass_id = $dept->subclassid;
+		if ($this->can('create')) {
+			$db_scales = Size::model()->findAll();
 			
-			if ($model->scale != "") {
-				$sizes= Size::model()->getScaleSizes($model->scale);
-				 
-				$model->sizes = "";
-				foreach ($sizes as $key=>$value) {
-					if (isset($_POST['box'.$model->scale.$value]))
-						$model->sizes.='1';
-					else
-						$model->sizes.='0';
+			// :TODO: move this logging in the model's after save
+			// Create log entry
+			$log_entry = new StylesheetLog();
+			$log_entry->action_comment = "create stylesheet";
+			$log_entry->action_type = 'create';
+			$log_entry->user = Yii::app()->user->id;
+			
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+			
+			if(isset($_POST['Stylesheet'])) {
+			
+				$model->attributes=$_POST['Stylesheet'];
+				$dept = Departments::model()->findByAttributes(array('countryid'=>2, 'fulldept'=>$model->fulldept));
+				$model->country_id = 2; 
+				$model->dept_id = $dept->deptid; 
+				$model->class_id = $dept->classid; 
+				$model->subclass_id = $dept->subclassid;
+				
+				if ($model->scale != "") {
+					$sizes= Size::model()->getScaleSizes($model->scale);
+					 
+					$model->sizes = "";
+					foreach ($sizes as $key=>$value) {
+						if (isset($_POST['box'.$model->scale.$value]))
+							$model->sizes.='1';
+						else
+							$model->sizes.='0';
+					}
+				}
+			
+				$model->user_id = Yii::app()->user->id;
+			
+				if ($model->save()) {
+					// Create log entry
+					$log_entry->ss_id = $model->ss_id;
+					$log_entry->save();
+						
+					$this->redirect(array ('stylesheetImages/create', 'ss_id'=>$model->ss_id));
 				}
 			}
-		
-			$model->user_id = Yii::app()->user->id;
-		
-			if ($model->save()) {
-				// Create log entry
-				$log_entry->ss_id = $model->ss_id;
-				$log_entry->save();
-					
-				$this->redirect(array ('stylesheetImages/create', 'ss_id'=>$model->ss_id, ' ss_code'=>$model->style_code));
-			}
+			
+			$this->render('create',array(
+					'model'=>$model,
+					'scales' => $db_scales
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-		
-		$this->render('create',array(
-				'model'=>$model,
-				'scales' => $db_scales
-		));
 	}
 	/**
 	 * Updates a particular model.
@@ -182,9 +178,7 @@ class StylesheetController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) || 
-		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$model->user_id)
-		) {
+		if ($this->can('update', $model)) {
 			
 			$model=$this->loadModel($id);
 			$db_scales = Size::model()->findAll();
@@ -236,9 +230,7 @@ class StylesheetController extends Controller
 	public function actionDelete($id)
 	{
 		$model = $this->loadModel($id);
-		if (Yii::app()->authManager->checkAccess('deleteStylesheet', Yii::app()->user->id)||
-		(Yii::app()->authManager->checkAccess('deleteOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$model->user_id)
-		) {
+		if ($this->can('delete', $model)) {
 			$model->delete();
 	
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -254,7 +246,7 @@ class StylesheetController extends Controller
 	 */
 	public function actionIndex()
 	{
-		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$models=Stylesheet::model()->findAll();
 			//var_dump($models);
 			$provider = array();
@@ -278,7 +270,7 @@ class StylesheetController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if (Yii::app()->authManager->checkAccess('adminStylesheet', Yii::app()->user->id)) {
+		if ($this->can('admin')) {
 		    $model=new Stylesheet('search');
 			$model->unsetAttributes();  // clear any default values
 			if(isset($_GET['Stylesheet']))
@@ -341,7 +333,7 @@ class StylesheetController extends Controller
 	}
 	
 	public function actionGetLogEntries ($ss_id) {
-		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$logsDataProvider=new CActiveDataProvider('StylesheetLog',
 					array(
 							'criteria'=>array('condition'=>"ss_id={$ss_id}")));
@@ -366,5 +358,12 @@ class StylesheetController extends Controller
 			}
 		}
 	}
-	
+	public function can ($resp, $model=NULL) {
+		return (Yii::app()->authManager->checkAccess("{$resp}Stylesheet", Yii::app()->user->id)||
+		(
+				$model !== NULL &&
+				($resp=='update' || $resp== 'delete') &&
+				Yii::app()->authManager->checkAccess("{$resp}OwnStylesheet", Yii::app()->user->id)&&
+				Yii::app()->user->id == $model->user_id));
+	}
 }

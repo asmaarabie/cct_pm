@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 
 
 $this->menu=array(
-	array('label'=>'Add Color', 'url'=>array('create', 'ss_id'=>$ss_model->ss_id, 'ss_code'=>$ss_model->style_code)),
+	array('label'=>'Add Color', 'url'=>array('create', 'ss_id'=>$ss_model->ss_id), 'visible'=> $this->can('update',$ss_model))
 );
 ?>
 

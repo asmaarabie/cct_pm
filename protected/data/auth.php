@@ -6,6 +6,14 @@ return array (
     'description' => 'Create a stylesheet',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'adminStylesheet' => 
   array (
@@ -13,6 +21,14 @@ return array (
     'description' => 'Administrate the stylesheet',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'viewStylesheet' => 
   array (
@@ -22,7 +38,7 @@ return array (
     'data' => NULL,
     'assignments' => 
     array (
-      4 => 
+      1 => 
       array (
         'bizRule' => NULL,
         'data' => NULL,
@@ -35,6 +51,14 @@ return array (
     'description' => 'Update the stylesheet',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateOwnStylesheet' => 
   array (
@@ -42,6 +66,14 @@ return array (
     'description' => 'Update own stylesheet',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteStylesheet' => 
   array (
@@ -49,6 +81,14 @@ return array (
     'description' => 'Delete the stylesheet',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteOwnStylesheet' => 
   array (
@@ -63,6 +103,14 @@ return array (
     'description' => 'Create a BOM',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'adminBOM' => 
   array (
@@ -70,6 +118,14 @@ return array (
     'description' => 'Administrate the BOM',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'viewBOM' => 
   array (
@@ -79,7 +135,7 @@ return array (
     'data' => NULL,
     'assignments' => 
     array (
-      4 => 
+      1 => 
       array (
         'bizRule' => NULL,
         'data' => NULL,
@@ -92,6 +148,14 @@ return array (
     'description' => 'Update the BOM',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateOwnBOM' => 
   array (
@@ -99,6 +163,14 @@ return array (
     'description' => 'Update own BOM',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteBOM' => 
   array (
@@ -106,6 +178,14 @@ return array (
     'description' => 'Delete the BOM',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteOwnBOM' => 
   array (
@@ -122,7 +202,7 @@ return array (
     'data' => NULL,
     'assignments' => 
     array (
-      4 => 
+      1 => 
       array (
         'bizRule' => NULL,
         'data' => NULL,
@@ -135,6 +215,14 @@ return array (
     'description' => 'Administrate the Marker',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'viewMarker' => 
   array (
@@ -144,7 +232,7 @@ return array (
     'data' => NULL,
     'assignments' => 
     array (
-      4 => 
+      1 => 
       array (
         'bizRule' => NULL,
         'data' => NULL,
@@ -157,6 +245,14 @@ return array (
     'description' => 'Update the Marker',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateOwnMarker' => 
   array (
@@ -166,7 +262,7 @@ return array (
     'data' => NULL,
     'assignments' => 
     array (
-      4 => 
+      1 => 
       array (
         'bizRule' => NULL,
         'data' => NULL,
@@ -179,6 +275,14 @@ return array (
     'description' => 'Delete the Marker',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteOwnMarker' => 
   array (
@@ -186,14 +290,6 @@ return array (
     'description' => 'Delete own Marker',
     'bizRule' => NULL,
     'data' => NULL,
-    'assignments' => 
-    array (
-      4 => 
-      array (
-        'bizRule' => NULL,
-        'data' => NULL,
-      ),
-    ),
   ),
   'createColorCode' => 
   array (
@@ -201,6 +297,14 @@ return array (
     'description' => 'Create a ColorCode',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'adminColorCode' => 
   array (
@@ -208,6 +312,14 @@ return array (
     'description' => 'Administrate the ColorCode',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'viewColorCode' => 
   array (
@@ -215,6 +327,14 @@ return array (
     'description' => 'View the ColorCode',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateColorCode' => 
   array (
@@ -222,6 +342,14 @@ return array (
     'description' => 'Update the ColorCode',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateOwnColorCode' => 
   array (
@@ -229,6 +357,14 @@ return array (
     'description' => 'Update own ColorCode',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteColorCode' => 
   array (
@@ -236,6 +372,14 @@ return array (
     'description' => 'Delete the ColorCode',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteOwnColorCode' => 
   array (
@@ -250,6 +394,14 @@ return array (
     'description' => 'Create a DCSName',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'adminDCSName' => 
   array (
@@ -257,6 +409,14 @@ return array (
     'description' => 'Administrate the DCSName',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'viewDCSName' => 
   array (
@@ -264,6 +424,14 @@ return array (
     'description' => 'View the DCSName',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateDCSName' => 
   array (
@@ -271,6 +439,14 @@ return array (
     'description' => 'Update the DCSName',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateOwnDCSName' => 
   array (
@@ -278,6 +454,14 @@ return array (
     'description' => 'Update own DCSName',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteDCSName' => 
   array (
@@ -285,6 +469,14 @@ return array (
     'description' => 'Delete the DCSName',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteOwnDCSName' => 
   array (
@@ -299,6 +491,14 @@ return array (
     'description' => 'Create a IsoHeader',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'adminIsoHeader' => 
   array (
@@ -306,6 +506,14 @@ return array (
     'description' => 'Administrate the IsoHeader',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'viewIsoHeader' => 
   array (
@@ -313,6 +521,14 @@ return array (
     'description' => 'View the IsoHeader',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateIsoHeader' => 
   array (
@@ -320,6 +536,14 @@ return array (
     'description' => 'Update the IsoHeader',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateOwnIsoHeader' => 
   array (
@@ -327,6 +551,14 @@ return array (
     'description' => 'Update own IsoHeader',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteIsoHeader' => 
   array (
@@ -334,6 +566,14 @@ return array (
     'description' => 'Delete the IsoHeader',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteOwnIsoHeader' => 
   array (
@@ -348,6 +588,14 @@ return array (
     'description' => 'Create a User',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'adminUsers' => 
   array (
@@ -355,6 +603,14 @@ return array (
     'description' => 'Administrate the Users',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'viewUsers' => 
   array (
@@ -362,6 +618,14 @@ return array (
     'description' => 'View the Users',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateUsers' => 
   array (
@@ -369,6 +633,14 @@ return array (
     'description' => 'Update the Users',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateOwnUsers' => 
   array (
@@ -376,6 +648,14 @@ return array (
     'description' => 'Update own Users',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteUsers' => 
   array (
@@ -383,6 +663,14 @@ return array (
     'description' => 'Delete the Users',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteOwnUsers' => 
   array (
@@ -397,6 +685,14 @@ return array (
     'description' => 'Create a Group',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'adminGroups' => 
   array (
@@ -404,6 +700,14 @@ return array (
     'description' => 'Administrate the Groups',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'viewGroups' => 
   array (
@@ -411,6 +715,14 @@ return array (
     'description' => 'View the Groups',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateGroups' => 
   array (
@@ -418,6 +730,14 @@ return array (
     'description' => 'Update the Groups',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateOwnGroups' => 
   array (
@@ -425,6 +745,14 @@ return array (
     'description' => 'Update own Groups',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteGroups' => 
   array (
@@ -432,6 +760,14 @@ return array (
     'description' => 'Delete the Groups',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteOwnGroups' => 
   array (
@@ -495,6 +831,14 @@ return array (
     'description' => 'Create a SizeScale',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'adminSizeScale' => 
   array (
@@ -502,6 +846,14 @@ return array (
     'description' => 'Administrate the SizeScale',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'viewSizeScale' => 
   array (
@@ -509,6 +861,14 @@ return array (
     'description' => 'View the SizeScale',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateSizeScale' => 
   array (
@@ -516,6 +876,14 @@ return array (
     'description' => 'Update the SizeScale',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'updateOwnSizeScale' => 
   array (
@@ -523,6 +891,14 @@ return array (
     'description' => 'Update own SizeScale',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteSizeScale' => 
   array (
@@ -530,6 +906,14 @@ return array (
     'description' => 'Delete the SizeScale',
     'bizRule' => NULL,
     'data' => NULL,
+    'assignments' => 
+    array (
+      1 => 
+      array (
+        'bizRule' => NULL,
+        'data' => NULL,
+      ),
+    ),
   ),
   'deleteOwnSizeScale' => 
   array (

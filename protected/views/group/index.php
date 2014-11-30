@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Create Group', 'url'=>array('create')),
-	array('label'=>'Manage Group', 'url'=>array('admin')),
+	array('label'=>'Manage Group', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

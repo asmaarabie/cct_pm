@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Color', 'url'=>array('index')),
-	array('label'=>'Manage Color', 'url'=>array('admin')),
+	array('label'=>'Manage Color', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

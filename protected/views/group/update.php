@@ -10,9 +10,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Group', 'url'=>array('index')),
-	array('label'=>'Create Group', 'url'=>array('create')),
+	array('label'=>'Create Group', 'url'=>array('create'), 'visible'=> $this->can('create')),
 	array('label'=>'View Group', 'url'=>array('view', 'id'=>$model->group_id)),
-	array('label'=>'Manage Group', 'url'=>array('admin')),
+	array('label'=>'Manage Group', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

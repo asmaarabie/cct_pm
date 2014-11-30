@@ -22,10 +22,15 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'mail'); ?>
+		<?php echo $form->textField($model,'mail'); ?>
+	</div>
+	
+	<div class="row">
 		<?php echo $form->label($model,'user_group'); ?>
 		<?php echo $form->textField($model,'user_group'); ?>
 	</div>
-
+	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>
 	</div>

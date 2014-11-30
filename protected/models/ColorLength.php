@@ -100,4 +100,12 @@ class ColorLength extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	protected function beforeDelete() {
+		if (count($this->colorCodes)!=0) {
+			Yii::app()->user->setFlash('error', "There are color codes attached to this color length and cannot be deleted");
+			return false;
+		}
+		return parent::beforeDelete();
+	}
 }

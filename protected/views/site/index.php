@@ -33,7 +33,6 @@ if (Yii::app()->authManager->checkAccess('viewDCSName', Yii::app()->user->id)) {
 		<ul>
 			<li><?php echo CHtml::link('Subclass Names', array('subclassName/index'))?></li>
 			<li><?php echo CHtml::link('Department Names', array('departmentName/index'))?></li>
-			<li><?php echo CHtml::link('DCS Names', array('dCSName/index'))?></li>
 		</ul>
 </div>
 <?php 

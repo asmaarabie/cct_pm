@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'ss_size_qty':
  * @property integer $ss_size_qty_id
- * @property integer $ss_id
+ * @property integer $bs_id
  * @property string $size
  * @property integer $size_qty
  *
@@ -30,12 +30,12 @@ class SsSizeQty extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ss_id, size, size_qty', 'required'),
-			array('ss_id, size_qty', 'numerical', 'integerOnly'=>true),
+			array('bs_id, size, size_qty', 'required'),
+			array('bs_id, size_qty', 'numerical', 'integerOnly'=>true),
 			array('size', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ss_size_qty_id, ss_id, size, size_qty', 'safe', 'on'=>'search'),
+			array('ss_size_qty_id, bs_id, size, size_qty', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,7 +47,7 @@ class SsSizeQty extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'ss' => array(self::BELONGS_TO, 'Stylesheet', 'ss_id'),
+			'bs' => array(self::BELONGS_TO, 'Bomsheet', 'bs_id'),
 		);
 	}
 
@@ -58,7 +58,7 @@ class SsSizeQty extends CActiveRecord
 	{
 		return array(
 			'ss_size_qty_id' => 'Ss Size Qty',
-			'ss_id' => 'Ss',
+			'bs_id' => 'Bomstylesheet id',
 			'size' => 'Size',
 			'size_qty' => 'Size Qty',
 		);
@@ -83,7 +83,7 @@ class SsSizeQty extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('ss_size_qty_id',$this->ss_size_qty_id);
-		$criteria->compare('ss_id',$this->ss_id);
+		$criteria->compare('bs_id',$this->bs_id);
 		$criteria->compare('size',$this->size,true);
 		$criteria->compare('size_qty',$this->size_qty);
 

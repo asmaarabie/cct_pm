@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Create DepartmentName', 'url'=>array('create')),
-	array('label'=>'Manage DepartmentName', 'url'=>array('admin')),
+	array('label'=>'Manage DepartmentName', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

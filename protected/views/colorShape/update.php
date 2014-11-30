@@ -10,9 +10,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Pattern Shape', 'url'=>array('index')),
-	array('label'=>'Create Pattern Shape', 'url'=>array('create')),
+	array('label'=>'Create Pattern Shape', 'url'=>array('create'), 'visible'=> $this->can('create')),
 	array('label'=>'View Pattern Shape', 'url'=>array('view', 'id'=>$model->color_shape)),
-	array('label'=>'Manage Pattern Shape', 'url'=>array('admin')),
+	array('label'=>'Manage Pattern Shape', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

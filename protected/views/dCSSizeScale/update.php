@@ -10,9 +10,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List DCSSizeScale', 'url'=>array('index')),
-	array('label'=>'Create DCSSizeScale', 'url'=>array('create')),
+	array('label'=>'Create DCSSizeScale', 'url'=>array('create'), 'visible'=> $this->can('create')),
 	array('label'=>'View DCSSizeScale', 'url'=>array('view', 'id'=>$model->DCS_size_id)),
-	array('label'=>'Manage DCSSizeScale', 'url'=>array('admin')),
+	array('label'=>'Manage DCSSizeScale', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

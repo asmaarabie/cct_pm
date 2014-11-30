@@ -53,7 +53,7 @@ class ColorController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewColorCode', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$this->render('view',array(
 				'model'=>$this->loadModel($id),
 			));
@@ -69,7 +69,7 @@ class ColorController extends Controller
 	public function actionCreate()
 	{
 		
-		if (Yii::app()->authManager->checkAccess('createColorCode', Yii::app()->user->id)) {
+		if ($this->can('create')) {
 			$model=new Color;
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -113,7 +113,7 @@ class ColorController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		if (Yii::app()->authManager->checkAccess('updateColorCode', Yii::app()->user->id)) {
+		if ($this->can('update')) {
 			$model=$this->loadModel($id);
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -154,7 +154,7 @@ class ColorController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if (Yii::app()->authManager->checkAccess('deleteColorCode', Yii::app()->user->id)) {
+		if ($this->can('delete')) {
 			$this->loadModel($id)->delete();
 	
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -170,7 +170,7 @@ class ColorController extends Controller
 	 */
 	public function actionIndex()
 	{
-		if (Yii::app()->authManager->checkAccess('viewColorCode', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider=new CActiveDataProvider('Color');
 			$this->render('index',array(
 				'dataProvider'=>$dataProvider,
@@ -185,7 +185,7 @@ class ColorController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if (Yii::app()->authManager->checkAccess('adminColorCode', Yii::app()->user->id)) {
+		if ($this->can('admin')) {
 			$model=new Color('search');
 			$model->unsetAttributes();  // clear any default values
 			if(isset($_GET['Color']))
@@ -238,5 +238,9 @@ class ColorController extends Controller
 		}
 		
 		return $colors;
+	}
+	
+	public function can ($resp) {
+		return (Yii::app()->authManager->checkAccess("{$resp}ColorCode", Yii::app()->user->id));
 	}
 }

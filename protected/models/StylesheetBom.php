@@ -79,7 +79,7 @@ class StylesheetBom extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ss_bom_id' => 'Stylesheet bom id',
+			'ss_bom_id' => 'Stylesheet Accessory id',
 			'ss_id' => 'Stylesheet id',
 			'dcs_name' => 'Item',
 			'dept_id' => 'Department id',

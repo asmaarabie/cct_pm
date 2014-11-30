@@ -10,9 +10,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Color Shadow', 'url'=>array('index')),
-	array('label'=>'Create Color Shadow', 'url'=>array('create')),
+	array('label'=>'Create Color Shadow', 'url'=>array('create'), 'visible'=> $this->can('create')),
 	array('label'=>'View Color Shadow', 'url'=>array('view', 'id'=>$model->color_shadow)),
-	array('label'=>'Manage Color Shadow', 'url'=>array('admin')),
+	array('label'=>'Manage Color Shadow', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

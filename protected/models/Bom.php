@@ -6,28 +6,28 @@
  * The followings are the available columns in table 'bom':
  * @property integer $bom_id
  * @property integer $ss_id
+ * @property integer $bs_id
  * @property string $item_desc
  * @property string $item_placement
  * @property string $fulldept
  * @property integer $item_qty
  * @property string $item_consumption
  * @property integer $item_increase
- * @property integer $pono
  * @property string $countryid
  * @property integer $itemno
  *
  * The followings are the available model relations:
  * @property Countries $country
  * @property Items $itemno0
- * @property Customers $pono0
  * @property StylesheetBom $ss
+ * @property Bom $bs
  * @property BomLog[] $bomLogs
  * @property BomSizeQty[] $bomSizeQties
  */
 class Bom extends CActiveRecord
 {
 
-	public $itemColor, $itemCode, $itemSize, $itemRequired, $log_entry, $price, $cost;
+	public $itemColor, $itemCode, $itemSize, $itemRequired, $logComment ='', $price, $cost;
 	 
 	/**
 	 * @return string the associated database table name
@@ -45,8 +45,8 @@ class Bom extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ss_id, fulldept, item_qty, item_consumption, pono, countryid, itemno', 'required'),
-			array('ss_id, item_qty, item_increase, item_consumption, pono, itemno', 'numerical'),
+			array('ss_id, bs_id, fulldept, item_qty, item_consumption, countryid, itemno', 'required'),
+			array('ss_id, item_qty, item_increase, item_consumption, itemno', 'numerical'),
 			array('item_desc, item_placement', 'length', 'max'=>40),
 			array('fulldept', 'length', 'max'=>9),
 			array('item_consumption', 'length', 'max'=>10),
@@ -55,14 +55,9 @@ class Bom extends CActiveRecord
 				'attributeName'=>'itemno',
 				'className'=>'Items',
 				'message'=>'Item number should exist in the Items table'),
-			array('pono', 'exist',
-				'attributeName'=>'custid',
-				'className'=>'Customers',
-				'message'=>'Pono should exist in the Customers table',
-		),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('bom_id, ss_id, item_desc, item_placement, fulldept, item_qty, item_consumption, item_increase, pono, countryid, itemno', 'safe', 'on'=>'search'),
+			array('bom_id, ss_id, item_desc, item_placement, fulldept, item_qty, item_consumption, item_increase, countryid, itemno', 'safe', 'on'=>'search'),
 		);
 	} 
 
@@ -75,9 +70,9 @@ class Bom extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array (
 			'ss' => array(self::BELONGS_TO, 'StylesheetBom', 'ss_id'),
+			'bs' => array(self::BELONGS_TO, 'Bom', 'bs_id'),
 			'country' => array(self::BELONGS_TO, 'Countries', 'countryid'),
 			'itemno0' => array(self::BELONGS_TO, 'Items', 'itemno'),
-			'pono0' => array(self::BELONGS_TO, 'Customers', 'pono'),
 			'bomLogs' => array(self::HAS_MANY, 'BomLog', 'bom_id'),
 		);
 	}
@@ -88,7 +83,8 @@ class Bom extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'bom_id' => 'Bom item id',
+			'bom_id' => 'BOM item id',
+			'bs_id' => 'BOMsheet id',
 			'ss_id' => 'Stylesheet',
 			'item_desc' => 'Item Description - توصى في',
 			'item_placement' => 'Item Placement - مكان التركيب',
@@ -96,7 +92,6 @@ class Bom extends CActiveRecord
 			'item_qty' => 'Item Quantity - الكمية بالقطعة',
 			'item_consumption' => 'Item Consumption - الاستهلاك',
 			'item_increase' => 'Remarks - نسبة الزيادة ٪',
-			'pono' => 'Pono',
 			'countryid' => 'Country id',
 			'itemno' => 'Item No',
 			'itemColor' => 'Color - اللون',
@@ -128,13 +123,13 @@ class Bom extends CActiveRecord
 
 		$criteria->compare('bom_id',$this->bom_id);
 		$criteria->compare('ss_id',$this->ss_id);
+		$criteria->compare('bs_id',$this->bs_id);
 		$criteria->compare('item_desc',$this->item_desc,true);
 		$criteria->compare('item_placement',$this->item_placement,true);
 		$criteria->compare('fulldept',$this->fulldept,true);
 		$criteria->compare('item_qty',$this->item_qty);
 		$criteria->compare('item_consumption',$this->item_consumption,true);
 		$criteria->compare('item_increase',$this->item_increase);
-		$criteria->compare('pono',$this->pono);
 		$criteria->compare('countryid',$this->countryid,true);
 		$criteria->compare('itemno',$this->itemno);
 
@@ -165,35 +160,25 @@ class Bom extends CActiveRecord
 		return parent::afterFind(); 
 	}
 	
-	protected function beforeSave () {
-		// In create we instantiate the log entry here
-		// In the update it's instantiated in the controller
-		if ($this->isNewRecord)
-			$this->log_entry = new StylesheetLog();
-		
-		$this->log_entry->action_type = 'bom';
-		$this->log_entry->ss_id = $this->ss->ss_id; // Mother stylesheet id
-		$action = ($this->isNewRecord)? "Created":"Updated";
-		$this->log_entry->user = Yii::app()->user->id;
-		
-		return parent::beforeSave();
-	}
-	
 	protected function afterSave () {
-		if ($this->isNewRecord) {
-			$this->log_entry->action_comment = "Created bom item {$this->bom_id}";
-			$this->log_entry->save();
-		}
+		// Add a log entry
+		$log_entry = new BomLog();
+		$log_entry->bs_id = $this->bs_id;
+		$log_entry->action_type = ($this->isNewRecord)? "Create":"Update";
+		$log_entry->user = Yii::app()->user->id;
+		$log_entry->action_comment = ($this->logComment == '')? "{$log_entry->action_type}d bom item id: {$this->bs_id}" : $this->logComment;
+		$log_entry->save();
 		return parent::afterSave();
 	}
 	
 	protected function afterDelete () {
-		$this->log_entry = new StylesheetLog();
-		$this->log_entry->action_type = 'bom';
-		$this->log_entry->ss_id = $this->ss->ss_id; // Mother stylesheet id
-		$this->log_entry->action_comment = "Deleted bom item {$this->bom_id}";
-		$this->log_entry->user = Yii::app()->user->id;
-		$this->log_entry->save();
+		// Add a log entry
+		$log_entry = new BomLog();
+		$log_entry->bs_id = $this->bs_id;
+		$log_entry->action_type = "Delete";
+		$log_entry->user = Yii::app()->user->id;
+		$log_entry->action_comment = ($this->logComment == '')? "{$log_entry->action_type}d bom item id: {$this->bs_id}" : $this->logComment;
+		$log_entry->save();
 		return parent::afterDelete();
 	}
 	

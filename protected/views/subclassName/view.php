@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List SubclassName', 'url'=>array('index')),
-	array('label'=>'Create SubclassName', 'url'=>array('create')),
-	array('label'=>'Update SubclassName', 'url'=>array('update', 'id'=>$model->subclassid)),
-	array('label'=>'Delete SubclassName', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->subclassid),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage SubclassName', 'url'=>array('admin')),
+	array('label'=>'Create SubclassName', 'url'=>array('create'),'visible'=> $this->can('create')),
+	array('label'=>'Update SubclassName', 'url'=>array('update', 'id'=>$model->subclassid), 'visible'=> $this->can('update')),
+	array('label'=>'Delete SubclassName', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->subclassid),'confirm'=>'Are you sure you want to delete this item?'), 'visible'=> $this->can('delete')),
+	array('label'=>'Manage SubclassName', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

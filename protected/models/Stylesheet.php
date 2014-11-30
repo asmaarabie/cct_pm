@@ -222,25 +222,35 @@ class Stylesheet extends CActiveRecord
 	}
 	
 	protected function beforeDelete() {
+		$bomsheet = Bomsheet::model()-> findAllByAttributes (array('ss_id'=>$this->ss_id));
+		if (count($bomsheet)!=0) {
+			Yii::app()->user->setFlash('error', "BOM sheet is attached to this stylesheet and it cannot be deleted");
+			return false;
+		}
+		
+		$markersheets = Marker::model()-> findAllByAttributes (array('ss_id'=>$this->ss_id));
+		if (count($markersheets)!=0) {
+			Yii::app()->user->setFlash('error', "There are markers attached to this stylesheet and it cannot be deleted");
+			return false;
+		}
 		
 		$delete = array ();
 		$delete["ss_boms"] = StylesheetBom::model()-> findAllByAttributes (array('ss_id'=>$this->ss_id));
-		$delete["boms"] = Bom::model()-> findAllByAttributes (array('ss_id'=>$this->ss_id));
-		$delete["marker"] = Marker::model()-> findAllByAttributes (array('ss_id'=>$this->ss_id));
 		$delete["colors"] = StylesheetColor::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
 		$delete["images"] = StylesheetImages::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
 		$delete["logs"] = StylesheetLog::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
-		$delete["sizes"] = SsSizeQty::model()->findAllByAttributes (array('ss_id'=>$this->ss_id));
-		
-		$errorMsg = "";
 		
 		foreach ($delete as $table) 
 			foreach ($table as $record)
 				$record->delete();
 		
-		Yii::app()->user->setFlash('success', "Stylesheet {$this->style_code} is deleted successfully");
 		return parent::beforeDelete();
 		
+	}
+	
+	protected function afterDelete() {
+		Yii::app()->user->setFlash('success', "Stylesheet is deleted successfully");
+		return parent::afterDelete();
 	}
 	
 	protected function afterFind () {
@@ -273,4 +283,25 @@ class Stylesheet extends CActiveRecord
 		return parent::afterFind();
 	}
 	
+	// Each stylesheet has a scale of sizes, each size has a quantity. SsSizeQty is the model that holds this information
+	// BOM sheet ($bs_id) initialization starts with inserting all the selected sizes for this stylesheet into the database
+	// Each stylesheet size will be saved in a separate  SsSizeQty model with quantiry initialized to 0
+	// returns true on successfull init
+	public function initStylesheetSizeQuantities ($bs_id) {
+		$sizes = Size::model()->getScaleSizes($this->scale);
+		$model_sizes = $this->sizes;
+		
+		$allSaved = true;
+		foreach ($sizes as $i=>$size) {
+			if (substr($model_sizes,$i,1)=="1") {
+				$s_model = new SsSizeQty();
+				$s_model->bs_id = $bs_id;
+				$s_model->size = $size;
+				$s_model->size_qty = 0;
+				if (!$s_model->save())
+					$allSaved = false;
+			}
+		}
+		return $allSaved;
+	}
 }

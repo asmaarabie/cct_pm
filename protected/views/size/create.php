@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Size', 'url'=>array('index')),
-	array('label'=>'Manage Size', 'url'=>array('admin')),
+	array('label'=>'Manage Size', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

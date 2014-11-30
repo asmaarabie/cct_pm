@@ -9,13 +9,15 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Marker', 'url'=>array('create', 'ss_id'=>$ss_model->ss_id)), // 'visible'=>count($dataProvider)==0),
+	array('label'=>'Create Marker', 'url'=>array('create', 'ss_id'=>$ss_model->ss_id), 'visible'=> $this->can('create')),
 	//array('label'=>'Delete Marker', 'url'=>'#', 'visible'=> count($dataProvider)!=0,'linkOptions'=>array('submit'=>array('delete','id'=>$model->marker_id),'confirm'=>'Are you sure you want to delete this item?')),
 );
 ?>
 
 <h1>Markers</h1>
-<?php echo CHtml::button('Export Markers to PDF', array('submit' => array('exportToPDF', 'ss_id'=>$ss_model->ss_id))); ?>
+<?php 
+if (count($dataProvider->getData())>0)
+	echo CHtml::button('Export Markers to PDF', array('submit' => array('exportToPDF', 'ss_id'=>$ss_model->ss_id))); ?>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'stylesheet-markers-grid',
 	'dataProvider'=>$dataProvider,

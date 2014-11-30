@@ -4,14 +4,16 @@
 
 $this->breadcrumbs=array(
 	'Stylesheets'=>array('stylesheet/index'),
-	$model->ss->style_code=>array('stylesheet/view','id'=>$model->ss_id),
-	'Bom Items'=>array('index', 'ss_id'=> $model->ss_id),
+	$ss_model->style_code=>array('stylesheet/view','id'=>$ss_model->ss_id),
+	'Bom Items'=>array('index', 'ss_id'=> $ss_model->ss_id),
 	$model->ss_bom_id,
 );
 
 $this->menu=array(
-	array('label'=>'Update StylesheetBom', 'url'=>array('update', 'id'=>$model->ss_bom_id)),
-	array('label'=>'Delete StylesheetBom', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ss_bom_id),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Update StylesheetBom', 'url'=>array('update', 'id'=>$model->ss_bom_id), 'visible'=> $this->can('update', $ss_model)),
+	array('label'=>'Delete StylesheetBom', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ss_bom_id),'confirm'=>'Are you sure you want to delete this item?')
+			, 'visible'=> $this->can('update',$ss_model)
+),
 );
 ?>
 

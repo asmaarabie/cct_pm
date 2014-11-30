@@ -53,7 +53,7 @@ class DCSSizeScaleController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewSizeScale', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$this->render('view',array(
 				'model'=>$this->loadModel($id),
 			));
@@ -68,7 +68,7 @@ class DCSSizeScaleController extends Controller
 	 */
 	public function actionCreate()
 	{
-		if (Yii::app()->authManager->checkAccess('createSizeScale', Yii::app()->user->id)) {
+		if ($this->can('create')) {
 			$model=new DCSSizeScale;
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -96,7 +96,7 @@ class DCSSizeScaleController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		if (Yii::app()->authManager->checkAccess('updateSizeScale', Yii::app()->user->id)) {
+		if ($this->can('update')) {
 			$model=$this->loadModel($id);
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -105,7 +105,6 @@ class DCSSizeScaleController extends Controller
 			if(isset($_POST['DCSSizeScale']))
 			{
 				$model->attributes=$_POST['DCSSizeScale'];
-				var_dump($_POST);
 				if($model->save())
 					$this->redirect(array('view','id'=>$model->DCS_size_id));
 			}
@@ -125,7 +124,7 @@ class DCSSizeScaleController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if (Yii::app()->authManager->checkAccess('deleteSizeScale', Yii::app()->user->id)) {
+		if ($this->can('delete')) {
 			$this->loadModel($id)->delete();
 	
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -156,7 +155,7 @@ class DCSSizeScaleController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if (Yii::app()->authManager->checkAccess('adminSizeScale', Yii::app()->user->id)) {
+		if ($this->can('admin')) {
 			$model=new DCSSizeScale('search');
 			$model->unsetAttributes();  // clear any default values
 			if(isset($_GET['DCSSizeScale']))
@@ -201,5 +200,38 @@ class DCSSizeScaleController extends Controller
 	public function getDCSSizeScalesModels ($dcs, $country) {
 		$models = DCSSizeScale::model()->findAll("size_fulldept='{$dcs}' and size_country_id='{$country}'");
 		return $models;
+	}
+	
+	public function actionGetCountryDepts($cond = -1) {
+		if (isset($_POST["DCSSizeScale"]["size_country_id"])) {
+			$cond = $_POST["DCSSizeScale"]["size_country_id"];
+			$data = DCSSizeScaleController::getDeptsQuery($cond);
+			foreach($data as $sub) {
+				echo "<option value='{$sub['fulldept']}'>{$sub['fulldept']} - {$sub['deptname']} {$sub['classname']} {$sub['subclassname']}</option>";
+	
+			}
+		} elseif ($cond != -1) {
+			$data = DCSSizeScaleController::getDeptsQuery($cond);
+			$depts = array();
+			foreach($data as $sub) {
+				$depts[$sub['fulldept']] = "{$sub['fulldept']} - {$sub['deptname']} {$sub['classname']} {$sub['subclassname']}";
+			}
+	
+			return $depts;
+		}
+	}
+	
+	protected function getDeptsQuery ($cond) {
+
+		$data = Yii::app()->db->createCommand()
+		->selectDistinct('fulldept, deptname, subclassname, classname')
+		->from('departments')
+		->where(array('like', 'countryid', "$cond"))
+		->queryAll();
+		return $data;
+	}
+			
+	public function can ($resp) {
+		return (Yii::app()->authManager->checkAccess("{$resp}SizeScale", Yii::app()->user->id));
 	}
 }

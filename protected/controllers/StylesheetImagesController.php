@@ -53,37 +53,14 @@ class StylesheetImagesController extends Controller
 	}
 
 	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
-			$model = $this->loadModel($id);
-			
-			// Stylesheet model
-			Yii::import('application.controllers.StylesheetController');
-			$s_model = StylesheetController::loadModel($model->ss_id);
-			$this->render('view',array(
-				'model'=>$this->loadModel($id),
-				's_model' => $s_model
-			));
-		} else {
-			throw new CHttpException(403,'You are not authorized to perform this action.');
-		}
-	}
-
-	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate($ss_id, $ss_code)
+	public function actionCreate($ss_id)
 	{
+		// We're actually modifying the mother stylesheet, so it's an update
 		$ss_model = Stylesheet::model()->findByPk($ss_id);
-		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) ||
-		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$ss_model->user_id)
-		) {
-		
+		if ($this->can('update', $ss_model)) {
 			$model=new StylesheetImages;
 			$model->ss_id = $ss_id;
 			
@@ -111,45 +88,14 @@ class StylesheetImagesController extends Controller
 			}
 	
 			$this->render('create',array(
-				'model'=>$model, 'ss_id' => $ss_id, 'ss_code' => $ss_code
+				'model'=>$model, 'ss_model' => $ss_model
 			));
 		} else {
 			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-		$ss_model = Stylesheet::model()->findByPk($model->ss_id);
-		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) ||
-		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$ss_model->user_id)
-		) {
-			
 	
-			// Uncomment the following line if AJAX validation is needed
-			$this->performAjaxValidation($model);
-	
-			if(isset($_POST['StylesheetImages']))
-			{
-				$model->attributes=$_POST['StylesheetImages'];
-				if($model->save())
-					$this->redirect(array('view','id'=>$model->ss_img_id));
-			}
-	
-			$this->render('update',array(
-				'model'=>$model,
-			));
-		} else {
-			throw new CHttpException(403,'You are not authorized to perform this action.');
-		}
-	}
-
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -159,9 +105,7 @@ class StylesheetImagesController extends Controller
 	{
 		
 		$ss_model = Stylesheet::model()->findByPk($ss_id);
-		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) ||
-		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$ss_model->user_id)
-		) {
+		if ($this->can('update', $ss_model)) {
 			$this->loadModel($id)->delete();
 	
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -186,7 +130,7 @@ class StylesheetImagesController extends Controller
 	 */
 	public function actionIndex($ss_id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider = StylesheetImagesController::getStylesheetImages($ss_id);
 			// Load Stylesheet model
 			Yii::import('application.controllers.StylesheetController');
@@ -195,25 +139,6 @@ class StylesheetImagesController extends Controller
 			$this->render('index',array(
 				'dataProvider'=>$dataProvider,
 				'ss_model' => $ss_model
-			));
-		} else {
-			throw new CHttpException(403,'You are not authorized to perform this action.');
-		}
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		if (Yii::app()->authManager->checkAccess('adminStylesheet', Yii::app()->user->id)) {
-			$model=new StylesheetImages('search');
-			$model->unsetAttributes();  // clear any default values
-			if(isset($_GET['StylesheetImages']))
-				$model->attributes=$_GET['StylesheetImages'];
-	
-			$this->render('admin',array(
-				'model'=>$model,
 			));
 		} else {
 			throw new CHttpException(403,'You are not authorized to perform this action.');
@@ -246,5 +171,14 @@ class StylesheetImagesController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	public function can ($resp, $model=NULL) {
+		return (Yii::app()->authManager->checkAccess("{$resp}Stylesheet", Yii::app()->user->id)||
+		(
+				$model !== NULL &&
+				($resp=='update' || $resp== 'delete') &&
+				Yii::app()->authManager->checkAccess("{$resp}OwnStylesheet", Yii::app()->user->id)&&
+				Yii::app()->user->id == $model->user_id));
 	}
 }

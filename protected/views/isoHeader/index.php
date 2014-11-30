@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Create IsoHeader', 'url'=>array('create')),
-	array('label'=>'Manage IsoHeader', 'url'=>array('admin')),
+	array('label'=>'Manage IsoHeader', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

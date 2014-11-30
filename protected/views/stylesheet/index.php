@@ -8,13 +8,8 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Create Stylesheet', 'url'=>array('create')),
-	array('label'=>'Manage Stylesheet', 'url'=>array('admin')),
+	array('label'=>'Manage Stylesheet', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
-?>
-<?php 
-if(!Yii::app()->user->isGuest && Yii::app()->authManager->checkAccess('adminStylesheet', Yii::app()->user->id))
-	echo "EHM";
-	
 ?>
 
 <h1>Stylesheets</h1>

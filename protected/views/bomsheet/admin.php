@@ -1,15 +1,16 @@
 <?php
-/* @var $this StylesheetImagesController */
-/* @var $model StylesheetImages */
+/* @var $this BomsheetController */
+/* @var $model Bomsheet */
 
+/*
 $this->breadcrumbs=array(
-	'Stylesheet Images'=>array('index'),
+	'Bomsheets'=>array('index'),
 	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'List StylesheetImages', 'url'=>array('index')),
-	array('label'=>'Create StylesheetImages', 'url'=>array('create')),
+	array('label'=>'List Bomsheet', 'url'=>array('index')),
+	array('label'=>'Create Bomsheet', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -18,7 +19,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#stylesheet-images-grid').yiiGridView('update', {
+	$('#bomsheet-grid').yiiGridView('update', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -26,7 +27,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Stylesheet Images</h1>
+<h1>Manage Bomsheets</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -41,15 +42,18 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'stylesheet-images-grid',
+	'id'=>'bomsheet-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'ss_img_id',
+		'bs_id',
 		'ss_id',
-		'img_path',
+		'pono',
+		'user_id',
 		array(
 			'class'=>'CButtonColumn',
 		),
 	),
-)); ?>
+)); 
+*/
+?>

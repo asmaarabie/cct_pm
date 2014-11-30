@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Color Pattern', 'url'=>array('index')),
-	array('label'=>'Create Color Pattern', 'url'=>array('create')),
-	array('label'=>'Update Color Pattern', 'url'=>array('update', 'id'=>$model->color_pattern)),
-	array('label'=>'Delete Color Pattern', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->color_pattern),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Color Pattern', 'url'=>array('admin')),
+	array('label'=>'Create Color Pattern', 'url'=>array('create'), 'visible'=> $this->can('create')),
+	array('label'=>'Update Color Pattern', 'url'=>array('update', 'id'=>$model->color_pattern), 'visible'=> $this->can('upadte')),
+	array('label'=>'Delete Color Pattern', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->color_pattern),'confirm'=>'Are you sure you want to delete this item?'), 'visible'=> $this->can('delete')),
+	array('label'=>'Manage Color Pattern', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

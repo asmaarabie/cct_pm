@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Color Shadow', 'url'=>array('index')),
-	array('label'=>'Create Color Shadow', 'url'=>array('create')),
-	array('label'=>'Update Color Shadow', 'url'=>array('update', 'id'=>$model->color_shadow)),
-	array('label'=>'Delete Color Shadow', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->color_shadow),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Color Shadow', 'url'=>array('admin')),
+	array('label'=>'Create Color Shadow', 'url'=>array('create'), 'visible'=> $this->can('create')),
+	array('label'=>'Update Color Shadow', 'url'=>array('update', 'id'=>$model->color_shadow), 'visible'=> $this->can('update')),
+	array('label'=>'Delete Color Shadow', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->color_shadow),'confirm'=>'Are you sure you want to delete this item?'), 'visible'=> $this->can('delete')),
+	array('label'=>'Manage Color Shadow', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

@@ -53,7 +53,7 @@ class UserController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewUsers', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$this->render('view',array(
 				'model'=>$this->loadModel($id),
 			));
@@ -68,7 +68,7 @@ class UserController extends Controller
 	 */
 	public function actionCreate()
 	{
-		if (Yii::app()->authManager->checkAccess('createUsers', Yii::app()->user->id)) {
+		if ($this->can('create')) {
 			$model=new User;
 			$groups = Group::model()->findAll();
 			// Uncomment the following line if AJAX validation is needed
@@ -100,7 +100,7 @@ class UserController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		if (Yii::app()->authManager->checkAccess('updateUsers', Yii::app()->user->id)) {
+		if ($this->can('update')) {
 			$model=$this->loadModel($id);
 			$groups = Group::model()->findAll();
 			$model->password = "";
@@ -114,8 +114,12 @@ class UserController extends Controller
 				if ($model->validate()) {
 					$model->password =  password_hash ($model->password ,PASSWORD_BCRYPT);
 					$model->save(false);
-					Yii::app()->user->logout();
-					$this->redirect(array('site/login'));
+					if (Yii::app()->user->id == $model->user_id) {
+						Yii::app()->user->logout();
+						$this->redirect(array('site/login'));
+					} else {
+						$this->redirect(array('view','id'=>$model->user_id));
+					}
 				}
 			}
 	
@@ -135,7 +139,7 @@ class UserController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if (Yii::app()->authManager->checkAccess('deleteUsers', Yii::app()->user->id)) {
+		if ($this->can('delete')) {
 			$this->loadModel($id)->delete();
 	
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -151,7 +155,7 @@ class UserController extends Controller
 	 */
 	public function actionIndex()
 	{
-		if (Yii::app()->authManager->checkAccess('viewUsers', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider=new CActiveDataProvider('User');
 			$this->render('index',array(
 				'dataProvider'=>$dataProvider,
@@ -166,7 +170,7 @@ class UserController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if (Yii::app()->authManager->checkAccess('adminUsers', Yii::app()->user->id)) {
+		if ($this->can('admin')) {
 			$model=new User('search');
 			$model->unsetAttributes();  // clear any default values
 			if(isset($_GET['User']))
@@ -206,5 +210,8 @@ class UserController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	public function can ($resp) {
+		return (Yii::app()->authManager->checkAccess("{$resp}Users", Yii::app()->user->id));
 	}
 }

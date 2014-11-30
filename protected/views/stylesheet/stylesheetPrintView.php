@@ -1,76 +1,8 @@
 <head>
 <style>
-table.table-acc {
-    border-collapse: collapse;
-}
-table.table-size {
-	border-collapse: collapse;
-}
-table.table-acc, table.table-acc td, table.table-acc th, table.table-size, table.table-size td, table.table-size th {
-    border: 1px solid grey;
-    margin: 1px;
-    padding: 2px;
-}
-
-div h4, div p, div h3 {
-	padding: 0px; margin: 0px;
-}
-.text-center {
-	text-align: center
-}
-
-div.prnt-container {
-	border: solid 1px grey; 
-	padding: 2px;
-	margin: 2px; 
-}
-
-.left-container {
-	width: 420px; 
-	border: solid 1px grey; 
-	padding: 1px; 
-	margin: 1px; 
-}
-
-.right-container {
-	width: 330px; 
-	border: solid 1px grey; 
-	padding: 1px; 
-	margin: 1px; 
-}
-
-th {
-	border: solid 1px grey; 
-	text-align: center; 
-	background: #c9dbed;
-	vertical-align: middle
-}
-
-.left-container th {
-	width: 420px; 
-}
-td.left-container {
-	margin: 10px 10px 10px 0; 
-	border: 1px solid grey;
-}
-
-.size-container {
-	border: solid 1px grey; 
-	text-align: center; 
-	background: #c9dbed;
-	vertical-align: middle;
-	width: 100px;
-	margin-right: 20px;
-}
-
-td.siz-cont {
-	padding: 0px 5px 0px 5px; 
-	border: 1px solid grey;
-}
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/printView.css" />
 </style>
 </head>
-
-<?php // :TODO: external styling is not active inside this html2pdf module, I had to do it all inline?>
 
 <p> Serial: <?php echo $model->ss_id;?> </p>
 <div class="text-center">

@@ -10,9 +10,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List SubclassName', 'url'=>array('index')),
-	array('label'=>'Create SubclassName', 'url'=>array('create')),
+	array('label'=>'Create SubclassName', 'url'=>array('create'), 'visible'=> $this->can('create')),
 	array('label'=>'View SubclassName', 'url'=>array('view', 'id'=>$model->subclassid)),
-	array('label'=>'Manage SubclassName', 'url'=>array('admin')),
+	array('label'=>'Manage SubclassName', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

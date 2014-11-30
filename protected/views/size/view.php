@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Size', 'url'=>array('index')),
-	array('label'=>'Create Size', 'url'=>array('create')),
-	array('label'=>'Update Size', 'url'=>array('update', 'id'=>$model->scale_number)),
-	array('label'=>'Delete Size', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->scale_number),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Size', 'url'=>array('admin')),
+	array('label'=>'Create Size', 'url'=>array('create'), 'visible'=> $this->can('create')),
+	array('label'=>'Update Size', 'url'=>array('update', 'id'=>$model->scale_number), 'visible'=> $this->can('update')),
+	array('label'=>'Delete Size', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->scale_number),'confirm'=>'Are you sure you want to delete this item?'), 'visible'=> $this->can('delete')),
+	array('label'=>'Manage Size', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Pattern Shape', 'url'=>array('index')),
-	array('label'=>'Manage Pattern Shape', 'url'=>array('admin')),
+	array('label'=>'Manage Pattern Shape', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

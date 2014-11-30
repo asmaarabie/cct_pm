@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Create Pattern Shape', 'url'=>array('create')),
-	array('label'=>'Manage Pattern Shape', 'url'=>array('admin')),
+	array('label'=>'Manage Pattern Shape', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

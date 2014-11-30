@@ -57,7 +57,7 @@ class DepartmentNameController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewDCSName', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$this->render('view',array(
 				'model'=>$this->loadModel($id),
 			));
@@ -72,7 +72,7 @@ class DepartmentNameController extends Controller
 	 */
 	public function actionCreate()
 	{
-		if (Yii::app()->authManager->checkAccess('createDCSName', Yii::app()->user->id)) {
+		if ($this->can('create')) {
 			$model=new DepartmentName;
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -100,7 +100,7 @@ class DepartmentNameController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		if (Yii::app()->authManager->checkAccess('updateDCSName', Yii::app()->user->id)) {
+		if ($this->can('update')) {
 			$model=$this->loadModel($id);
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -156,7 +156,7 @@ class DepartmentNameController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if (Yii::app()->authManager->checkAccess('deleteDCSName', Yii::app()->user->id)) {
+		if ($this->can('delete')) {
 			$this->loadModel($id)->delete();
 	
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -172,7 +172,7 @@ class DepartmentNameController extends Controller
 	 */
 	public function actionIndex()
 	{
-		if (Yii::app()->authManager->checkAccess('viewDCSName', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider=new CActiveDataProvider('DepartmentName');
 			$this->render('index',array(
 				'dataProvider'=>$dataProvider,
@@ -187,7 +187,7 @@ class DepartmentNameController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if (Yii::app()->authManager->checkAccess('adminDCSName', Yii::app()->user->id)) {
+		if ($this->can('admin')) {
 			$model=new DepartmentName('search');
 			$model->unsetAttributes();  // clear any default values
 			if(isset($_GET['DepartmentName']))
@@ -237,7 +237,7 @@ class DepartmentNameController extends Controller
 			$data = DepartmentNameController::getDeptsQuery ($cond);
 			
 			foreach($data as $sub) {
-				echo "<option value='{$sub['deptid']}'>{$sub['deptid']} - {$sub['deptname']}</option>";
+				echo "<option value='{$sub['deptid']}'>{$sub['deptid']}</option>";
 			}
 			
 		} elseif ($cond !=-1) {
@@ -245,7 +245,7 @@ class DepartmentNameController extends Controller
 			$data = DepartmentNameController::getDeptsQuery ($cond);
 			$depts = array();
 			foreach($data as $sub) {
-				$depts[$sub['deptid']] = $sub['deptid'] . " - " . $sub['deptname'];
+				$depts[$sub['deptid']] = $sub['deptid'];
 			}
 			
 			return $depts;
@@ -256,10 +256,14 @@ class DepartmentNameController extends Controller
 	protected function getDeptsQuery ($cond) {
 		
 		$data = Yii::app()->db->createCommand()
-		->selectDistinct('deptname, deptid')
+		->selectDistinct('deptid')
 		->from('departments')
 		->where(array('like', 'countryid', "$cond"))
 		->queryAll();
 		return $data;
+	}
+	
+	public function can ($resp) {
+		return (Yii::app()->authManager->checkAccess("{$resp}DCSName", Yii::app()->user->id));
 	}
 }

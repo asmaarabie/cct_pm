@@ -18,13 +18,12 @@ return array(
 		'application.components.*',
 		'ext.giix-components.*', // giix components
 		'ext.ECompositeUniqueValidator',
-		// date picker EJuiDateTimePicker, and autocomplete CJuiAutoComplete
 		'ext.jui.*'
 	),
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		
+		/*
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'1234',
@@ -34,7 +33,7 @@ return array(
 					'ext.giix-core', // giix generators
 			),
 		),
-		
+		*/
 	),
 
 	// application components
@@ -49,7 +48,7 @@ return array(
 		
 		// uncomment the following to enable URLs in path-format
 		
-		/*
+		
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
@@ -58,7 +57,7 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
-		*/
+		
 		/*
 		'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',

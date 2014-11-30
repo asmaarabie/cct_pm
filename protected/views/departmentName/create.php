@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List DepartmentName', 'url'=>array('index')),
-	array('label'=>'Manage DepartmentName', 'url'=>array('admin')),
+	array('label'=>'Manage DepartmentName', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

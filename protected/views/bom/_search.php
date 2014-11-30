@@ -15,7 +15,12 @@
 		<?php echo $form->label($model,'bom_id'); ?>
 		<?php echo $form->textField($model,'bom_id'); ?>
 	</div>
-
+	
+	<div class="row">
+		<?php echo $form->label($model,'bs_id'); ?>
+		<?php echo $form->textField($model,'bs_id'); ?>
+	</div>
+	
 	<div class="row">
 		<?php echo $form->label($model,'ss_id'); ?>
 		<?php echo $form->textField($model,'ss_id'); ?>
@@ -49,11 +54,6 @@
 	<div class="row">
 		<?php echo $form->label($model,'item_increase'); ?>
 		<?php echo $form->textField($model,'item_increase'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'pono'); ?>
-		<?php echo $form->textField($model,'pono'); ?>
 	</div>
 
 	<div class="row">

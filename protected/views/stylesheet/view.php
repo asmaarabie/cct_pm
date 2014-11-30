@@ -9,20 +9,23 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Manage this stylesheet', 'items'=> array(
-			array('label'=>'Copy Stylesheet', 'url'=>array('copy', 'ss_id'=>$model->ss_id)),
-			array('label'=>'Update Stylesheet', 'url'=>array('update', 'id'=>$model->ss_id)),
-			array('label'=>'Delete Stylesheet', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ss_id),'confirm'=>'Are you sure you want to delete this item?')),
+			array('label'=>'Copy Stylesheet', 'url'=>array('copy', 'ss_id'=>$model->ss_id), 'visible'=> $this->can('create')),
+			array('label'=>'Update Stylesheet', 'url'=>array('update', 'id'=>$model->ss_id), 'visible'=> $this->can('update', $model)),
+			array('label'=>'Delete Stylesheet', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ss_id),'confirm'=>'Are you sure you want to delete this item?')
+					, 'visible'=> $this->can('delete', $model)
+			),
 			array('label'=>'Stylesheet images', 'url'=>array('stylesheetImages/index', 'ss_id'=>$model->ss_id)),
 			array('label'=>'Stylesheet colors', 'url'=>array('stylesheetColor/index', 'ss_id'=>$model->ss_id)),
-			array('label'=>'Stylesheet Marker', 'url'=>array('marker/index', 'ss_id'=>$model->ss_id)),
 			array('label'=>'Stylesheet Trims & Accessories', 'url'=>array('stylesheetBom/index', 'ss_id'=>$model->ss_id)),
-			array('label'=>'Stylesheet BOM', 'url'=>array('bom/index', 'ss_id'=>$model->ss_id)),
+			
+			array('label'=>'Marker', 'url'=>array('marker/index', 'ss_id'=>$model->ss_id)),
+			array('label'=>'BOM', 'url'=>array('bomsheet/index', 'ss_id'=>$model->ss_id)),
 	)),
 	
 	array('label'=>'Other operations', 'items'=> array(
 		array('label'=>'List Stylesheet', 'url'=>array('index')),
-		array('label'=>'Create Stylesheet', 'url'=>array('create')),
-		array('label'=>'Manage Stylesheets', 'url'=>array('admin')),
+		array('label'=>'Create Stylesheet', 'url'=>array('create'), 'visible'=> $this->can('create')),
+		array('label'=>'Manage Stylesheets', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 	)),
 	
 	

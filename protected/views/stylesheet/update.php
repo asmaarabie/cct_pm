@@ -10,9 +10,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Stylesheet', 'url'=>array('index')),
-	array('label'=>'Create Stylesheet', 'url'=>array('create')),
+	array('label'=>'Create Stylesheet', 'url'=>array('create'), 'visible'=> $this->can('create', $model)),
 	array('label'=>'View Stylesheet', 'url'=>array('view', 'id'=>$model->ss_id)),
-	array('label'=>'Manage Stylesheet', 'url'=>array('admin')),
+	array('label'=>'Manage Stylesheet', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

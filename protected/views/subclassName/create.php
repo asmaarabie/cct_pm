@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List SubclassName', 'url'=>array('index')),
-	array('label'=>'Manage SubclassName', 'url'=>array('admin')),
+	array('label'=>'Manage SubclassName', 'url'=>array('admin'),'visible'=> $this->can('admin')),
 );
 ?>
 

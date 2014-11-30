@@ -8,6 +8,7 @@
  * @property string $header_code
  * @property integer $version
  * @property string $date
+ * @property int $def
  */
 class IsoHeader extends CActiveRecord
 {
@@ -27,13 +28,13 @@ class IsoHeader extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('header_code, version, date', 'required'),
+			array('header_code, version, date, def', 'required'),
 			array('version', 'numerical', 'integerOnly'=>true),
 			array('header_code', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('header_id, header_code, version, date', 'safe', 'on'=>'search'),
-			array('header_code, version', 'ECompositeUniqueValidator',
+			array('header_code, version, def', 'ECompositeUniqueValidator',
 					'attributesToAddError'=>'version',
 					'message'=>'This version {value_version} already exists for this header code.'),
 		
@@ -61,6 +62,7 @@ class IsoHeader extends CActiveRecord
 			'header_code' => 'Header Code',
 			'version' => 'Version',
 			'date' => 'Date',
+			'def' => 'Default'
 		);
 	}
 
@@ -86,7 +88,7 @@ class IsoHeader extends CActiveRecord
 		$criteria->compare('header_code',$this->header_code,true);
 		$criteria->compare('version',$this->version);
 		$criteria->compare('date',$this->date,true);
-
+		$criteria->compare('def',$this->def,true);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

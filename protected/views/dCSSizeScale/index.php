@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Create DCS Size Scale', 'url'=>array('create')),
-	array('label'=>'Manage DCS Size Scale', 'url'=>array('admin')),
+	array('label'=>'Manage DCS Size Scale', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

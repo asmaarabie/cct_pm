@@ -10,16 +10,7 @@ $colors = ColorController::getColors();
 $shadows = ColorShadowController::getShadows();
 $patterns = ColorPatternController::getPatterns();
 $shapes = ColorShapeController::getShapes();
-/*
-Yii::app()->clientScript->registerScript ("Color#color-autocomplete", "
-		$('#ColorCode_color').autocomplete().data( 'autocomplete' )._renderItem = function( ul, item ) {
-		    return $('<li></li>')
-		        .data('item.autocomplete', item)
-		        .append('<a><img height=10px src=\"' + item.img + '\" alt=\"' + item.label+ '\" />' + '\t'+  item.label +'</a>')
-		        .appendTo(ul);
-		};
-		");
-*/
+
 Yii::app()->clientScript->registerScript ("updateColorCode", "
 		var length = ' ';
 		var color = '  ';
@@ -100,13 +91,6 @@ Yii::app()->clientScript->registerScript ("updateColorCode", "
 		<?php echo $form->error($model,'shape'); ?>
 	</div>
 
-	<div class="row">
-		<?php //echo $form->labelEx($model,'color_serial'); ?>
-		<?php //echo $form->dropDownList($model,'color_serial', array()); ?>
-		<?php //echo $form->error($model,'color_serial'); ?>
-		
-		
-	</div>
 	<div class="row">
 		<?php if ($model->isNewRecord) {
 				echo CHtml::checkBox('box', false); 

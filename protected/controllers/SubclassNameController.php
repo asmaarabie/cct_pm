@@ -53,7 +53,7 @@ class SubclassNameController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewDCSName', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$this->render('view',array(
 				'model'=>$this->loadModel($id),
 			));
@@ -68,7 +68,7 @@ class SubclassNameController extends Controller
 	 */
 	public function actionCreate()
 	{
-		if (Yii::app()->authManager->checkAccess('createDCSName', Yii::app()->user->id)) {
+		if ($this->can('create')) {
 			$model=new SubclassName;
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -96,7 +96,7 @@ class SubclassNameController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		if (Yii::app()->authManager->checkAccess('updateDCSName', Yii::app()->user->id)) {
+		if ($this->can('update')) {
 			$model=$this->loadModel($id);
 	
 			// Uncomment the following line if AJAX validation is needed
@@ -124,7 +124,7 @@ class SubclassNameController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if (Yii::app()->authManager->checkAccess('deleteDCSName', Yii::app()->user->id)) {
+		if ($this->can('delete')) {
 			$this->loadModel($id)->delete();
 	
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -140,7 +140,7 @@ class SubclassNameController extends Controller
 	 */
 	public function actionIndex()
 	{
-		if (Yii::app()->authManager->checkAccess('viewDCSName', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider=new CActiveDataProvider('SubclassName');
 			$this->render('index',array(
 				'dataProvider'=>$dataProvider,
@@ -155,7 +155,7 @@ class SubclassNameController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if (Yii::app()->authManager->checkAccess('adminDCSName', Yii::app()->user->id)) {
+		if ($this->can('admin')) {
 			$model=new SubclassName('search');
 			$model->unsetAttributes();  // clear any default values
 			if(isset($_GET['SubclassName']))
@@ -225,5 +225,8 @@ class SubclassNameController extends Controller
 		->where(array('like', 'countryid', "$cond"))
 		->queryAll();
 		return $data;
+	}
+	public function can ($resp) {
+		return (Yii::app()->authManager->checkAccess("{$resp}DCSName", Yii::app()->user->id));
 	}
 }

@@ -46,6 +46,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'filter'=>$model,
 	'columns'=>array(
 		'bom_id',
+		'bs_id',
 		'ss_id',
 		'item_desc',
 		'item_placement',
@@ -54,7 +55,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		/*
 		'item_consumption',
 		'item_increase',
-		'pono',
 		'countryid',
 		'itemno',
 		*/

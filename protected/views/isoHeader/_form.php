@@ -8,10 +8,6 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'iso-header-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>true,
 	'enableClientValidation'=>true,
 )); ?>
@@ -51,7 +47,12 @@
 		?>
 		<?php echo $form->error($model,'date'); ?>
 	</div>
-
+	<div class="row">
+		<?php echo $form->labelEx($model,'def'); ?>
+		<?php echo $form->dropDownList($model, 'def', 
+              array('0' => 'No', '1' => 'Yes')); ?>
+		<?php echo $form->error($model,'def'); ?>
+	</div>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

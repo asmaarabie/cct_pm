@@ -141,4 +141,9 @@ class Marker extends CActiveRecord
 			$log->delete();
 		return parent::beforeDelete();
 	}
+	
+	protected function afterDelete() {
+		Yii::app()->user->setFlash('success', "Marker is deleted successfully");
+		return parent::afterDelete();
+	}
 }

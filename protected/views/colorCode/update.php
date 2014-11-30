@@ -10,9 +10,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List Color Code', 'url'=>array('index')),
-	array('label'=>'Create Color Code', 'url'=>array('create')),
+	array('label'=>'Create Color Code', 'url'=>array('create'), 'visible'=> $this->can('create')),
 	array('label'=>'View Color Code', 'url'=>array('view', 'id'=>$model->color_code)),
-	array('label'=>'Manage Color Code', 'url'=>array('admin')),
+	array('label'=>'Manage Color Code', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

@@ -5,6 +5,10 @@
  * $i index of the $model in the whole array
  * $cc_model ColorCode
  */
+/**
+ * Saved for later enhancement (multi-record insertion)
+ */
+/*
 $url = $this->createUrl('getCountryDepts');
 Yii::app()->clientScript->registerScript ("removeItem",
 "jQuery(document).on('click', '.remove_field', (function () { $(this).parent('div').remove(); } ));");
@@ -30,15 +34,15 @@ $depts = DepartmentController::getDepartments();
 			'empty' => "select country", 
 			'class'=>"miniform-dd",
 			//'id' => "StylesheetBom_{$i}_countryid",
-			/*'ajax' => array(
-					'type'=>'POST',
-					'url'=>CController::createUrl('getCountryDepts'),
-					//'update'=>"#StylesheetBom_{$i}_dept_id",
-					'update' => "#test{$i}",
-					//'data'=>'js:$(this).serialize()',
+			//'ajax' => array(
+			//		'type'=>'POST',
+			//		'url'=>CController::createUrl('getCountryDepts'),
+			//		//'update'=>"#StylesheetBom_{$i}_dept_id",
+			//		'update' => "#test{$i}",
+			//		//'data'=>'js:$(this).serialize()',
 			
-			        )
-			        */
+			//        )
+			        
 	));?>
 	
 </div>
@@ -93,3 +97,5 @@ $this->renderPartial('_miniForm', array('i'=>$i, 'cc_model'=>$cc_model));
 
 
 <?php echo CHtml::link('Remove', '#', array('class'=>'remove_field'));?>
+
+*/?>

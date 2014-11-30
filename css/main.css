@@ -297,11 +297,17 @@ div.search-form
 	background: #06c;
 	color: white;
 }
-.login-button a{
+a.link-button {
 	text-decoration: none;
 	background: #06c;
 	color: white;
 	padding: 10px;
 	border-radius: 10px;
 	margin: 5px;
+	display: inline-block;
+}
+a.link-button:hover{
+	text-decoration: none;
+	background: #CCFFCC;
+	color: #06c;
 }

@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Create Color Pattern', 'url'=>array('create')),
-	array('label'=>'Manage Color Pattern', 'url'=>array('admin')),
+	array('label'=>'Manage Color Pattern', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

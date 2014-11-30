@@ -49,7 +49,7 @@ class MarkerController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewMarker', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$this->render('view',array(
 				'model'=>$this->loadModel($id),
 			));
@@ -58,27 +58,18 @@ class MarkerController extends Controller
 		}
 	}
 
-	public function actionCreate($ss_id)
-	{
-		if (Yii::app()->authManager->checkAccess('createMarker', Yii::app()->user->id)) {
-			$model=new Marker;
-			$model->ss_id = $ss_id;
-			MarkerController::insert($model, false);
-		} else {
-			throw new CHttpException(403,'You are not authorized to perform this action.');
-		}
+	public function actionCreate($ss_id) {
+		$model=new Marker;
+		$model->ss_id = $ss_id;
+		MarkerController::insert($model, false);
 	}
 	
 	public function actionCopy ($id) {
-		if (Yii::app()->authManager->checkAccess('createMarker', Yii::app()->user->id)) {
-			$model = $this->loadModel($id);
-			unset($model->marker_id);// = "";
-			$model->isNewRecord=true;
-			unset($model->id);
-			MarkerController::insert ($model, true);
-		} else {
-			throw new CHttpException(403,'You are not authorized to perform this action.');
-		}
+		$model = $this->loadModel($id);
+		unset($model->marker_id);// = "";
+		$model->isNewRecord=true;
+		unset($model->id);
+		MarkerController::insert ($model, true);
 	}
 	
 	/**
@@ -87,40 +78,44 @@ class MarkerController extends Controller
 	 */
 	public function insert($model, $copy)
 	{
-		$model->owner = Yii::app()->user->id;
-		
-		// :TODO: move this to the model in after save
-		// Create a log for the marker
-		$log = new MarkerLog();
-		$log->action_type = "create";
-		$log->user = Yii::app()->user->id;
-		$log->action_comment = "Creating a new marker for stylesheet {$model->ss->style_code}";
-		
-		// Create a log for the stylesheet
-		$ss_log = new StylesheetLog();
-		$ss_log->action_comment = $log->action_comment;
-		$ss_log->user = Yii::app()->user->id;
-		$ss_log->action_type= 'create';
-		$ss_log->ss_id = $model->ss_id;
-		
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['Marker']))
-		{
-			$model->attributes=$_POST['Marker'];
-			if($model->save()) {
-				$log->marker_id = $model->marker_id;
-				$log->save();
-				$ss_log->save();
-				$this->redirect(array('view','id'=>$model->marker_id));
+		if ($this->can('create')) {
+			$model->owner = Yii::app()->user->id;
+			
+			// :TODO: move this to the model in after save
+			// Create a log for the marker
+			$log = new MarkerLog();
+			$log->action_type = "create";
+			$log->user = Yii::app()->user->id;
+			$log->action_comment = "Creating a new marker for stylesheet {$model->ss->style_code}";
+			
+			// Create a log for the stylesheet
+			$ss_log = new StylesheetLog();
+			$ss_log->action_comment = $log->action_comment;
+			$ss_log->user = Yii::app()->user->id;
+			$ss_log->action_type= 'create';
+			$ss_log->ss_id = $model->ss_id;
+			
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['Marker']))
+			{
+				$model->attributes=$_POST['Marker'];
+				if($model->save()) {
+					$log->marker_id = $model->marker_id;
+					$log->save();
+					$ss_log->save();
+					$this->redirect(array('view','id'=>$model->marker_id));
+				}
+					
 			}
-				
+	
+			$this->render('create',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -131,9 +126,7 @@ class MarkerController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		if (Yii::app()->authManager->checkAccess('updateMarker', Yii::app()->user->id) || 
-		(Yii::app()->authManager->checkAccess('updateOwnMarker', Yii::app()->user->id) && $model->owner == Yii::app()->user->id)
-		) {
+		if ($this->can('update', $model)) {
 			
 			$log = new MarkerLog();
 			$log->action_type = "update";
@@ -167,11 +160,8 @@ class MarkerController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$model = $this->loadModel($id);
-		if (Yii::app()->authManager->checkAccess('deleteMarker', Yii::app()->user->id) ||
-		(Yii::app()->authManager->checkAccess('deleteOwnMarker', Yii::app()->user->id) && $model->owner == Yii::app()->user->id)
-		) {
-			
+		$model=$this->loadModel($id);
+		if ($this->can('delete', $model)) {
 			$ss_id = $model->ss_id;
 			$model->delete();
 			
@@ -197,7 +187,7 @@ class MarkerController extends Controller
 	
 	public function actionIndex($ss_id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewMarker', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider=new CActiveDataProvider('Marker', array(
 					'criteria'=>array(
 							'condition'=>"ss_id={$ss_id}",
@@ -213,25 +203,6 @@ class MarkerController extends Controller
 		}
 	}
 	
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		if (Yii::app()->authManager->checkAccess('adminMarker', Yii::app()->user->id)) {
-			$model=new Marker('search');
-			$model->unsetAttributes();  // clear any default values
-			if(isset($_GET['Marker']))
-				$model->attributes=$_GET['Marker'];
-	
-			$this->render('admin',array(
-				'model'=>$model,
-			));
-		} else {
-			throw new CHttpException(403,'You are not authorized to perform this action.');
-		}
-	}
-
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
@@ -261,7 +232,7 @@ class MarkerController extends Controller
 	}
 	
 	public function actionGetLogEntries ($marker_id) {
-		if (Yii::app()->authManager->checkAccess('viewMarker', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$logsDataProvider=new CActiveDataProvider('MarkerLog',
 					array(
 							'criteria'=>array('condition'=>"marker_id={$marker_id}")));
@@ -278,7 +249,7 @@ class MarkerController extends Controller
 	}
 	
 	public function actionExportToPDF($ss_id) {
-		if (Yii::app()->authManager->checkAccess('viewMarker', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			// Get this stylsheet's design bom items (Style sheet)
 			$markers = Marker::model()->findAllByAttributes(array('ss_id'=>$ss_id));
 			$ss_model = Stylesheet::model()->findByPk($ss_id);
@@ -294,4 +265,12 @@ class MarkerController extends Controller
 		}
 	}
 	
+	public function can ($resp, $model=NULL) {
+		return (Yii::app()->authManager->checkAccess("{$resp}Marker", Yii::app()->user->id)||
+		(
+				$model !== NULL &&
+				($resp=='update' || $resp== 'delete') &&
+				Yii::app()->authManager->checkAccess("{$resp}OwnMarker", Yii::app()->user->id)&&
+				Yii::app()->user->id == $model->owner));
+	}
 }

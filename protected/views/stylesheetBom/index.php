@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Bom Items', 'url'=>array('create', 'ss_id'=>$ss_model->ss_id)),
+	array('label'=>'Create Bom Items', 'url'=>array('create', 'ss_id'=>$ss_model->ss_id), 'visible'=> $this->can('update', $ss_model)),
 );
 ?>
 

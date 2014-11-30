@@ -10,9 +10,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List DepartmentName', 'url'=>array('index')),
-	array('label'=>'Create DepartmentName', 'url'=>array('create')),
+	array('label'=>'Create DepartmentName', 'url'=>array('create'), 'visible'=> $this->can('create')),
 	array('label'=>'View DepartmentName', 'url'=>array('view', 'id'=>$model->dept_id)),
-	array('label'=>'Manage DepartmentName', 'url'=>array('admin')),
+	array('label'=>'Manage DepartmentName', 'url'=>array('admin'), 'visible'=> $this->can('admin')),
 );
 ?>
 

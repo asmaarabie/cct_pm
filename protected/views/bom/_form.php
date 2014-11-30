@@ -67,12 +67,6 @@
 		<?php echo $form->error($model,'item_increase'); ?>
 	</div>
 	
-	<div class="row">
-	<?php echo $form->labelEx($model,'pono'); ?>
-	<?php echo $form->textField($model,'pono'); ?>
-	<?php echo $form->error($model,'pono'); ?>
-	</div>
-	
 	<?php if (!$model->isNewRecord ) {?>
 	<div class="row">
 		<?php echo $form->labelEx($log,'action_comment'); ?>

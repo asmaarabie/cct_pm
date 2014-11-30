@@ -58,9 +58,12 @@ class StylesheetBomController extends Controller
 	 */
 	public function actionView($id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+		if ($this->can('view')) {
+			$ss_model = Stylesheet::model()->findByPk($model->ss_id); 
+			$model = $this->loadModel($id);
 			$this->render('view',array(
-				'model'=>$this->loadModel($id),
+				'model'=>$model,
+				'ss_model'=>$ss_model
 			));
 		} else {
 			throw new CHttpException(403,'You are not authorized to perform this action.');
@@ -74,9 +77,8 @@ class StylesheetBomController extends Controller
 	public function actionCreate($ss_id)
 	{
 		$ss_model = Stylesheet::model()->findByPk($ss_id);
-		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) || 
-		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$ss_model->user_id)
-		) {
+		// update as we're modifying mother stylesheet
+		if ($this->can('update', $ss_model)) {
 			$model = new StylesheetBom;
 			$cc_model = new ColorCode;
 			$model->ss_id = $ss_id;
@@ -137,9 +139,7 @@ class StylesheetBomController extends Controller
 	{
 		$model=$this->loadModel($id);
 		$ss_model = Stylesheet::model()->findByPk($model->ss_id);
-		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) ||
-		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$ss_model->user_id)
-		) {
+		if ($this->can('update', $ss_model)) {
 			
 			$cc_model = ColorCode::model()->findByPk($model->item_color_id);
 			
@@ -198,10 +198,7 @@ class StylesheetBomController extends Controller
 	{
 		$model = $this->loadModel($id);
 		$ss_model = Stylesheet::model()->findByPk($model->ss_id);
-		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) ||
-		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$ss_model->user_id)
-		) {
-			
+		if ($this->can('update', $ss_model)) {
 			$ss_id = $model->ss_id;
 			$model->delete();
 	
@@ -218,7 +215,7 @@ class StylesheetBomController extends Controller
 	 */
 	public function actionIndex($ss_id)
 	{
-		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+		if ($this->can('view')) {
 			$dataProvider=new CActiveDataProvider('StylesheetBom', array('criteria'=>array(
 							'condition'=>"ss_id={$ss_id}",
 					)));
@@ -232,27 +229,6 @@ class StylesheetBomController extends Controller
 		}
 	}
 	
-	
-	
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		if (Yii::app()->authManager->checkAccess('adminStylesheet', Yii::app()->user->id)) {
-			$model=new StylesheetBom('search');
-			$model->unsetAttributes();  // clear any default values
-			if(isset($_GET['StylesheetBom']))
-				$model->attributes=$_GET['StylesheetBom'];
-	
-			$this->render('admin',array(
-				'model'=>$model,
-			));
-		} else {
-			throw new CHttpException(403,'You are not authorized to perform this action.');
-		}
-	}
-
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
@@ -308,4 +284,12 @@ class StylesheetBomController extends Controller
 		return $dataProvider;
 	}
 	
+	public function can ($resp, $model=NULL) {
+		return (Yii::app()->authManager->checkAccess("{$resp}Stylesheet", Yii::app()->user->id)||
+		(
+				$model !== NULL &&
+		 		($resp=='update' || $resp== 'delete') && 
+				Yii::app()->authManager->checkAccess("{$resp}OwnStylesheet", Yii::app()->user->id)&& 
+				Yii::app()->user->id == $model->user_id));
+	}
 }
