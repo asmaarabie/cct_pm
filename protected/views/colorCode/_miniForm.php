@@ -56,7 +56,18 @@ Yii::app()->clientScript->registerScript ("updateColorCode", "
 
 ");
 ?>
-
+	<?php 
+	$color_sel =''; $shape_sel=''; $shadow_sel=''; $pattern_sel = '';
+	if ($model->color)
+		$color_sel = $model->color0->color_id;
+	if ($model->shadow && $model->shadow != ' ')
+		$shadow_sel = $model->shadow0->color_shadow;
+	if ($model->shape && $model->shape != ' ')
+		$shape_sel = $model->shape0->color_shape;
+	if ($model->pattern && $model->pattern != ' ')
+		$pattern_sel = $model->pattern0->color_pattern;
+	
+	?>
 	<div class="row"  style="float:left; margin-right: 20px">
 		<?php echo $form->labelEx($model,'color_code'); ?>
 		<?php echo $form->textField($model,'color_code',array('size'=>8,'maxlength'=>8, 'readonly'=> true)); ?>
@@ -65,22 +76,26 @@ Yii::app()->clientScript->registerScript ("updateColorCode", "
 	
 	<div class="row"  style="float:left; margin-right: 20px">
 		<?php echo $form->labelEx($model,'color'); ?>
-		<?php echo $form->dropDownList($model, "color", $colors, array('empty' => "select color", "class"=>"miniform-dd")); ?>
+		<?php echo $form->dropDownList($model, "color", $colors, array('empty' => "select color", "class"=>"miniform-dd", 
+				'options'=>array($color_sel=>array('selected'=>true)))); ?>
 	</div>
 
 	<div class="row"  style="float:left; margin-right: 20px">
 		<?php echo $form->labelEx($model,'shadow'); ?>
-		<?php echo $form->dropDownList($model, "shadow", $shadows, array('empty' => "select shadow", "class"=>"miniform-dd"));?>
+		<?php echo $form->dropDownList($model, "shadow", $shadows, array('empty' => "select shadow", "class"=>"miniform-dd", 
+				'options'=>array($shadow_sel=>array('selected'=>true)))); ?>
 	</div>
 	
 	<div class="row"  style="float:left; margin-right: 20px">
 		<?php echo $form->labelEx($model,'pattern'); ?>
-		<?php echo $form->dropDownList($model, "pattern", $patterns, array('empty' => "select pattern", "class"=>"miniform-dd"));?>
+		<?php echo $form->dropDownList($model, "pattern", $patterns, array('empty' => "select pattern", "class"=>"miniform-dd", 
+				'options'=>array($pattern_sel=>array('selected'=>true)))); ?>
 	</div>
 
 	<div class="row"  style="float:left; margin-right: 20px">
 		<?php echo $form->labelEx($model,'shape'); ?>
-		<?php echo $form->dropDownList($model, "shape", $shapes, array('empty' => "select shape", "class"=>"miniform-dd"));?>
+		<?php echo $form->dropDownList($model, "shape", $shapes, array('empty' => "select shape", "class"=>"miniform-dd", 
+				'options'=>array($shape_sel=>array('selected'=>true)))); ?>
 	</div>
 
 	<div class="row"  style="float:left; margin-right: 20px">

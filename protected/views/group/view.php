@@ -29,27 +29,79 @@ $this->menu=array(
 
 </div>
 <div class = "stylesheet-galleryView">
-<h2>Allowed operations for this group:</h2>
-<ul>
-<?php 
-
-if (count($operations) == 0) 
-	echo "No operations selected for this group ". CHtml::link('Add operations', array('group/update', 'id'=>$model->group_id));
-else {
-	foreach ($operations as $operation) {
-		/*preg_match_all('/((?:^|[A-Z])[a-z]+)/',$operation->privilege->op_name,$matches);
-		// 0=> action 1=> own/"" 2=> model
-		$action = $matches[0][0];
-		$modelName = ($matches[0][1] == "Own")? $matches[0][2]: $matches[0][1];
-		echo CHtml::link (ucwords($action). " ". $modelName, array(lcfirst($modelName)."/".$action));
-		*/
+	<h2>Allowed operations for this group:</h2>
+	<?php 
+	$count = count($operations->getData());
+	$this->widget('zii.widgets.grid.CGridView', array(
+		'id'=>'group-grid',
+		'dataProvider'=>$operations,
+		'summaryText'=>'',
 		
-		if ( $operation->checked) 
-			echo "<li>".$operation->opName->operation."</li>";
-	}
-}
-?>
-</ul>
+		'columns'=>array(
+			array(
+				'name'=>'id',
+				'header'=> 'Operation',
+				'class'=>'CDataColumn',
+				'htmlOptions' => array('width'=>'100px'),
+			),
+			array(
+					'id' => 'view',
+					'headerTemplate' =>'View<br/>{item}',
+					'class'=>'CCheckBoxColumn',
+					'selectableRows'=>0,
+					'cssClassExpression'=>"'my-checkbox-column'",
+					'checked'=>'$data["view"]'
+			),
+			array(
+					'id' => 'create',
+					'headerTemplate' =>'Create<br/>{item}',
+					'class'=>'CCheckBoxColumn',
+					'selectableRows'=>0,
+					'cssClassExpression'=>"'my-checkbox-column'",
+					'checked'=>'$data["create"]'
+			),
+			array(
+					'id' => 'update',
+					'headerTemplate' =>'Update<br/>{item}',
+					'class'=>'CCheckBoxColumn',
+					'selectableRows'=>0,
+					'cssClassExpression'=>"'my-checkbox-column'",
+					'checked'=>'$data["update"]'
+			),
+			array(
+					'id' => 'delete',
+					'headerTemplate' =>'Delete<br/>{item}',
+					'class'=>'CCheckBoxColumn',
+					'selectableRows'=>0,
+					'cssClassExpression'=>"'my-checkbox-column'",
+					'checked'=>'$data["delete"]'
+			),
+			array(
+					'id' => 'admin',
+					'headerTemplate' =>'Admin<br/>{item}',
+					'class'=>'CCheckBoxColumn',
+					'selectableRows'=>0,
+					'cssClassExpression'=>"'my-checkbox-column'",
+					'checked'=>'$data["admin"]'
+			),
+			array(
+					'id' => 'updateOwn',
+					'headerTemplate' =>'Update Own<br/>{item}',
+					'class'=>'CCheckBoxColumn',
+					'selectableRows'=>0,
+					'cssClassExpression'=>"'my-checkbox-column'",
+					'checked'=>'$data["updateOwn"]'
+			),
+			array(
+					'id' => 'deleteOwn',
+					'headerTemplate' =>'Delete Own<br/>{item}',
+					'class'=>'CCheckBoxColumn',
+					'selectableRows'=>0,
+					'cssClassExpression'=>"'my-checkbox-column'",
+					'checked'=>'$data["deleteOwn"]'
+			),
+		),
+	)); ?>
 </div>
 <div class = "stylesheet-galleryView">
 <h2>Users in this group:</h2>

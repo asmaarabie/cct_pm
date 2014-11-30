@@ -27,10 +27,7 @@ class MarkerController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('view'),
-				'users'=>array('*'),
-			),
+				/*
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update','delete', 'getLogEntries', 'manage', 'index', 'copy', 'exportToPDF'),
 				'users'=>array('@'),
@@ -42,6 +39,7 @@ class MarkerController extends Controller
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
+			*/
 		);
 	}
 
@@ -51,24 +49,36 @@ class MarkerController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if (Yii::app()->authManager->checkAccess('viewMarker', Yii::app()->user->id)) {
+			$this->render('view',array(
+				'model'=>$this->loadModel($id),
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	public function actionCreate($ss_id)
 	{
-		$model=new Marker;
-		$model->ss_id = $ss_id;
-		MarkerController::insert($model, false);
+		if (Yii::app()->authManager->checkAccess('createMarker', Yii::app()->user->id)) {
+			$model=new Marker;
+			$model->ss_id = $ss_id;
+			MarkerController::insert($model, false);
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
 	public function actionCopy ($id) {
-		$model = $this->loadModel($id);
-		unset($model->marker_id);// = "";
-		$model->isNewRecord=true;
-		unset($model->id);
-		MarkerController::insert ($model, true);
+		if (Yii::app()->authManager->checkAccess('createMarker', Yii::app()->user->id)) {
+			$model = $this->loadModel($id);
+			unset($model->marker_id);// = "";
+			$model->isNewRecord=true;
+			unset($model->id);
+			MarkerController::insert ($model, true);
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
 	/**
@@ -121,26 +131,33 @@ class MarkerController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		$log = new MarkerLog();
-		$log->action_type = "update";
-		$log->user = Yii::app()->user->id;
-		$log->marker_id = $model->marker_id;
-		
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model, $log);
-
-		if(isset($_POST['Marker'], $_POST['MarkerLog']))
-		{
-			$model->attributes=$_POST['Marker'];
-			$log->attributes = $_POST['MarkerLog'];
-			if($model->save() && $log->save())
-				$this->redirect(array('view','id'=>$model->marker_id));
+		if (Yii::app()->authManager->checkAccess('updateMarker', Yii::app()->user->id) || 
+		(Yii::app()->authManager->checkAccess('updateOwnMarker', Yii::app()->user->id) && $model->owner == Yii::app()->user->id)
+		) {
+			
+			$log = new MarkerLog();
+			$log->action_type = "update";
+			$log->user = Yii::app()->user->id;
+			$log->marker_id = $model->marker_id;
+			
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model, $log);
+	
+			if(isset($_POST['Marker'], $_POST['MarkerLog']))
+			{
+				$model->attributes=$_POST['Marker'];
+				$log->attributes = $_POST['MarkerLog'];
+				if($model->save() && $log->save())
+					$this->redirect(array('view','id'=>$model->marker_id));
+			}
+	
+			$this->render('update',array(
+				'model'=>$model,
+				'log' => $log
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-			'log' => $log
-		));
 	}
 
 	/**
@@ -151,20 +168,27 @@ class MarkerController extends Controller
 	public function actionDelete($id)
 	{
 		$model = $this->loadModel($id);
-		$ss_id = $model->ss_id;
-		$model->delete();
-		
-		// Create a log for the stylesheet
-		$ss_log = new StylesheetLog();
-		$ss_log->action_comment = 'Deleted the marker';
-		$ss_log->user = Yii::app()->user->id;
-		$ss_log->action_type= 'delete';
-		$ss_log->ss_id = $ss_id;
-		$ss_log->save();
-		
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(array('marker/index', 'ss_id'=> $ss_id));
+		if (Yii::app()->authManager->checkAccess('deleteMarker', Yii::app()->user->id) ||
+		(Yii::app()->authManager->checkAccess('deleteOwnMarker', Yii::app()->user->id) && $model->owner == Yii::app()->user->id)
+		) {
+			
+			$ss_id = $model->ss_id;
+			$model->delete();
+			
+			// Create a log for the stylesheet
+			$ss_log = new StylesheetLog();
+			$ss_log->action_comment = 'Deleted the marker';
+			$ss_log->user = Yii::app()->user->id;
+			$ss_log->action_type= 'delete';
+			$ss_log->ss_id = $ss_id;
+			$ss_log->save();
+			
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(array('marker/index', 'ss_id'=> $ss_id));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -173,39 +197,39 @@ class MarkerController extends Controller
 	
 	public function actionIndex($ss_id)
 	{
-		$dataProvider=new CActiveDataProvider('Marker', array(
-				'criteria'=>array(
-						'condition'=>"ss_id={$ss_id}",
-				),
-		));
-		$ss_model = Stylesheet::model()->findByPk($ss_id);
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-			'ss_model' => $ss_model,
-		));
+		if (Yii::app()->authManager->checkAccess('viewMarker', Yii::app()->user->id)) {
+			$dataProvider=new CActiveDataProvider('Marker', array(
+					'criteria'=>array(
+							'condition'=>"ss_id={$ss_id}",
+					),
+			));
+			$ss_model = Stylesheet::model()->findByPk($ss_id);
+			$this->render('index',array(
+				'dataProvider'=>$dataProvider,
+				'ss_model' => $ss_model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
-	public function actionManage ($ss_id) {
-		$model = Marker::model()->findByAttributes (array ('ss_id'=>$ss_id));
-		
-		if ($model!=NULL)
-			$this->actionView($model->marker_id);
-		else 
-			$this->actionCreate($ss_id);
-	}
 	/**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
 	{
-		$model=new Marker('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Marker']))
-			$model->attributes=$_GET['Marker'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		if (Yii::app()->authManager->checkAccess('adminMarker', Yii::app()->user->id)) {
+			$model=new Marker('search');
+			$model->unsetAttributes();  // clear any default values
+			if(isset($_GET['Marker']))
+				$model->attributes=$_GET['Marker'];
+	
+			$this->render('admin',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -237,29 +261,37 @@ class MarkerController extends Controller
 	}
 	
 	public function actionGetLogEntries ($marker_id) {
-		$logsDataProvider=new CActiveDataProvider('MarkerLog',
-				array(
-						'criteria'=>array('condition'=>"marker_id={$marker_id}")));
-	
-		if (Yii::app()->request->isAjaxRequest) {
-			$done =$this->renderPartial('viewLog', array('logsDataProvider' =>
-					$logsDataProvider), false, true);
-			echo $done;
-			Yii::app()->end();
+		if (Yii::app()->authManager->checkAccess('viewMarker', Yii::app()->user->id)) {
+			$logsDataProvider=new CActiveDataProvider('MarkerLog',
+					array(
+							'criteria'=>array('condition'=>"marker_id={$marker_id}")));
+		
+			if (Yii::app()->request->isAjaxRequest) {
+				$done =$this->renderPartial('viewLog', array('logsDataProvider' =>
+						$logsDataProvider), false, true);
+				echo $done;
+				Yii::app()->end();
+			}
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
 	}
 	
 	public function actionExportToPDF($ss_id) {
-		// Get this stylsheet's design bom items (Style sheet)
-		$markers = Marker::model()->findAllByAttributes(array('ss_id'=>$ss_id));
-		$ss_model = Stylesheet::model()->findByPk($ss_id);
-		$html2pdf = Yii::app()->ePdf->mPDF('','', 10, 'Tahoma', 7, 7, 7, 7, 0, 0, 'L');
-	
-		$html2pdf->WriteHTML($this->renderPartial('markerPrintView', array(
-				'markers'=>$markers,
-				'model' => $ss_model
-		), true));
-		$html2pdf->Output();
+		if (Yii::app()->authManager->checkAccess('viewMarker', Yii::app()->user->id)) {
+			// Get this stylsheet's design bom items (Style sheet)
+			$markers = Marker::model()->findAllByAttributes(array('ss_id'=>$ss_id));
+			$ss_model = Stylesheet::model()->findByPk($ss_id);
+			$html2pdf = Yii::app()->ePdf->mPDF('','', 10, 'Tahoma', 7, 7, 7, 7, 0, 0, 'L');
+		
+			$html2pdf->WriteHTML($this->renderPartial('markerPrintView', array(
+					'markers'=>$markers,
+					'model' => $ss_model
+			), true));
+			$html2pdf->Output();
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
 }

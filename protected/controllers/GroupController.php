@@ -7,7 +7,12 @@ class GroupController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
-
+	
+	// List the possible permissions:
+	// N.B. Copy is the same as create, and export any view into excel or PDF is the same as view; no need to add extra permissions for them
+	// N.B. Who has the CRUD permissions has the 'admin' permission
+	// N.B. the order of these permissions is crucial, ;this is the order of checking in the user identity, for user permissions
+	protected $permissions = array('view', 'create', 'update', 'delete', 'admin', 'updateOwn', 'deleteOwn' );
 	/**
 	 * @return array action filters
 	 */
@@ -27,6 +32,7 @@ class GroupController extends Controller
 	public function accessRules()
 	{
 		return array(
+				/*
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
@@ -42,27 +48,44 @@ class GroupController extends Controller
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
+			*/
 		);
 	}
-
+	
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
 	{
-		$_POST['returnUrl'] = array ('view', 'id'=>$id);
-		#$users = User::model()->findAllByAttributes (array('group_id'=>$id));
-		$usersDataProvider=new CActiveDataProvider('User', 
-			array(
-				'criteria'=>array('condition'=>"user_group={$id}")));
-		
-		$operations = GroupOperations::model()->findAllByAttributes (array('group_id'=>$id));
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-			'operations' => $operations,
-			'usersDataProvider' => $usersDataProvider,
-		));
+		if (Yii::app()->authManager->checkAccess('viewGroups', Yii::app()->user->id)) {
+			$_POST['returnUrl'] = array ('view', 'id'=>$id);
+			
+			$usersDataProvider=new CActiveDataProvider('User', 
+				array(
+					'criteria'=>array('condition'=>"user_group={$id}")));
+			
+			// Get all group operations
+			$operations = GroupOperations::model()-> findAllByAttributes (array('group_id'=>$id));
+			$rawData = array();
+			foreach ($operations as $op) {
+				$row['id'] = $op->responsibility;
+				foreach ($this->permissions as $i=> $perm)
+					$row[$perm] = substr($op->permissions, $i, 1);
+				$rawData[] = $row;
+			}
+			
+			$dataProvider=new CArrayDataProvider($rawData, array(
+					'id'=>'id',
+			));
+			$this->render('view',array(
+				'model'=>$this->loadModel($id),
+				'operations' => $dataProvider,
+				'usersDataProvider' => $usersDataProvider,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -71,50 +94,69 @@ class GroupController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Group;
+		if (Yii::app()->authManager->checkAccess('createGroups', Yii::app()->user->id)) {
+			$model=new Group;
+			
+			// Get all possible operations
+			$rawData = array();
+			$operations = Operation::model()->findAll();
+			foreach ($operations as $op) {
+				$row['id'] = $op->op_name;
+				foreach ($this->permissions as $i=> $perm)
+					$row[$perm] = 0;
+				$rawData[] = $row;
+			}
 		
-		// Get all possible operations
-		$operations = Operation::model()->findAll();
-		
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['Group']))
-		{
-			$model->attributes=$_POST['Group'];
-			if($model->save()) {
+			$dataProvider=new CArrayDataProvider($rawData, array(
+					'id'=>'id',
+			));
+			
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['Group']))
+			{
+				$model->attributes=$_POST['Group'];
 				
-				// if the group doesn't have any operations the user is redirected to the update to add some
-				$hasOperation = false;
-				
-				// Foreach checkbox add a group operation 
-				foreach ($operations as $operation) {
-					$group_operation = new GroupOperations();
-					$group_operation->group_id = $model->group_id;
-					$group_operation->op_name = $operation->op_name;
-					$group_operation->checked = 0;
-					
-					if (isset($_POST['box'.$operation->op_name])) {
-						$group_operation->checked = 1;
-						$hasOperation = true;
-					} 
+				// Save the group model
+				if($model->save()) {
+					$hasOperation = 0;
+					// Adding permission models to this group
+					foreach ($operations as $op) {
+						$group_operation = new GroupOperations();
+						$group_operation->group_id = $model->group_id;
+						$group_operation->responsibility = $op->op_name;
 						
-					$group_operation->save();
-				}
+						// Permissions are either 0 => not allowed, 1 => allowed, to be bitwise anded when necessary
+						$permission_string = str_pad('', 10, "0", STR_PAD_BOTH);
+						foreach ($this->permissions as $i=>$perm) {
+							if (isset($_POST["{$perm}"]) && (array_search("{$op->op_name}", $_POST["{$perm}"])) !== false)
+								$permission_string= substr_replace($permission_string,1,$i,1);	
+						}
+						$group_operation->permissions = $permission_string;
+						if ($group_operation->save()) 
+							$hasOperation++;
+					}
 				
-				if ($hasOperation)
-					$this->redirect(array('view','id'=>$model->group_id));
-				else {
-					Yii::app()->user->setFlash("group_operation", "You have to specify at least one group operation");
-					$this->redirect(array('update','id'=>$model->group_id));
+				
+					if ($hasOperation>0) {
+						Yii::app()->user->setFlash("success", "If you're in the group of $model->group_name, logout then login to apply the changes to your account");
+						$this->redirect(array('view','id'=>$model->group_id));
+					}
+					else {
+						Yii::app()->user->setFlash("error", "You have to specify at least one group operation");
+						$this->redirect(array('update','id'=>$model->group_id));
+					}
 				}
 			}
+	
+			$this->render('create',array(
+				'model'=>$model,
+				'operations' => $dataProvider,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-			'operations' => $operations,
-		));
 	}
 
 	/**
@@ -124,39 +166,63 @@ class GroupController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-		$operations = GroupOperations::model()-> findAllByAttributes (array('group_id'=>$id));
-		
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['Group']))
-		{
-			$model->attributes=$_POST['Group'];
-			$hasOperation = false;
+		if (Yii::app()->authManager->checkAccess('updateGroups', Yii::app()->user->id)) {
+			$model=$this->loadModel($id);
 			
-			// Update checked value of the group operation
-			foreach ($operations as $operation) {
-					if (isset($_POST['box'.$operation->op_name])) {
-						$operation->checked = 1;
-						$hasOperation = true;
-					}  else {
-						$operation->checked = 0;
+			// Get all group operations
+			$rawData = array();
+			$operations = GroupOperations::model()-> findAllByAttributes (array('group_id'=>$id));
+			foreach ($operations as $op) {
+				$row['id'] = $op->responsibility;
+				foreach ($this->permissions as $i=> $perm)
+					$row[$perm] = substr($op->permissions, $i, 1);
+				$rawData[] = $row;
+			}
+			
+			$dataProvider=new CArrayDataProvider($rawData, array(
+					'id'=>'id',
+			));
+			
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+			if(isset($_POST['Group']))
+			{
+				if($model->save()) {
+					$hasOperation = 0;
+					// Adding permission models to this group
+					foreach ($operations as $op) {
+						
+						// Permissions are either 0 => not allowed, 1 => allowed, to be bitwise anded when necessary
+						$permission_string = str_pad('', 10, "0", STR_PAD_BOTH);
+						foreach ($this->permissions as $i=>$perm) {
+							if (isset($_POST["{$perm}"]) && (array_search("{$op->responsibility}", $_POST["{$perm}"])) !== false)
+								$permission_string= substr_replace($permission_string,1,$i,1);
+							else 
+								$permission_string= substr_replace($permission_string,0,$i,1);
+						}
+						$op->permissions = $permission_string;
+						if ($op->save()) 
+							$hasOperation++;
 					}
-					$operation->save();
-				}
 				
-				if ($hasOperation)
-					$this->redirect(array('view','id'=>$model->group_id));
-				else {
-					Yii::app()->user->setFlash("group_operation", "You have to specify at least one group operation");
+					if ($hasOperation>0) {
+						Yii::app()->user->setFlash("success", "If you're in the group of $model->group_name, logout then login to apply the changes to your account");
+						$this->redirect(array('view','id'=>$model->group_id));
+					}
+					else {
+						Yii::app()->user->setFlash("error", "You have to specify at least one group operation");
+						$this->redirect(array('update','id'=>$model->group_id));
+					}
 				}
+			}
+	
+			$this->render('update',array(
+				'model'=>$model,
+				'operations' => $dataProvider
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-			'operations' => $operations
-		));
 	}
 
 	/**
@@ -166,13 +232,16 @@ class GroupController extends Controller
 	 */
 	public function actionDelete($id)
 	{
+		if (Yii::app()->authManager->checkAccess('deleteGroups', Yii::app()->user->id)) {
 		
-		if (!$this->loadModel($id)->delete()) 
-			$this->redirect(array('view', 'id'=> $id));
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		elseif(!isset($_GET['ajax']))
-			$this->redirect(array('index'));
-		
+			if (!$this->loadModel($id)->delete()) 
+				$this->redirect(array('view', 'id'=> $id));
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			elseif(!isset($_GET['ajax']))
+				$this->redirect(array('index'));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -180,10 +249,14 @@ class GroupController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Group');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		if (Yii::app()->authManager->checkAccess('viewGroups', Yii::app()->user->id)) {
+			$dataProvider=new CActiveDataProvider('Group');
+			$this->render('index',array(
+				'dataProvider'=>$dataProvider,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -191,14 +264,18 @@ class GroupController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Group('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Group']))
-			$model->attributes=$_GET['Group'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		if (Yii::app()->authManager->checkAccess('adminGroups', Yii::app()->user->id)) {
+			$model=new Group('search');
+			$model->unsetAttributes();  // clear any default values
+			if(isset($_GET['Group']))
+				$model->attributes=$_GET['Group'];
+	
+			$this->render('admin',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -226,17 +303,6 @@ class GroupController extends Controller
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
-		}
-	}
-	
-	public function actionError()
-	{
-		if($error=Yii::app()->errorHandler->error)
-		{
-			if(Yii::app()->request->isAjaxRequest)
-				echo $error['message'];
-			else
-				$this->render('error', $error);
 		}
 	}
 }

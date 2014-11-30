@@ -27,6 +27,11 @@ class StylesheetColorController extends Controller
 	public function accessRules()
 	{
 		return array(
+				array('allow', // allow authenticated user to perform 'create' and 'update' actions
+						'actions'=>array('getStylesheetColors'),
+						'users'=>array('@'),
+				),
+				/*
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index'),
 				'users'=>array('*'),
@@ -42,6 +47,7 @@ class StylesheetColorController extends Controller
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
+			*/
 		);
 	}
 
@@ -51,11 +57,15 @@ class StylesheetColorController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+			$this->render('view',array(
+				'model'=>$this->loadModel($id),
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
-
+	
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -67,58 +77,15 @@ class StylesheetColorController extends Controller
 		$cc_model = new ColorCode;
 		$model->emb = 0;
 		$model->print = 0;
-		
+			
 		// Create log entry
 		$log_entry = new StylesheetLog();
 		$log_entry->action_type = 'create';
 		$log_entry->user = Yii::app()->user->id;
 		$log_entry->ss_id = $ss_id;
-		
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation(array($model, $cc_model));
-
-		if(isset($_POST['StylesheetColor'], $_POST['ColorCode']))
-		{
-			$model->attributes=$_POST['StylesheetColor'];
-			$cc_model->attributes=$_POST['ColorCode'];
-			
-			// use false parameter to disable validation
-			$increment = isset($_POST['box'])? true:false ;
-			
-			Yii::import('application.controllers.ColorCodeController');
-			$cc_model_properties = ColorCodeController::setModelProperties($cc_model, $increment);
-			
-			$existing = "a new";
-			// If there is a record for this color code, and the increment is not set, use the latest record color code
-			if (!is_null($cc_model_properties["lastModel"]) && !$increment) {
-				$cc_model= $cc_model_properties["lastModel"];
-				$model->color_code = $cc_model->color_code;
-				$existing = "an existing";
-			// If there isn't a record for this color code || the increment is set, use create a new color code
-			} else {
-				$cc_model= $cc_model_properties["model"];
-				if ($cc_model->validate()) {
-					$cc_model->save(false);
-					$model->color_code = $cc_model->color_code;
-				}
-			}
-
-			if($model->validate()) {
-					$model->save(false);
-					$log_entry->action_comment = "Add {$existing} Color: ".$model->color_code;
-					$log_entry->save();
-					$this->redirect(array('index','ss_id'=>$model->ss_id));
-				}
-				
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-			'cc_model' => $cc_model,
-			'ss_id' => $ss_id, 'ss_code' => $ss_code
-		));
+		StylesheetColorController::insert($model, $cc_model, $log_entry, $ss_code, true);
 	}
-
+	
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -127,22 +94,73 @@ class StylesheetColorController extends Controller
 	public function actionUpdate($id, $ss_code)
 	{
 		$model=$this->loadModel($id);
-		
-		$this->performAjaxValidation($model);
-
-
-		if(isset($_POST['StylesheetColor']))
-		{
-			$model->attributes=$_POST['StylesheetColor'];
-			if ($model->save());
-				$this->redirect(array('index','ss_id'=>$model->ss_id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-			'ss_id' => $model->ss_id, 'ss_code' => $ss_code
-		));
+		$cc_model= ColorCode::model()->findByPk($model->color_code);
+		// Create log entry
+		$log_entry = new StylesheetLog();
+		$log_entry->action_type = 'create';
+		$log_entry->user = Yii::app()->user->id;
+		$log_entry->ss_id = $model->ss_id;
+		StylesheetColorController::insert($model, $cc_model, $log_entry, $ss_code, false);
 	}
+	
+	public function insert($model, $cc_model, $log_entry, $ss_code, $new)
+	{
+		$ss_model = Stylesheet::model()->findByPk($model->ss_id);
+		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) ||
+		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$ss_model->user_id)
+		) {
+			
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation(array($model, $cc_model));
+	
+			if(isset($_POST['StylesheetColor'], $_POST['ColorCode']))
+			{
+					
+				$model->attributes=$_POST['StylesheetColor'];
+				$cc_model = new ColorCode;
+				$model->color_code=NULL;
+				$cc_model->attributes=$_POST['ColorCode'];
+				
+				// use false parameter to disable validation
+				$increment = isset($_POST['box'])? true:false ;
+				
+				Yii::import('application.controllers.ColorCodeController');
+				$cc_model_properties = ColorCodeController::setModelProperties($cc_model, $increment);
+				
+				$existing = "a new";
+				// If there is a record for this color code, and the increment is not set, use the latest record color code
+				if (!is_null($cc_model_properties["lastModel"]) && !$increment) {
+					$cc_model= $cc_model_properties["lastModel"];
+					$model->color_code = $cc_model->color_code;
+					$existing = "an existing";
+				// If there isn't a record for this color code || the increment is set, use create a new color code
+				} else {
+					$cc_model= $cc_model_properties["model"];
+					if ($cc_model->validate()) {
+						$cc_model->save(false);
+						$model->color_code = $cc_model->color_code;
+					}
+				}
+	
+				if($model->validate()) {
+					$model->save(false);
+					$log_entry->action_comment = "Add {$existing} Color: ".$model->color_code;
+					$log_entry->save();
+					$this->redirect(array('index','ss_id'=>$model->ss_id));
+				}
+					
+			}
+			
+			$this->render(($new)? 'create' : 'update',array(
+				'model'=>$model,
+				'cc_model' => $cc_model,
+				'ss_id' => $model->ss_id, 'ss_code' => $ss_code
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
+	}
+	
 
 	/**
 	 * Deletes a particular model.
@@ -151,11 +169,18 @@ class StylesheetColorController extends Controller
 	 */
 	public function actionDelete($id, $ss_id)
 	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index', 'ss_id'=> $ss_id));
+		$ss_model = Stylesheet::model()->findByPk($ss_id);
+		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) ||
+		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$ss_model->user_id)
+		) {
+			$this->loadModel($id)->delete();
+	
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index', 'ss_id'=> $ss_id));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
 	public function getStylesheetColors ($ss_id) {
@@ -172,15 +197,17 @@ class StylesheetColorController extends Controller
 	 */
 	public function actionIndex($ss_id)
 	{
-	
-		$dataProvider = StylesheetColorController::getStylesheetColors($ss_id);
-		$ss_model = Stylesheet::model()->findByPk($ss_id);
-	
-		$this->render('index',array(
-				'dataProvider'=>$dataProvider,
-				'ss_model' => $ss_model
-		));
-	
+		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+			$dataProvider = StylesheetColorController::getStylesheetColors($ss_id);
+			$ss_model = Stylesheet::model()->findByPk($ss_id);
+		
+			$this->render('index',array(
+					'dataProvider'=>$dataProvider,
+					'ss_model' => $ss_model
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
 
@@ -189,14 +216,18 @@ class StylesheetColorController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new StylesheetColor('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['StylesheetColor']))
-			$model->attributes=$_GET['StylesheetColor'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		if (Yii::app()->authManager->checkAccess('adminStylesheet', Yii::app()->user->id)) {
+			$model=new StylesheetColor('search');
+			$model->unsetAttributes();  // clear any default values
+			if(isset($_GET['StylesheetColor']))
+				$model->attributes=$_GET['StylesheetColor'];
+	
+			$this->render('admin',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**

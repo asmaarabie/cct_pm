@@ -6,11 +6,11 @@
  * The followings are the available columns in table 'group_operations':
  * @property integer $grp_op_id
  * @property integer $group_id
- * @property string $op_name
- * @property integer $checked
+ * @property string $responsibility
+ * @property string $permissions
  *
  * The followings are the available model relations:
- * @property Operation $opName
+ * @property Operation $responsibility0
  * @property Group $group
  */
 class GroupOperations extends CActiveRecord
@@ -31,12 +31,13 @@ class GroupOperations extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('group_id, op_name, checked', 'required'),
-			array('group_id, checked', 'numerical', 'integerOnly'=>true),
-			array('op_name', 'length', 'max'=>40),
+			array('group_id, responsibility, permissions', 'required'),
+			array('group_id', 'numerical', 'integerOnly'=>true),
+			array('responsibility', 'length', 'max'=>40),
+			array('permissions', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('grp_op_id, group_id, op_name, checked', 'safe', 'on'=>'search'),
+			array('grp_op_id, group_id, responsibility, permissions', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +49,7 @@ class GroupOperations extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'opName' => array(self::BELONGS_TO, 'Operation', 'op_name'),
+			'responsibility0' => array(self::BELONGS_TO, 'Operation', 'responsibility'),
 			'group' => array(self::BELONGS_TO, 'Group', 'group_id'),
 		);
 	}
@@ -61,8 +62,8 @@ class GroupOperations extends CActiveRecord
 		return array(
 			'grp_op_id' => 'Grp Op',
 			'group_id' => 'Group',
-			'op_name' => 'Op Name',
-			'checked' => 'Checked',
+			'responsibility' => 'Responsibility',
+			'permissions' => 'Permissions',
 		);
 	}
 
@@ -86,8 +87,8 @@ class GroupOperations extends CActiveRecord
 
 		$criteria->compare('grp_op_id',$this->grp_op_id);
 		$criteria->compare('group_id',$this->group_id);
-		$criteria->compare('op_name',$this->op_name,true);
-		$criteria->compare('checked',$this->checked);
+		$criteria->compare('responsibility',$this->responsibility,true);
+		$criteria->compare('permissions',$this->permissions,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

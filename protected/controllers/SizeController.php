@@ -27,10 +27,12 @@ class SizeController extends Controller
 	public function accessRules()
 	{
 		return array(
+				
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'getSizeScaleNumAjax', 'getSizesAjax'),
-				'users'=>array('*'),
+				'actions'=>array('getSizeScaleNumAjax', 'getSizesAjax'),
+				'users'=>array('@'),
 			),
+			/*
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update'),
 				'users'=>array('@'),
@@ -42,6 +44,7 @@ class SizeController extends Controller
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
+			*/
 		);
 	}
 
@@ -51,9 +54,13 @@ class SizeController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if (Yii::app()->authManager->checkAccess('viewSizeScale', Yii::app()->user->id)) {
+			$this->render('view',array(
+				'model'=>$this->loadModel($id),
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -62,21 +69,25 @@ class SizeController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Size;
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['Size']))
-		{
-			$model->attributes=$_POST['Size'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->scale_number));
+		if (Yii::app()->authManager->checkAccess('createSizeScale', Yii::app()->user->id)) {
+			$model=new Size;
+	
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['Size']))
+			{
+				$model->attributes=$_POST['Size'];
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->scale_number));
+			}
+	
+			$this->render('create',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -86,21 +97,25 @@ class SizeController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['Size']))
-		{
-			$model->attributes=$_POST['Size'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->scale_number));
+		if (Yii::app()->authManager->checkAccess('updateSizeScale', Yii::app()->user->id)) {
+			$model=$this->loadModel($id);
+	
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['Size']))
+			{
+				$model->attributes=$_POST['Size'];
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->scale_number));
+			}
+	
+			$this->render('update',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 	
 	/*
@@ -138,11 +153,15 @@ class SizeController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		if (Yii::app()->authManager->checkAccess('deleteSizeScale', Yii::app()->user->id)) {
+			$this->loadModel($id)->delete();
+	
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -150,10 +169,14 @@ class SizeController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Size');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		if (Yii::app()->authManager->checkAccess('indexSizeScale', Yii::app()->user->id)) {
+			$dataProvider=new CActiveDataProvider('Size');
+			$this->render('index',array(
+				'dataProvider'=>$dataProvider,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -161,14 +184,18 @@ class SizeController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Size('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Size']))
-			$model->attributes=$_GET['Size'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		if (Yii::app()->authManager->checkAccess('adminSizeScale', Yii::app()->user->id)) {
+			$model=new Size('search');
+			$model->unsetAttributes();  // clear any default values
+			if(isset($_GET['Size']))
+				$model->attributes=$_GET['Size'];
+	
+			$this->render('admin',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**

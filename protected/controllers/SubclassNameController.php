@@ -27,6 +27,7 @@ class SubclassNameController extends Controller
 	public function accessRules()
 	{
 		return array(
+				/*
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view','getSubclassesAjax'),
 				'users'=>array('*'),
@@ -42,6 +43,7 @@ class SubclassNameController extends Controller
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
+			*/
 		);
 	}
 
@@ -51,9 +53,13 @@ class SubclassNameController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if (Yii::app()->authManager->checkAccess('viewDCSName', Yii::app()->user->id)) {
+			$this->render('view',array(
+				'model'=>$this->loadModel($id),
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -62,21 +68,25 @@ class SubclassNameController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new SubclassName;
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['SubclassName']))
-		{
-			$model->attributes=$_POST['SubclassName'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->subclassid));
+		if (Yii::app()->authManager->checkAccess('createDCSName', Yii::app()->user->id)) {
+			$model=new SubclassName;
+	
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['SubclassName']))
+			{
+				$model->attributes=$_POST['SubclassName'];
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->subclassid));
+			}
+			
+			$this->render('create',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-		
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -86,51 +96,27 @@ class SubclassNameController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['SubclassName']))
-		{
-			$model->attributes=$_POST['SubclassName'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->subclassid));
-		}
-		
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
+		if (Yii::app()->authManager->checkAccess('updateDCSName', Yii::app()->user->id)) {
+			$model=$this->loadModel($id);
 	
-	/*
-	public function actionGetSubclassesAjax(){
-		
-		$request=trim($_GET['term']);
-		if($request!=''){
-			$data = Yii::app()->db->createCommand()
-			->selectDistinct('subclassid')
-			->from('departments')
-			->where(array('like', 'subclassid', "$request%"))
-			->queryAll();
-			
-			$return_array = array();
-			foreach($data as $sub) {
-				$return_array[] = array(
-						'label'=>$sub['subclassid'],
-						'value'=>$sub['subclassid'],
-						'id'=>$sub['subclassid'],
-				);
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['SubclassName']))
+			{
+				$model->attributes=$_POST['SubclassName'];
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->subclassid));
 			}
 			
-			$this->layout='empty';
-			echo json_encode($return_array);
-			
+			$this->render('update',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-		
 	}
 	
-	*/
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -138,11 +124,15 @@ class SubclassNameController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		if (Yii::app()->authManager->checkAccess('deleteDCSName', Yii::app()->user->id)) {
+			$this->loadModel($id)->delete();
+	
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -150,10 +140,14 @@ class SubclassNameController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('SubclassName');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		if (Yii::app()->authManager->checkAccess('viewDCSName', Yii::app()->user->id)) {
+			$dataProvider=new CActiveDataProvider('SubclassName');
+			$this->render('index',array(
+				'dataProvider'=>$dataProvider,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -161,14 +155,18 @@ class SubclassNameController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new SubclassName('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SubclassName']))
-			$model->attributes=$_GET['SubclassName'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		if (Yii::app()->authManager->checkAccess('adminDCSName', Yii::app()->user->id)) {
+			$model=new SubclassName('search');
+			$model->unsetAttributes();  // clear any default values
+			if(isset($_GET['SubclassName']))
+				$model->attributes=$_GET['SubclassName'];
+	
+			$this->render('admin',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**

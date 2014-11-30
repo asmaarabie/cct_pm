@@ -50,7 +50,6 @@ class Marker extends CActiveRecord
 					{attr_length} {value_length}
 					{attr_utilization} {value_utilization}
 					{attr_t_size} {value_t_size}
-					{attr_year} {value_year}
 					{attr_ratio} {value_ratio}
 					{attr_marker_name} {value_marker_name}
 			'),

@@ -27,82 +27,76 @@ class StylesheetController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('@'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'copy', 'getLogEntries', 'delete', 'admin', 'getDCSScale', 'exportToPDF'),
+				'actions'=>array('getDCSScale'),
 				'users'=>array('@'),
 			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'expression' => array('adminStylesheet'),
-			),
-			array('deny',  // deny all users
+			
+			/*array('deny',  // deny all users
 				'users'=>array('*'),
 			),
+			*/
 		);
 	}
 
-	/*
-	public function init()
-	{
-		$auth=Yii::app()->authManager;
-		$auth->clearAll();
-		print_r($auth);
-	}
-	*/
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
 	{
-		$model = $this->loadModel($id);
-		Yii::import('application.controllers.StylesheetImagesController');
-		$images = StylesheetImagesController::getStylesheetImages($id);
-		Yii::import('application.controllers.StylesheetColorController');
-		$colors = StylesheetColorController::getStylesheetColors($id);
-		
-		Yii::import('application.controllers.StylesheetBomController');
-		$accessories = StylesheetBomController::getStylesheetBoms($id);
-		
-		$this->render('view',array(
-			'model'=>$model,
-			'images' => $images,
-			'colors' => $colors,
-			'accessories'=> $accessories,
-		));
+		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+			$model = $this->loadModel($id);
+			Yii::import('application.controllers.StylesheetImagesController');
+			$images = StylesheetImagesController::getStylesheetImages($id);
+			Yii::import('application.controllers.StylesheetColorController');
+			$colors = StylesheetColorController::getStylesheetColors($id);
+			
+			Yii::import('application.controllers.StylesheetBomController');
+			$accessories = StylesheetBomController::getStylesheetBoms($id);
+			
+			$this->render('view',array(
+				'model'=>$model,
+				'images' => $images,
+				'colors' => $colors,
+				'accessories'=> $accessories,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
 	public function actionExportToPDF($id) {
-		$model= $this->loadModel($id);
-		$images= StylesheetImages::model()->findAllByAttributes(array('ss_id'=>$id));
-		
-		if(isset($_POST['selected_pic']) || count ($images)==0)
-		{
-				$selected = isset ($_POST['selected_pic'])? $_POST['selected_pic']: "";
-				$image = StylesheetImages::model()->findByPk($selected);
-				$accessories = StylesheetBom::model()->findAllByAttributes(array('ss_id'=>$id));
-				Yii::import('application.controllers.StylesheetColorController');
-				$colors = StylesheetColorController::getStylesheetColors($id);
-				
-				$html2pdf = Yii::app()->ePdf->mPDF('','', 10, 'Tahoma', 7, 7, 7, 7, 0, 0, '');
-				
-				$html2pdf->WriteHTML($this->renderPartial('stylesheetPrintView', array(
-						'model'=>$model,
-						'image' => $image,
-						'colors' => $colors,
-						'accessories'=> $accessories
-				), true));
-				$html2pdf->Output();
+		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+			$model= $this->loadModel($id);
+			$images= StylesheetImages::model()->findAllByAttributes(array('ss_id'=>$id));
+			
+			if(isset($_POST['selected_pic']) || count ($images)==0)
+			{
+					$selected = isset ($_POST['selected_pic'])? $_POST['selected_pic']: "";
+					$image = StylesheetImages::model()->findByPk($selected);
+					$accessories = StylesheetBom::model()->findAllByAttributes(array('ss_id'=>$id));
+					Yii::import('application.controllers.StylesheetColorController');
+					$colors = StylesheetColorController::getStylesheetColors($id);
+					
+					$html2pdf = Yii::app()->ePdf->mPDF('','', 10, 'Tahoma', 7, 7, 7, 7, 0, 0, '');
+					
+					$html2pdf->WriteHTML($this->renderPartial('stylesheetPrintView', array(
+							'model'=>$model,
+							'image' => $image,
+							'colors' => $colors,
+							'accessories'=> $accessories
+					), true));
+					$html2pdf->Output();
+			}
+			
+			$this->render('pickImage',array(
+					'images'=>$images,
+					'model' => $model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-		
-		$this->render('pickImage',array(
-				'images'=>$images,
-				'model' => $model,
-		));
 	}
 	
 	/**
@@ -111,17 +105,24 @@ class StylesheetController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Stylesheet;
-		StylesheetController::insert($model, false);
+		if (Yii::app()->authManager->checkAccess('createStylesheet', Yii::app()->user->id)) {
+			$model=new Stylesheet;
+			StylesheetController::insert($model, false);
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
 	public function actionCopy ($ss_id) {
-		$model = $this->loadModel($ss_id);
-		$model->isNewRecord=true;
-		unset($model->ss_id);
-		//var_dump($model);
-		StylesheetController::insert ($model, true);
-		
+		if (Yii::app()->authManager->checkAccess('createStylesheet', Yii::app()->user->id)) {
+			$model = $this->loadModel($ss_id);
+			$model->isNewRecord=true;
+			unset($model->ss_id);
+			//var_dump($model);
+			StylesheetController::insert ($model, true);
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
 	private function insert ($model, $copy) {
@@ -181,42 +182,50 @@ class StylesheetController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		$db_scales = Size::model()->findAll();
-		
-		$log_entry = new StylesheetLog();
-		$log_entry->action_type = 'update';
-		$log_entry->ss_id = $model->ss_id;
-		$log_entry->user = $model->user_id;
-		
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model, $log_entry);
-		
-		// TODO Save Dept name and subclass name
-		if(isset($_POST['Stylesheet'], $_POST['StylesheetLog']))
-		{
-			//var_dump($_POST);
-			$model->attributes=$_POST['Stylesheet'];
-			$log_entry->attributes = $_POST['StylesheetLog'];
-			if ($model->scale != "") {
-				$sizes= Size::model()->getScaleSizes($model->scale);
-				$model->sizes ="";
-				foreach ($sizes as $key=>$value) {
-					if (isset($_POST['box'.$model->scale.$value]))
-						$model->sizes.='1';
-					else
-						$model->sizes.='0';
-				}
-			}
+		if (Yii::app()->authManager->checkAccess('updateStylesheet', Yii::app()->user->id) || 
+		(Yii::app()->authManager->checkAccess('updateOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$model->user_id)
+		) {
 			
-			if($model->save() && $log_entry->save())
-				$this->redirect(array('view','id'=>$model->ss_id));
+			$model=$this->loadModel($id);
+			$db_scales = Size::model()->findAll();
+			
+			$log_entry = new StylesheetLog();
+			$log_entry->action_type = 'update';
+			$log_entry->ss_id = $model->ss_id;
+			$log_entry->user = $model->user_id;
+			
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model, $log_entry);
+			
+			// TODO Save Dept name and subclass name
+			if(isset($_POST['Stylesheet'], $_POST['StylesheetLog']))
+			{
+				//var_dump($_POST);
+				$model->attributes=$_POST['Stylesheet'];
+				$log_entry->attributes = $_POST['StylesheetLog'];
+				if ($model->scale != "") {
+					$sizes= Size::model()->getScaleSizes($model->scale);
+					$model->sizes ="";
+					foreach ($sizes as $key=>$value) {
+						if (isset($_POST['box'.$model->scale.$value]))
+							$model->sizes.='1';
+						else
+							$model->sizes.='0';
+					}
+				}
+				
+				if($model->save() && $log_entry->save())
+					$this->redirect(array('view','id'=>$model->ss_id));
+			}
+	
+			$this->render('update',array(
+				'model'=>$model,
+				'scales' => $db_scales,
+				'log' => $log_entry,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-			'scales' => $db_scales,
-			'log' => $log_entry,
-		));
 	}
 
 	/**
@@ -226,11 +235,18 @@ class StylesheetController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+		$model = $this->loadModel($id);
+		if (Yii::app()->authManager->checkAccess('deleteStylesheet', Yii::app()->user->id)||
+		(Yii::app()->authManager->checkAccess('deleteOwnStylesheet', Yii::app()->user->id) && Yii::app()->user->id ==$model->user_id)
+		) {
+			$model->delete();
+	
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -238,6 +254,7 @@ class StylesheetController extends Controller
 	 */
 	public function actionIndex()
 	{
+		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
 			$models=Stylesheet::model()->findAll();
 			//var_dump($models);
 			$provider = array();
@@ -251,6 +268,9 @@ class StylesheetController extends Controller
 			$this->render('index',array(
 				'dataProvider'=>$dataProvider,
 			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 	
 	/**
@@ -321,16 +341,19 @@ class StylesheetController extends Controller
 	}
 	
 	public function actionGetLogEntries ($ss_id) {
-		$logsDataProvider=new CActiveDataProvider('StylesheetLog',
-				array(
-						'criteria'=>array('condition'=>"ss_id={$ss_id}")));
-		if (Yii::app()->request->isAjaxRequest) {
-			$done =$this->renderPartial('viewLog', array('logsDataProvider' =>
-					$logsDataProvider), false, true);
-			echo $done;
-			Yii::app()->end();
+		if (Yii::app()->authManager->checkAccess('viewStylesheet', Yii::app()->user->id)) {
+			$logsDataProvider=new CActiveDataProvider('StylesheetLog',
+					array(
+							'criteria'=>array('condition'=>"ss_id={$ss_id}")));
+			if (Yii::app()->request->isAjaxRequest) {
+				$done =$this->renderPartial('viewLog', array('logsDataProvider' =>
+						$logsDataProvider), false, true);
+				echo $done;
+				Yii::app()->end();
+			}
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-		
 	}
 	
 	public function actionGetDCSScale () {

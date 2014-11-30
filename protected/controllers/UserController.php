@@ -27,6 +27,7 @@ class UserController extends Controller
 	public function accessRules()
 	{
 		return array(
+				/*
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
@@ -42,6 +43,7 @@ class UserController extends Controller
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
+			*/
 		);
 	}
 
@@ -51,9 +53,13 @@ class UserController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if (Yii::app()->authManager->checkAccess('viewUsers', Yii::app()->user->id)) {
+			$this->render('view',array(
+				'model'=>$this->loadModel($id),
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -62,25 +68,29 @@ class UserController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
-		$groups = Group::model()->findAll();
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['User']))
-		{
-			$model->attributes=$_POST['User'];
-			if ($model->validate()) {
-				$model->password =  password_hash ($model->password ,PASSWORD_BCRYPT);
-				$model->save(false);
-				$this->redirect(array('view','id'=>$model->user_id));
+		if (Yii::app()->authManager->checkAccess('createUsers', Yii::app()->user->id)) {
+			$model=new User;
+			$groups = Group::model()->findAll();
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['User']))
+			{
+				$model->attributes=$_POST['User'];
+				if ($model->validate()) {
+					$model->password =  password_hash ($model->password ,PASSWORD_BCRYPT);
+					$model->save(false);
+					$this->redirect(array('view','id'=>$model->user_id));
+				}
 			}
+	
+			$this->render('create',array(
+				'model'=>$model,
+				'groups' => $groups,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-			'groups' => $groups,
-		));
 	}
 
 	/**
@@ -90,28 +100,32 @@ class UserController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-		$groups = Group::model()->findAll();
-		$model->password = "";
-		
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['User']))
-		{
-			$model->attributes=$_POST['User'];
-			if ($model->validate()) {
-				$model->password =  password_hash ($model->password ,PASSWORD_BCRYPT);
-				$model->save(false);
-				Yii::app()->user->logout();
-				$this->redirect(array('site/login'));
+		if (Yii::app()->authManager->checkAccess('updateUsers', Yii::app()->user->id)) {
+			$model=$this->loadModel($id);
+			$groups = Group::model()->findAll();
+			$model->password = "";
+			
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['User']))
+			{
+				$model->attributes=$_POST['User'];
+				if ($model->validate()) {
+					$model->password =  password_hash ($model->password ,PASSWORD_BCRYPT);
+					$model->save(false);
+					Yii::app()->user->logout();
+					$this->redirect(array('site/login'));
+				}
 			}
+	
+			$this->render('update',array(
+				'model'=>$model,
+				'groups' => $groups,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-			'groups' => $groups,
-		));
 	}
 
 	/**
@@ -121,11 +135,15 @@ class UserController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		if (Yii::app()->authManager->checkAccess('deleteUsers', Yii::app()->user->id)) {
+			$this->loadModel($id)->delete();
+	
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -133,10 +151,14 @@ class UserController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('User');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		if (Yii::app()->authManager->checkAccess('viewUsers', Yii::app()->user->id)) {
+			$dataProvider=new CActiveDataProvider('User');
+			$this->render('index',array(
+				'dataProvider'=>$dataProvider,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -144,14 +166,18 @@ class UserController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new User('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		if (Yii::app()->authManager->checkAccess('adminUsers', Yii::app()->user->id)) {
+			$model=new User('search');
+			$model->unsetAttributes();  // clear any default values
+			if(isset($_GET['User']))
+				$model->attributes=$_GET['User'];
+	
+			$this->render('admin',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**

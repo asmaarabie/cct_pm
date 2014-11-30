@@ -266,3 +266,42 @@ div.search-form
 	text-align: center;
 	border: 1px white solid;
 }
+.my-checkbox-column {
+	text-align: center;
+	width: 50px;
+	vertical-align: middle;
+}
+.home-section-container {
+	text-align: center;
+	background: #F7FAFA;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 10px;
+	
+}
+.home-section-container:hover {
+	background: #CCFFCC;
+}
+.home-section-container ul li{
+	text-align: center;	
+	display: inline-block;
+}
+.home-section-container ul li a {
+	text-decoration: none;
+	background: white;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 5px;
+}
+.home-section-container ul li a:hover {
+	background: #06c;
+	color: white;
+}
+.login-button a{
+	text-decoration: none;
+	background: #06c;
+	color: white;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 5px;
+}

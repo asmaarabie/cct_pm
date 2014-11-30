@@ -3,7 +3,7 @@
 /* @var $model Marker */
 
 $this->breadcrumbs=array(
-	'Markers'=>array('index'),
+	'Markers'=>array('index', 'ss_id'=>$model->ss_id),
 	'Manage',
 );
 

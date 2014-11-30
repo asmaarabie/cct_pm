@@ -27,6 +27,7 @@ class ColorShapeController extends Controller
 	public function accessRules()
 	{
 		return array(
+				/*
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
@@ -42,6 +43,7 @@ class ColorShapeController extends Controller
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
+			*/
 		);
 	}
 
@@ -51,9 +53,13 @@ class ColorShapeController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if (Yii::app()->authManager->checkAccess('viewColorCode', Yii::app()->user->id)) {
+			$this->render('view',array(
+				'model'=>$this->loadModel($id),
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -62,21 +68,25 @@ class ColorShapeController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new ColorShape;
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['ColorShape']))
-		{
-			$model->attributes=$_POST['ColorShape'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->color_shape));
+		if (Yii::app()->authManager->checkAccess('createColorCode', Yii::app()->user->id)) {
+			$model=new ColorShape;
+	
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['ColorShape']))
+			{
+				$model->attributes=$_POST['ColorShape'];
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->color_shape));
+			}
+	
+			$this->render('create',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -86,21 +96,25 @@ class ColorShapeController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['ColorShape']))
-		{
-			$model->attributes=$_POST['ColorShape'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->color_shape));
+		if (Yii::app()->authManager->checkAccess('updateColorCode', Yii::app()->user->id)) {
+			$model=$this->loadModel($id);
+	
+			// Uncomment the following line if AJAX validation is needed
+			$this->performAjaxValidation($model);
+	
+			if(isset($_POST['ColorShape']))
+			{
+				$model->attributes=$_POST['ColorShape'];
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->color_shape));
+			}
+	
+			$this->render('update',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -110,11 +124,15 @@ class ColorShapeController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		if (Yii::app()->authManager->checkAccess('deleteColorCode', Yii::app()->user->id)) {
+			$this->loadModel($id)->delete();
+	
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -122,10 +140,14 @@ class ColorShapeController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('ColorShape');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		if (Yii::app()->authManager->checkAccess('viewColorCode', Yii::app()->user->id)) {
+			$dataProvider=new CActiveDataProvider('ColorShape');
+			$this->render('index',array(
+				'dataProvider'=>$dataProvider,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**
@@ -133,14 +155,18 @@ class ColorShapeController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new ColorShape('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ColorShape']))
-			$model->attributes=$_GET['ColorShape'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		if (Yii::app()->authManager->checkAccess('adminColorCode', Yii::app()->user->id)) {
+			$model=new ColorShape('search');
+			$model->unsetAttributes();  // clear any default values
+			if(isset($_GET['ColorShape']))
+				$model->attributes=$_GET['ColorShape'];
+	
+			$this->render('admin',array(
+				'model'=>$model,
+			));
+		} else {
+			throw new CHttpException(403,'You are not authorized to perform this action.');
+		}
 	}
 
 	/**

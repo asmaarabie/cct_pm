@@ -12,4 +12,4 @@ $this->breadcrumbs=array(
 
 <h1>Update <?php echo $ss_code; ?> 's color</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'cc_model'=> $cc_model)); ?>

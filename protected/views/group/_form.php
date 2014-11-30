@@ -32,21 +32,83 @@
 	
 	<div class="row">
 	<?php 
-		// $operations array in case of a new record is an array of Operation::model() 
-		// $operations array in case of an existing record is an array of GroupOperations::model(), so it has a checked property
-		
-		foreach ( $operations as $operation) {
-			echo "<span style ='float:left; margin-right:10px'>".CHtml::checkBox('box'.$operation->op_name, $model->isNewRecord? false:$operation->checked)."</span>";
-			echo "<span style ='float:left'>".CHtml::label (($model->isNewRecord)? $operation->operation: $operation->opName->operation, 'label_box'.$operation->op_name)."</span>";
-			echo "<div style='clear:both'> </div> ";
-			
-		}
-	?>
+	$count = count($operations->getData());
+	$this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'group-grid',
+	'dataProvider'=>$operations,
+	'summaryText'=>'',
+	'columns'=>array(
+		array(
+			'name'=>'id',
+			'header'=> 'Operation',
+			'class'=>'CDataColumn',
+			'htmlOptions' => array('width'=>'100px'),
+		),
+		array(
+				'id' => 'view',
+				'headerTemplate' =>'View<br/>{item}',
+				'class'=>'CCheckBoxColumn',
+				'selectableRows'=>$count,
+				'cssClassExpression'=>"'my-checkbox-column'",
+				'checked'=>'$data["view"]'
+		),
+		array(
+				'id' => 'create',
+				'headerTemplate' =>'Create<br/>{item}',
+				'class'=>'CCheckBoxColumn',
+				'selectableRows'=>$count,
+				'cssClassExpression'=>"'my-checkbox-column'",
+				'checked'=>'$data["create"]'
+		),
+		array(
+				'id' => 'update',
+				'headerTemplate' =>'Update<br/>{item}',
+				'class'=>'CCheckBoxColumn',
+				'selectableRows'=>$count,
+				'cssClassExpression'=>"'my-checkbox-column'",
+				'checked'=>'$data["update"]'
+		),
+		array(
+				'id' => 'delete',
+				'headerTemplate' =>'Delete<br/>{item}',
+				'class'=>'CCheckBoxColumn',
+				'selectableRows'=>$count,
+				'cssClassExpression'=>"'my-checkbox-column'",
+				'checked'=>'$data["delete"]'
+		),
+		array(
+				'id' => 'admin',
+				'headerTemplate' =>'Admin<br/>{item}',
+				'class'=>'CCheckBoxColumn',
+				'selectableRows'=>$count,
+				'cssClassExpression'=>"'my-checkbox-column'",
+				'checked'=>'$data["admin"]'
+		),
+		array(
+				'id' => 'updateOwn',
+				'headerTemplate' =>'Update Own<br/>{item}',
+				'class'=>'CCheckBoxColumn',
+				'selectableRows'=>$count,
+				'cssClassExpression'=>"'my-checkbox-column'",
+				'checked'=>'$data["updateOwn"]'
+		),
+		array(
+				'id' => 'deleteOwn',
+				'headerTemplate' =>'Delete Own<br/>{item}',
+				'class'=>'CCheckBoxColumn',
+				'selectableRows'=>$count,
+				'cssClassExpression'=>"'my-checkbox-column'",
+				'checked'=>'$data["deleteOwn"]'
+		),
+	),
+)); ?>
 	</div>
-	<div class="row buttons">
+	
+	<div class="row buttons" style="float: right">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
-
+	<div style="clear:both">
+	</div>
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->

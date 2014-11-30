@@ -21,9 +21,10 @@
 		echo $form->errorSummary(array ($model, $cc_model));
 	else 
 		echo $form->errorSummary($model); ?>
-
+	
 	<div class="row">
-		<?php if ($model->isNewRecord) {
+		<?php  //if ($model->isNewRecord) 
+		{
 			Yii::import('application.controllers.ColorCodeController');
 			ColorCodeController::renderPartial('/colorCode/_miniForm', array('model'=>$cc_model, 'form' => $form)); 
 		}

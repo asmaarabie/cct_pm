@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'operation':
  * @property string $op_name
- * @property string $operation
+ * @property string $description
  *
  * The followings are the available model relations:
  * @property GroupOperations[] $groupOperations
@@ -28,12 +28,11 @@ class Operation extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('op_name, operation', 'required'),
-			array('op_name, operation', 'length', 'max'=>40),
-			array('op_name', 'unique'),
+			array('op_name, description', 'required'),
+			array('op_name, description', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('op_name, operation', 'safe', 'on'=>'search'),
+			array('op_name, description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +44,7 @@ class Operation extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'groupOperations' => array(self::HAS_MANY, 'GroupOperations', 'op_name'),
+			'groupOperations' => array(self::HAS_MANY, 'GroupOperations', 'responsibility'),
 		);
 	}
 
@@ -55,8 +54,8 @@ class Operation extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'op_name' => 'Operation id',
-			'operation' => 'Operation',
+			'op_name' => 'Op Name',
+			'description' => 'Description',
 		);
 	}
 
@@ -79,7 +78,7 @@ class Operation extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('op_name',$this->op_name,true);
-		$criteria->compare('operation',$this->operation,true);
+		$criteria->compare('description',$this->description,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
