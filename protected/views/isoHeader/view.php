@@ -18,7 +18,9 @@ $this->menu=array(
 
 <h1>View IsoHeader #<?php echo $model->header_id; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+$def = $model->attributeLabels(); $def = $def['def'];
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'header_id',
@@ -26,7 +28,7 @@ $this->menu=array(
 		'version',
 		'date',
 		array (
-		'label'=> $model->attributeLabels()['def'],
+		'label'=> $def,
 		'type'=>'raw',
 		'value'=>CHtml::encode(($model->def=='1')? 'Yes': 'No')),
 	),

@@ -78,7 +78,7 @@ class UserController extends Controller
 			{
 				$model->attributes=$_POST['User'];
 				if ($model->validate()) {
-					$model->password =  password_hash ($model->password ,PASSWORD_BCRYPT);
+					$model->password =  crypt ($model->password);
 					$model->save(false);
 					$this->redirect(array('view','id'=>$model->user_id));
 				}
@@ -112,7 +112,7 @@ class UserController extends Controller
 			{
 				$model->attributes=$_POST['User'];
 				if ($model->validate()) {
-					$model->password =  password_hash ($model->password ,PASSWORD_BCRYPT);
+					$model->password =  crypt ($model->password);
 					$model->save(false);
 					if (Yii::app()->user->id == $model->user_id) {
 						Yii::app()->user->logout();

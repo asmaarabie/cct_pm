@@ -68,11 +68,6 @@ Yii::app()->clientScript->registerScript ("updateColorCode", "
 		$pattern_sel = $model->pattern0->color_pattern;
 	
 	?>
-	<div class="row"  style="float:left; margin-right: 20px">
-		<?php echo $form->labelEx($model,'color_code'); ?>
-		<?php echo $form->textField($model,'color_code',array('size'=>8,'maxlength'=>8, 'readonly'=> true)); ?>
-	</div>
-	
 	
 	<div class="row"  style="float:left; margin-right: 20px">
 		<?php echo $form->labelEx($model,'color'); ?>
@@ -105,7 +100,12 @@ Yii::app()->clientScript->registerScript ("updateColorCode", "
 		
 		
 	</div>
-
+	<div class="row"  style="float:left; margin-right: 20px">
+		<?php echo $form->labelEx($model,'color_code'); ?>
+		<?php echo $form->textField($model,'color_code',array('size'=>8,'maxlength'=>8, 'readonly'=> true, 'class'=>'read-only')); ?>
+	</div>
+	
+	
 	<div style="clear: both;"></div>
 	
 	<div class="row">

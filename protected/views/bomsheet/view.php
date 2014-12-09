@@ -117,6 +117,12 @@ echo CHtml::ajaxLink('View Bom Log',
 		array(
 			'type' => 'POST',
 	        'update'=>"#bom_log",
+		'beforeSend' => 'function() {
+		   $("#bom_log").addClass("loading");
+		}',
+		'complete' => 'function() {
+		  $("#bom_log").removeClass("loading");
+		}'
 	    ),
 		array('class'=> 'link-button')
 );

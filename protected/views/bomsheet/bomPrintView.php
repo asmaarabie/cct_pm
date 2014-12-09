@@ -92,7 +92,8 @@
 	<tr>
 		<?php 
 		foreach ($attributes as $att) {
-			echo "<th>".$ss_bom->attributeLabels()[$att]."</th>";
+			$der_att = $ss_bom->attributeLabels();
+			echo "<th>".$der_att[$att]."</th>";
 		}
 		?>
 		

@@ -18,17 +18,20 @@ $this->menu=array(
 
 <h1>View DCS Size Scale #<?php echo $model->size_scale.' for '.$model->size_fulldept; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+$size_scale = $model->attributeLabels();
+$countryid= $model->attributeLabels();
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		//'DCS_size_id',
 		array(              
-				'label'=> $model->attributeLabels()['size_scale'],
+				'label'=> $size_scale['size_scale'],
 				'type'=>'raw',
 				'value'=>CHtml::link(CHtml::encode($model->sizeScale->scale_name), array('size/view', 'id'=>$model->sizeScale->scale_number))),
 		'size_fulldept',
 		array(              
-			'label'=> $model->attributeLabels()['size_country_id'],
+			'label'=> $countryid['size_country_id'],
 			'type'=>'raw',
 			'value'=>CHtml::encode($model->sizeCountry->countrydesc)),
 	),

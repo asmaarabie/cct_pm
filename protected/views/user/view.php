@@ -18,14 +18,16 @@ $this->menu=array(
 
 <h1>View User #<?php echo $model->user_id; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+$user_group = $model->attributeLabels();
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'user_id',
 		'user_name',
 		'mail',
 		array (
-		'label'=> $model->attributeLabels()['user_group'],
+		'label'=> $user_group['user_group'],
 		'type'=>'raw',
 		'value'=>CHtml::link (CHtml::encode($model->user_group. " - " . $model->userGroup->group_name), array('group/view', "id"=>$model->userGroup->group_id))),
 		),

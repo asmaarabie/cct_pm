@@ -311,3 +311,14 @@ a.link-button:hover{
 	background: #CCFFCC;
 	color: #06c;
 }
+
+.read-only {
+	border: 0px;
+	background: #EFEFEF;
+	padding: 2px;
+}
+
+.loading {
+	background-image: url("../images/system-icons/loading.gif");
+	background-repeat: no-repeat;
+}

@@ -33,7 +33,7 @@ class BomLog extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('bs_id, action_type, action_comment, action_time_stamp, user', 'required'),
+			array('bs_id, action_comment', 'required'),
 			array('bs_id, user', 'numerical', 'integerOnly'=>true),
 			array('action_type', 'length', 'max'=>10),
 			// The following rule is used by search().
@@ -114,6 +114,7 @@ class BomLog extends CActiveRecord
 	}
 	
 	protected function beforeValidate () {
+		date_default_timezone_set('UTC');
 		$this->action_time_stamp = date('Y-m-d G:i:s');
 		return parent::beforeSave();
 	}

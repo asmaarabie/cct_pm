@@ -34,6 +34,12 @@ $depts = DepartmentController::getDepartments(2); // 2 for concrete
 					'type'=>'POST',
 					'url'=>CController::createUrl('getDCSScale'),
 					'update'=>"#Stylesheet_scale",
+					'beforeSend' => 'function() {
+			           $("#Stylesheet_scale").addClass("loading");
+			        }',
+			        'complete' => 'function() {
+			          $("#Stylesheet_scale").removeClass("loading");
+			        }'
 			        )
         ));?>
         </div>
@@ -75,6 +81,12 @@ $depts = DepartmentController::getDepartments(2); // 2 for concrete
 					'type'=>'POST',
 					'url'=>CController::createUrl('size/getSizesAjax'),
 					'update'=>'#scale-size-Ajax',
+					'beforeSend' => 'function() {
+			           $("#scale-size-Ajax").addClass("loading");
+			        }',
+			        'complete' => 'function() {
+			          $("#scale-size-Ajax").removeClass("loading");
+			        }'
 			)));
 			?>
 			<div id = "scale-size-Ajax">

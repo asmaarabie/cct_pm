@@ -121,27 +121,28 @@ class BomController extends Controller
 		$bs_model = Bomsheet::model()->findByPk( $model->bs_id);
 		if ($this->can('update', $bs_model)) {
 			
-			$model->log_entry = new StylesheetLog();
+			$log = new BomLog(); $log->bs_id = $id;
 			
 			$ss_bom_model= StylesheetBom::model()->findByPk($model->ss_id);
 			$ss_model = Stylesheet::model()->findByPk($ss_bom_model->ss_id);
 			
 			// Uncomment the following line if AJAX validation is needed
-			$this->performAjaxValidation($model, $model->log_entry);
+			$this->performAjaxValidation($model, $log);
 	
-			if(isset($_POST['Bom'], $_POST['StylesheetLog']))
+			if(isset($_POST['Bom'], $_POST['BomLog']))
 			{
 				$model->attributes=$_POST['Bom'];
-				$model->log_entry->attributes = $_POST['StylesheetLog'];
-				if($model->save() && $model->log_entry->save()) 
-					$this->redirect(array('index','ss_id'=>$ss_model->ss_id));
+				$log->attributes=$_POST['BomLog'];
+				$model->logComment = $log->action_comment;
+				if($log->validate() && $model->save()) 
+					$this->redirect(array('bomsheet/view','id'=>$model->bs_id));
 			}
 	
 			$this->render('update',array(
 				'model'=>$model,
 				'ss_bom_model' => $ss_bom_model,
 				'ss_model' => $ss_model,
-				'log' => $model->log_entry
+				'log' => $log
 			));
 		} else {
 			throw new CHttpException(403,'You are not authorized to perform this action.');

@@ -37,7 +37,8 @@ $marker= new Marker();
 	<tr>
 		<?php 
 		foreach ($attributes as $att) {
-			echo "<th>".$marker->attributeLabels()[$att]."</th>";
+			$der_att = $marker->attributeLabels();
+			echo "<th>".$der_att[$att]."</th>";
 		}
 		?>
 		

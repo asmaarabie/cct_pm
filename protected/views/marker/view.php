@@ -19,13 +19,17 @@ $this->menu=array(
 
 <h1>View Marker #<?php echo $model->marker_name; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+
+$ss_id = $model->attributeLabels(); $ss_id = $ss_id['ss_id'];
+$owner = $model->attributeLabels(); $owner = $owner['owner'];
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'marker_id',
 		'marker_name',
 		array (
-			'label'=> $model->attributeLabels()['ss_id'],
+			'label'=> $ss_id,
 			'type'=>'raw',
 			'value'=>CHtml::link (CHtml::encode($model->ss->style_code), array ('stylesheet/view', 'id' => $model->ss_id)),
 		),
@@ -35,7 +39,7 @@ $this->menu=array(
 		't_size',
 		'ratio',
 		array (
-		'label'=> $model->attributeLabels()['owner'],
+		'label'=> $owner,
 		'type'=>'raw',
 		'value'=>CHtml::link (CHtml::encode($model->owner0->user_name), array ('user/view', 'id' => $model->owner)),
 		),
@@ -45,11 +49,18 @@ $this->menu=array(
 
 <div class="stylesheet-galleryView" id="marker_log">
 <?php 
-echo CHtml::ajaxSubmitButton('View Marker Log',          // the link body (it will NOT be HTML-encoded.)
+echo CHtml::ajaxLink('View Marker Log',          // the link body (it will NOT be HTML-encoded.)
     array("marker/getLogEntries&marker_id={$model->marker_id}"), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
     array(
         'update'=>'#marker_log',
-    )
+	'beforeSend' => 'function() {
+           $("#marker_log").addClass("loading");
+        }',
+        'complete' => 'function() {
+          $("#marker_log").removeClass("loading");
+        }'
+    ),
+	array('class'=> 'link-button')
 );
 ?>
 </div>

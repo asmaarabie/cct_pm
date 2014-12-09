@@ -34,10 +34,12 @@ $this->menu=array(
 
 <h1>View Stylesheet #<?php echo $model->style_code." - ".$model->formatSeasons ?></h1>
 
-<?php echo CHtml::button ("Export to PDF", array('submit'=> array('exportToPDF', 'id'=> $model->ss_id)));?>
+<?php echo CHtml::link('Export to PDF', array('exportToPDF', 'id'=> $model->ss_id), array('class'=> 'link-button')); ?>
 <div class = "stylesheet-galleryView">
 <h2>Basic Info</h2>
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+$season = $model->attributeLabels(); $season = $season['season'];
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'ss_id',
@@ -45,7 +47,7 @@ $this->menu=array(
 		'category',
 		'countryName',
 		array (
-			'label'=> $model->attributeLabels()['season'],
+			'label'=> $season,
 				'type'=>'raw',
 				'value'=>CHtml::encode($model->seasons["{$model->season}"])),
 		'year',
@@ -142,7 +144,14 @@ echo CHtml::ajaxLink(
     array("stylesheet/getLogEntries&ss_id={$model->ss_id}"), // the URL for the AJAX request. If empty, it is assumed to be the current URL.
     array(
         'update'=>'#ss_log',
-    )
+	'beforeSend' => 'function() {
+	   $("#ss_log").addClass("loading");
+	}',
+	'complete' => 'function() {
+	  $("#ss_log").removeClass("loading");
+	}'
+    ),
+	array('class'=> 'link-button')
 );
 ?>
 </div>

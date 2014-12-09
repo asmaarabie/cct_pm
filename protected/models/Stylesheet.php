@@ -257,13 +257,13 @@ class Stylesheet extends CActiveRecord
 		// Get brand name: brand name is the deptid name from the dept_name table
 		$dept_tbl = DepartmentName::model()->tableName();
 		$sql = "SELECT dept_name FROM {$dept_tbl} where dept_id='{$this->dept_id}' and countryid='{$this->country_id}'";
-		$department["brand"] =  Yii::app()->db->createCommand($sql)->queryRow()["dept_name"];
+		$department["brand"] =  Yii::app()->db->createCommand($sql)->queryRow(); $department["brand"] = $department["brand"]["dept_name"];
 		$department["brand"] = ($department["brand"] == "")? "No name for the following department {$this->dept_id}" : $department["brand"];
 		
 		// Get category name: category name is the subclassid name from the subclass_name table
 		$subclass_tbl = SubclassName::model()->tableName();
 		$sql = "SELECT subclass_name FROM {$subclass_tbl} where subclassid='{$this->subclass_id}' and countryid='{$this->country_id}'";
-		$department["category"] =  Yii::app()->db->createCommand($sql)->queryRow()["subclass_name"];
+		$department["category"] =  Yii::app()->db->createCommand($sql)->queryRow(); $department["category"] = $department["category"]["subclass_name"];
 		$department["category"] = ($department["category"] == "")? "No name for the following subclass {$this->subclass_id}" : $department["category"];
 		
 		// Get department, class, subclass names

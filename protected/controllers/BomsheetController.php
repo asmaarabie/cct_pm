@@ -274,8 +274,7 @@ class BomsheetController extends Controller
 			if(isset($_POST['BomLog']))
 			{
 				$model->attributes=$_POST['BomLog'];
-				if($model->validate()) 	{
-					$model->save(false);
+				if($model->save()) 	{
 					Yii::app()->user->setFlash('success', "Note has been added, click the 'View Bom Log' link below to see it");
 					$this->redirect(array('view','id'=>$bs_id));
 				}
@@ -325,7 +324,8 @@ class BomsheetController extends Controller
 				
 			$letter = 'A';
 			foreach ($attributes as $att) {
-				$cellHeader[$att] = $model->attributeLabels()[$att];
+				$der_att = $model->attributeLabels();
+				$cellHeader[$att] = $der_att[$att];
 				$ex_cellHeader[$att] = $letter++;
 	
 				// Fill in header values
@@ -352,9 +352,9 @@ class BomsheetController extends Controller
 				
 			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 			$objPHPExcel->setActiveSheetIndex(0);
-	
+			date_default_timezone_set('UTC');
 			$date = new DateTime();
-				
+			
 			// Redirect output to a clientâ€™s web browser (Excel5)
 			header('Content-Type: application/vnd.ms-excel');
 			header('Content-Disposition: attachment;filename="BOM_'.$bs_id.'_'.$date->getTimestamp().'.xls"');

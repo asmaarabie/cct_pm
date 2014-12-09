@@ -14,6 +14,7 @@ return array(
 
 	// autoloading model and component classes
 	'import'=>array(
+		'application.commands.*',
 		'application.models.*',
 		'application.components.*',
 		'ext.giix-components.*', // giix components
@@ -48,7 +49,7 @@ return array(
 		
 		// uncomment the following to enable URLs in path-format
 		
-		
+		/*
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
@@ -57,7 +58,7 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
-		
+		*/
 		/*
 		'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',

@@ -19,24 +19,28 @@ $this->menu=array(
 
 <h1>View StylesheetBom #<?php echo $model->ss_bom_id; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+$ss_id = $model->attributeLabels(); $ss_id = $ss_id['ss_id'];
+$countryid = $model->attributeLabels(); $countryid = $countryid['countryid'];
+$itemColorId = $model->attributeLabels(); $itemColorId = $itemColorId['item_color_id']
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'ss_bom_id',
 		array (
-			'label'=> $model->attributeLabels()['ss_id'],
+			'label'=> $ss_id,
 				'type'=>'raw',
 				'value'=>CHtml::link(CHtml::encode($model->ss->style_code), array('stylesheet/view', 'id'=> $model->ss_id))
 		),
 		array (
-				'label'=> $model->attributeLabels()['countryid'],
+				'label'=> $countryid,
 				'type'=>'raw',
 				'value'=>CHtml::encode($model->country->countrydesc)
 		),
 		'dcs_name',
 		'fulldept',
 		array (
-				'label'=> $model->attributeLabels()['item_color_id'],
+				'label'=> $itemColorId,
 				'type'=>'raw',
 				'value'=>CHtml::link(CHtml::encode($model->item_color_id), array('colorCode/view', 'id'=> $model->item_color_id))
 		),

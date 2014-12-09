@@ -83,7 +83,8 @@ class ColorCodeController extends Controller
 			{
 				$model->attributes=$_POST['ColorCode'];
 				$increment = isset($_POST['box'])? true:false ;
-				$model= ColorCodeController::setModelProperties($model, $increment) ["model"];
+				$model= ColorCodeController::setModelProperties($model, $increment);
+				$model= $model["model"];
 				
 				if($model->save())
 					$this->redirect(array('view','id'=>$model->color_code));

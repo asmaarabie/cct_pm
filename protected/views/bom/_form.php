@@ -28,7 +28,16 @@
 			<?php echo $form->labelEx($model,'itemno'); ?>
 			<?php echo $form->textField($model,'itemno', array('placeholder' => '4173'));?>
 			<?php echo CHtml::ajaxLink('Get Item Info', array("bom/getItemInfo"),
-			array('type' => 'POST', 'update' => '#bom-itemno-info')); ?>
+			array(
+			'type' => 'POST', 
+			'update' => '#bom-itemno-info',
+			'beforeSend' => 'function() {
+	           $("#bom-itemno-info").addClass("loading");
+	        }',
+	        'complete' => 'function() {
+	          $("#bom-itemno-info").removeClass("loading");
+	        }',)); 
+			?>
 			<?php echo $form->error($model,'itemno'); ?>
 			
 		</div>

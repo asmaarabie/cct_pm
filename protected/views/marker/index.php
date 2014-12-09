@@ -17,7 +17,7 @@ $this->menu=array(
 <h1>Markers</h1>
 <?php 
 if (count($dataProvider->getData())>0)
-	echo CHtml::button('Export Markers to PDF', array('submit' => array('exportToPDF', 'ss_id'=>$ss_model->ss_id))); ?>
+	echo CHtml::link('Export to PDF', array('exportToPDF', 'ss_id'=>$ss_model->ss_id), array('class'=> 'link-button')); ?>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'stylesheet-markers-grid',
 	'dataProvider'=>$dataProvider,

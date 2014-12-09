@@ -17,10 +17,248 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `ribom`
+-- Database: `prodman`
+--
+-- DROP IF NOT EXISTS DATABASE `prodman`;
+-- CREATE DATABASE `prodman`;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `departments`
 --
 
+CREATE TABLE IF NOT EXISTS `departments` (
+  `countryid` char(5) NOT NULL,
+  `fulldept` char(9) NOT NULL,
+  `deptid` char(3) NOT NULL,
+  `classid` char(3) DEFAULT NULL,
+  `subclassid` char(3) DEFAULT NULL,
+  `deptname` char(40) DEFAULT NULL,
+  `classname` char(40) DEFAULT NULL,
+  `subclassname` char(40) DEFAULT NULL,
+  PRIMARY KEY (`countryid`,`fulldept`),
+  KEY `FOREIGN` (`deptid`,`classid`,`subclassid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `countries`
+--
+
+CREATE TABLE IF NOT EXISTS `countries` (
+  `countryid` char(5) NOT NULL,
+  `countrydesc` char(40) NOT NULL,
+  `filepath` char(255) DEFAULT NULL,
+  `rpro9sbsid` char(5) NOT NULL,
+  `exchangerate` decimal(12,6) NOT NULL,
+  PRIMARY KEY (`countryid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `subclass_name`
+--
+
+CREATE TABLE IF NOT EXISTS `subclass_name` (
+  `subclassid` char(3) NOT NULL,
+  `countryid` char(5) NOT NULL,
+  `subclass_name` char(40) NOT NULL,
+  PRIMARY KEY (`subclassid`),
+  KEY `countryid` (`countryid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `subclass_name`
+--
+
+INSERT INTO `subclass_name` (`subclassid`, `countryid`, `subclass_name`) VALUES
+('BD1', '2', 'BANDANA'),
+('BD2', '2', 'BANDANA'),
+('BG1', '2', 'BAG'),
+('BG2', '2', 'BAG'),
+('BK1', '2', 'BLANKET'),
+('BL1', '2', 'BLOUSE'),
+('BL2', '2', 'BLOUSE'),
+('BO', '2', 'GIFT BOX'),
+('BS', '2', 'BASKET'),
+('BT', '2', 'BELT'),
+('BW', '2', 'BOW TIE'),
+('BX', '2', 'BOXER'),
+('BZ', '2', 'BLAZER'),
+('BZ3', '2', 'BLAZER'),
+('C3', '2', 'TRICOTE VEST'),
+('CB', '2', 'CUMMERBAND'),
+('CD', '2', 'DOWN PAYMENT'),
+('CL', '2', 'CUFFLINK'),
+('CM', '2', 'CACHE MAILLOT'),
+('CR', '2', 'GIFT CARD'),
+('CT', '2', 'COAT'),
+('CV', '2', 'COVAR COAT'),
+('DR', '2', 'DRESS'),
+('EW', '2', 'EW'),
+('FL', '2', 'FLASH MEMORY'),
+('GV', '2', 'GLOVE'),
+('HA', '2', ' HAIR HOOP'),
+('HK', '2', 'HANDKERCHIEF'),
+('HN', '2', 'CHANDLER'),
+('HT', '2', 'HAT'),
+('IC', '2', 'ICE CAP'),
+('JK', '2', 'JACKET'),
+('KC', '2', 'KC'),
+('LR', '2', 'LR'),
+('MD', '2', 'MEDAL'),
+('MN', '2', 'MANNEQUIN'),
+('MT', '2', 'MADE TO MEASURE'),
+('NL', '2', 'NL'),
+('OT', '2', 'OTHERS'),
+('PJ0', '2', 'PAJAMA'),
+('PJ5', '2', 'PAJAMA'),
+('PL', '2', 'PULLOVER'),
+('PN', '2', 'PONCHES'),
+('PT', '2', 'PANT'),
+('PY', '2', 'PANTY'),
+('RL', '2', 'RUBBER LINK'),
+('S0', '2', 'S0'),
+('SA', '2', 'SAMPLE'),
+('SC', '2', 'SOCKS'),
+('SF', '2', 'SCARF'),
+('SH', '2', 'SHIRT'),
+('SH6', '2', 'SHIRT'),
+('SK', '2', 'SKIRT'),
+('SL', '2', 'SLIPPER'),
+('SM', '2', 'SWIMWEAR'),
+('SO', '2', 'SHOES'),
+('SP', '2', 'SLIP'),
+('SR', '2', 'SHORT'),
+('ST', '2', 'SALOPPETTE'),
+('SU', '2', 'SUIT'),
+('SV', '2', 'SUIT COVER'),
+('SW', '2', 'SWEATSHIRT'),
+('TB', '2', 'TIE BAR'),
+('TE', '2', ' T_SHIRT'),
+('TL', '2', 'STORES DISPLAY TOOLS'),
+('TR', '2', 'TROUSER'),
+('TY1', '2', 'Tie'),
+('VS', '2', 'VEST'),
+('WB', '2', 'WRISTBANDS'),
+('WL', '2', 'WALLET'),
+('WT1', '2', 'WT');
+
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `group`
+--
+
+CREATE TABLE IF NOT EXISTS `group` (
+  `group_id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` char(20) NOT NULL,
+  PRIMARY KEY (`group_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+
+--
+-- Dumping data for table `group`
+--
+
+INSERT INTO `group` (`group_id`, `group_name`) VALUES
+(11, 'Administrators'),
+(12, 'Stylesheet'),
+(13, 'Marker');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `operation`
+--
+
+CREATE TABLE IF NOT EXISTS `operation` (
+  `op_name` char(40) NOT NULL,
+  `description` char(40) NOT NULL,
+  PRIMARY KEY (`op_name`),
+  KEY `operation` (`description`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `operation`
+--
+
+INSERT INTO `operation` (`op_name`, `description`) VALUES
+('BOM', 'BOM'),
+('ColorCode', 'ColorCode'),
+('DCSName', 'DCSName'),
+('Groups', 'Groups'),
+('IsoHeader', 'IsoHeader'),
+('Marker', 'Marker'),
+('SizeScale', 'SizeScale'),
+('Stylesheet', 'Stylesheet'),
+('Users', 'Users');
+
+--
+-- Table structure for table `group_operations`
+--
+
+CREATE TABLE IF NOT EXISTS `group_operations` (
+  `grp_op_id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `responsibility` char(40) NOT NULL,
+  `permissions` char(10) NOT NULL,
+  PRIMARY KEY (`grp_op_id`),
+  KEY `fk_group_privileges_priv_idx` (`responsibility`),
+  KEY `fk_group_privileges_grp` (`group_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=94 ;
+
+--
+-- Dumping data for table `group_operations`
+--
+
+INSERT INTO `group_operations` (`grp_op_id`, `group_id`, `responsibility`, `permissions`) VALUES
+(66, 11, 'BOM', '1111110000'),
+(67, 11, 'ColorCode', '1111110000'),
+(68, 11, 'DCSName', '1111110000'),
+(70, 11, 'Groups', '1111110000'),
+(71, 11, 'IsoHeader', '1111110000'),
+(72, 11, 'Marker', '1111110000'),
+(73, 11, 'SizeScale', '1111110000'),
+(74, 11, 'Stylesheet', '1111110000'),
+(75, 11, 'Users', '1111110000'),
+(76, 12, 'BOM', '1000000000'),
+(77, 12, 'ColorCode', '0000000000'),
+(78, 12, 'DCSName', '0000000000'),
+(79, 12, 'Groups', '0000000000'),
+(80, 12, 'IsoHeader', '0000000000'),
+(81, 12, 'Marker', '1000000000'),
+(82, 12, 'SizeScale', '0000000000'),
+(83, 12, 'Stylesheet', '1100011000'),
+(84, 12, 'Users', '0000000000'),
+(85, 13, 'BOM', '1000000000'),
+(86, 13, 'ColorCode', '0000000000'),
+(87, 13, 'DCSName', '0000000000'),
+(88, 13, 'Groups', '0000000000'),
+(89, 13, 'IsoHeader', '0000000000'),
+(90, 13, 'Marker', '1100011000'),
+(91, 13, 'SizeScale', '0000000000'),
+(92, 13, 'Stylesheet', '1000000000'),
+(93, 13, 'Users', '0000000000');
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` char(20) NOT NULL,
+  `mail` char(40) NOT NULL,
+  `password` char(100) NOT NULL,
+  `user_group` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `fk_users_1_idx` (`user_group`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_name`, `mail`, `password`, `user_group`) VALUES
+(1, 'admin', 'admin@admin.com', '$2y$10$LIlVJ8A.M4JBUaAB7KVeveu9q4hA39DLxKH2Ce99wEgiHFdOeMOze', 11),
+(4, 'Rafiik', 'rafiik@concrete.com', '$2y$10$DKdMavxuuGNl3qgL6vaL.eiC.4rwxbcaFyi3h.XCTRVv61Mlu0niW', 13),
+(5, 'stylesheet1', '', '$2y$10$L3kQKcQIzr94Yq07xDT05.nhHpoRfPGw4cn6iQyD83ddAGfX8FHsK', 12);
 
 --
 -- Table structure for table `bom`
@@ -107,6 +345,17 @@ CREATE TABLE IF NOT EXISTS `color` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Table structure for table `color_length`
+--
+
+CREATE TABLE IF NOT EXISTS `color_length` (
+  `color_length` char(1) NOT NULL,
+  `length_desc_e` char(20) NOT NULL,
+  `length_desc_a` char(20) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`color_length`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Dumping data for table `color`
 --
 
@@ -118,6 +367,42 @@ INSERT INTO `color` (`color_id`, `color_desc_a`, `color_img`, `color_desc_e`) VA
 ('WT', 'أبيض', 'crop.png', 'White');
 
 -- --------------------------------------------------------
+
+
+--
+-- Table structure for table `color_pattern`
+--
+
+CREATE TABLE IF NOT EXISTS `color_pattern` (
+  `color_pattern` char(1) NOT NULL,
+  `pattern_desc_e` char(40) NOT NULL,
+  `pattern_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`color_pattern`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------------------------------
+
+--
+-- Table structure for table `color_shadow`
+--
+
+CREATE TABLE IF NOT EXISTS `color_shadow` (
+  `color_shadow` char(1) NOT NULL,
+  `shadow_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
+  `shadow_desc_e` char(40) NOT NULL,
+  PRIMARY KEY (`color_shadow`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `color_shape`
+--
+
+CREATE TABLE IF NOT EXISTS `color_shape` (
+  `color_shape` char(1) NOT NULL,
+  `shape_desc_e` char(40) NOT NULL,
+  `shape_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`color_shape`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `color_code`
@@ -158,17 +443,6 @@ INSERT INTO `color_code` (`color`, `shadow`, `pattern`, `length`, `shape`, `colo
 -- --------------------------------------------------------
 
 --
--- Table structure for table `color_length`
---
-
-CREATE TABLE IF NOT EXISTS `color_length` (
-  `color_length` char(1) NOT NULL,
-  `length_desc_e` char(20) NOT NULL,
-  `length_desc_a` char(20) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`color_length`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
 -- Dumping data for table `color_length`
 --
 
@@ -179,17 +453,6 @@ INSERT INTO `color_length` (`color_length`, `length_desc_e`, `length_desc_a`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `color_pattern`
---
-
-CREATE TABLE IF NOT EXISTS `color_pattern` (
-  `color_pattern` char(1) NOT NULL,
-  `pattern_desc_e` char(40) NOT NULL,
-  `pattern_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`color_pattern`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
 -- Dumping data for table `color_pattern`
 --
 
@@ -197,19 +460,7 @@ INSERT INTO `color_pattern` (`color_pattern`, `pattern_desc_e`, `pattern_desc_a`
 ('E', 'Embroidered', 'مطرز'),
 ('T', 'Tapestry', 'نسيج مزدان بالرسوم والصور');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `color_shadow`
---
-
-CREATE TABLE IF NOT EXISTS `color_shadow` (
-  `color_shadow` char(1) NOT NULL,
-  `shadow_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
-  `shadow_desc_e` char(40) NOT NULL,
-  PRIMARY KEY (`color_shadow`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+-- ----
 --
 -- Dumping data for table `color_shadow`
 --
@@ -221,17 +472,6 @@ INSERT INTO `color_shadow` (`color_shadow`, `shadow_desc_a`, `shadow_desc_e`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `color_shape`
---
-
-CREATE TABLE IF NOT EXISTS `color_shape` (
-  `color_shape` char(1) NOT NULL,
-  `shape_desc_e` char(40) NOT NULL,
-  `shape_desc_a` char(40) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`color_shape`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
 -- Dumping data for table `color_shape`
 --
 
@@ -240,19 +480,6 @@ INSERT INTO `color_shape` (`color_shape`, `shape_desc_e`, `shape_desc_a`) VALUES
 ('S', 'Small', 'صغير');
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `countries`
---
-
-CREATE TABLE IF NOT EXISTS `countries` (
-  `countryid` char(5) NOT NULL,
-  `countrydesc` char(40) NOT NULL,
-  `filepath` char(255) DEFAULT NULL,
-  `rpro9sbsid` char(5) NOT NULL,
-  `exchangerate` decimal(12,6) NOT NULL,
-  PRIMARY KEY (`countryid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `countries`
@@ -342,6 +569,17 @@ INSERT INTO `customers` (`countryid`, `custsid`, `compname`, `titlename`, `foren
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `size`
+--
+
+CREATE TABLE IF NOT EXISTS `size` (
+  `scale_number` char(5) NOT NULL,
+  `scale_size` char(40) NOT NULL,
+  `scale_name` char(10) NOT NULL,
+  PRIMARY KEY (`scale_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
 -- Table structure for table `DCS_size_scale`
 --
 
@@ -368,23 +606,6 @@ INSERT INTO `DCS_size_scale` (`DCS_size_id`, `size_scale`, `size_fulldept`, `siz
 (6, '10', 'AAP3  APX', '1');
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `departments`
---
-
-CREATE TABLE IF NOT EXISTS `departments` (
-  `countryid` char(5) NOT NULL,
-  `fulldept` char(9) NOT NULL,
-  `deptid` char(3) NOT NULL,
-  `classid` char(3) DEFAULT NULL,
-  `subclassid` char(3) DEFAULT NULL,
-  `deptname` char(40) DEFAULT NULL,
-  `classname` char(40) DEFAULT NULL,
-  `subclassname` char(40) DEFAULT NULL,
-  PRIMARY KEY (`countryid`,`fulldept`),
-  KEY `FOREIGN` (`deptid`,`classid`,`subclassid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `departments`
@@ -1296,73 +1517,6 @@ INSERT INTO `dept_name` (`dept_id`, `countryid`, `dept_name`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `group`
---
-
-CREATE TABLE IF NOT EXISTS `group` (
-  `group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_name` char(20) NOT NULL,
-  PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
-
---
--- Dumping data for table `group`
---
-
-INSERT INTO `group` (`group_id`, `group_name`) VALUES
-(11, 'Administrators'),
-(12, 'Stylesheet'),
-(13, 'Marker');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `group_operations`
---
-
-CREATE TABLE IF NOT EXISTS `group_operations` (
-  `grp_op_id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) NOT NULL,
-  `responsibility` char(40) NOT NULL,
-  `permissions` char(10) NOT NULL,
-  PRIMARY KEY (`grp_op_id`),
-  KEY `fk_group_privileges_priv_idx` (`responsibility`),
-  KEY `fk_group_privileges_grp` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=94 ;
-
---
--- Dumping data for table `group_operations`
---
-
-INSERT INTO `group_operations` (`grp_op_id`, `group_id`, `responsibility`, `permissions`) VALUES
-(66, 11, 'BOM', '1111110000'),
-(67, 11, 'ColorCode', '1111110000'),
-(68, 11, 'DCSName', '1111110000'),
-(70, 11, 'Groups', '1111110000'),
-(71, 11, 'IsoHeader', '1111110000'),
-(72, 11, 'Marker', '1111110000'),
-(73, 11, 'SizeScale', '1111110000'),
-(74, 11, 'Stylesheet', '1111110000'),
-(75, 11, 'Users', '1111110000'),
-(76, 12, 'BOM', '1000000000'),
-(77, 12, 'ColorCode', '0000000000'),
-(78, 12, 'DCSName', '0000000000'),
-(79, 12, 'Groups', '0000000000'),
-(80, 12, 'IsoHeader', '0000000000'),
-(81, 12, 'Marker', '1000000000'),
-(82, 12, 'SizeScale', '0000000000'),
-(83, 12, 'Stylesheet', '1100011000'),
-(84, 12, 'Users', '0000000000'),
-(85, 13, 'BOM', '1000000000'),
-(86, 13, 'ColorCode', '0000000000'),
-(87, 13, 'DCSName', '0000000000'),
-(88, 13, 'Groups', '0000000000'),
-(89, 13, 'IsoHeader', '0000000000'),
-(90, 13, 'Marker', '1100011000'),
-(91, 13, 'SizeScale', '0000000000'),
-(92, 13, 'Stylesheet', '1000000000'),
-(93, 13, 'Users', '0000000000');
 
 -- --------------------------------------------------------
 
@@ -1601,44 +1755,7 @@ CREATE TABLE IF NOT EXISTS `marker_log` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `operation`
---
-
-CREATE TABLE IF NOT EXISTS `operation` (
-  `op_name` char(40) NOT NULL,
-  `description` char(40) NOT NULL,
-  PRIMARY KEY (`op_name`),
-  KEY `operation` (`description`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `operation`
---
-
-INSERT INTO `operation` (`op_name`, `description`) VALUES
-('BOM', 'BOM'),
-('ColorCode', 'ColorCode'),
-('DCSName', 'DCSName'),
-('Groups', 'Groups'),
-('IsoHeader', 'IsoHeader'),
-('Marker', 'Marker'),
-('SizeScale', 'SizeScale'),
-('Stylesheet', 'Stylesheet'),
-('Users', 'Users');
-
 -- --------------------------------------------------------
-
---
--- Table structure for table `size`
---
-
-CREATE TABLE IF NOT EXISTS `size` (
-  `scale_number` char(5) NOT NULL,
-  `scale_size` char(40) NOT NULL,
-  `scale_name` char(10) NOT NULL,
-  PRIMARY KEY (`scale_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `size`
@@ -1826,120 +1943,6 @@ INSERT INTO `stylesheet_log` (`ss_log_id`, `ss_id`, `action_time_stamp`, `action
 (190, 35, '2014-11-30 20:29:00', 'create', 'Add an existing Color: RD    00', 5);
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `subclass_name`
---
-
-CREATE TABLE IF NOT EXISTS `subclass_name` (
-  `subclassid` char(3) NOT NULL,
-  `countryid` char(5) NOT NULL,
-  `subclass_name` char(40) NOT NULL,
-  PRIMARY KEY (`subclassid`),
-  KEY `countryid` (`countryid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `subclass_name`
---
-
-INSERT INTO `subclass_name` (`subclassid`, `countryid`, `subclass_name`) VALUES
-('BD1', '2', 'BANDANA'),
-('BD2', '2', 'BANDANA'),
-('BG1', '2', 'BAG'),
-('BG2', '2', 'BAG'),
-('BK1', '2', 'BLANKET'),
-('BL1', '2', 'BLOUSE'),
-('BL2', '2', 'BLOUSE'),
-('BO', '2', 'GIFT BOX'),
-('BS', '2', 'BASKET'),
-('BT', '2', 'BELT'),
-('BW', '2', 'BOW TIE'),
-('BX', '2', 'BOXER'),
-('BZ', '2', 'BLAZER'),
-('BZ3', '2', 'BLAZER'),
-('C3', '2', 'TRICOTE VEST'),
-('CB', '2', 'CUMMERBAND'),
-('CD', '2', 'DOWN PAYMENT'),
-('CL', '2', 'CUFFLINK'),
-('CM', '2', 'CACHE MAILLOT'),
-('CR', '2', 'GIFT CARD'),
-('CT', '2', 'COAT'),
-('CV', '2', 'COVAR COAT'),
-('DR', '2', 'DRESS'),
-('EW', '2', 'EW'),
-('FL', '2', 'FLASH MEMORY'),
-('GV', '2', 'GLOVE'),
-('HA', '2', ' HAIR HOOP'),
-('HK', '2', 'HANDKERCHIEF'),
-('HN', '2', 'CHANDLER'),
-('HT', '2', 'HAT'),
-('IC', '2', 'ICE CAP'),
-('JK', '2', 'JACKET'),
-('KC', '2', 'KC'),
-('LR', '2', 'LR'),
-('MD', '2', 'MEDAL'),
-('MN', '2', 'MANNEQUIN'),
-('MT', '2', 'MADE TO MEASURE'),
-('NL', '2', 'NL'),
-('OT', '2', 'OTHERS'),
-('PJ0', '2', 'PAJAMA'),
-('PJ5', '2', 'PAJAMA'),
-('PL', '2', 'PULLOVER'),
-('PN', '2', 'PONCHES'),
-('PT', '2', 'PANT'),
-('PY', '2', 'PANTY'),
-('RL', '2', 'RUBBER LINK'),
-('S0', '2', 'S0'),
-('SA', '2', 'SAMPLE'),
-('SC', '2', 'SOCKS'),
-('SF', '2', 'SCARF'),
-('SH', '2', 'SHIRT'),
-('SH6', '2', 'SHIRT'),
-('SK', '2', 'SKIRT'),
-('SL', '2', 'SLIPPER'),
-('SM', '2', 'SWIMWEAR'),
-('SO', '2', 'SHOES'),
-('SP', '2', 'SLIP'),
-('SR', '2', 'SHORT'),
-('ST', '2', 'SALOPPETTE'),
-('SU', '2', 'SUIT'),
-('SV', '2', 'SUIT COVER'),
-('SW', '2', 'SWEATSHIRT'),
-('TB', '2', 'TIE BAR'),
-('TE', '2', ' T_SHIRT'),
-('TL', '2', 'STORES DISPLAY TOOLS'),
-('TR', '2', 'TROUSER'),
-('TY1', '2', 'Tie'),
-('VS', '2', 'VEST'),
-('WB', '2', 'WRISTBANDS'),
-('WL', '2', 'WALLET'),
-('WT1', '2', 'WT');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
-CREATE TABLE IF NOT EXISTS `user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_name` char(20) NOT NULL,
-  `mail` char(40) NOT NULL,
-  `password` char(100) NOT NULL,
-  `user_group` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  KEY `fk_users_1_idx` (`user_group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`user_id`, `user_name`, `mail`, `password`, `user_group`) VALUES
-(1, 'admin', 'admin@admin.com', '$2y$10$LIlVJ8A.M4JBUaAB7KVeveu9q4hA39DLxKH2Ce99wEgiHFdOeMOze', 11),
-(4, 'Rafiik', 'rafiik@concrete.com', '$2y$10$DKdMavxuuGNl3qgL6vaL.eiC.4rwxbcaFyi3h.XCTRVv61Mlu0niW', 13),
-(5, 'stylesheet1', '', '$2y$10$L3kQKcQIzr94Yq07xDT05.nhHpoRfPGw4cn6iQyD83ddAGfX8FHsK', 12);
 
 --
 -- Constraints for dumped tables

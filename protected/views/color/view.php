@@ -18,14 +18,16 @@ $this->menu=array(
 
 <h1>View Color #<?php echo $model->color_desc_e; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php 
+$color_img= $model->attributeLabels();
+$this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'color_id',
 		'color_desc_e',
 		'color_desc_a',
 		array(
-		'label'=> $model->attributeLabels()['color_img'],
+		'label'=> $color_img['color_img'],
 		'type'=>'raw',
 		'value' => CHtml::image (Yii::app()->request->baseUrl.Yii::app()->params["colorUploadUrl"].$model->color_img,
 			$model->color_id." color",
